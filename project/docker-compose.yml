@@ -165,7 +165,9 @@ services:
   # 4. TẦNG COMPUTE (APACHE SPARK + ICEBERG)
   # ==========================================
   spark-master:
-    image: apache/spark:3.4.0
+    # Custom image: apache/spark:3.4.0 + pandas/scikit-learn/joblib
+    # (required for silver_job Pandas UDF running on executors)
+    build: ./spark
     container_name: spark-master
     command: >
       /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master --host spark-master
@@ -176,13 +178,14 @@ services:
       AWS_ACCESS_KEY_ID: minioadmin
       AWS_SECRET_ACCESS_KEY: minioadmin
       AWS_REGION: us-east-1
+      PYSPARK_PYTHON: python3
     volumes:
       - ./batch-etl:/opt/spark/work-dir/batch-etl
     networks:
       - data-pipeline-network
 
   spark-worker:
-    image: apache/spark:3.4.0
+    build: ./spark
     container_name: spark-worker
     depends_on:
       - spark-master
@@ -192,6 +195,7 @@ services:
       AWS_ACCESS_KEY_ID: minioadmin
       AWS_SECRET_ACCESS_KEY: minioadmin
       AWS_REGION: us-east-1
+      PYSPARK_PYTHON: python3
     volumes:
       - ./batch-etl:/opt/spark/work-dir/batch-etl
     networks:
@@ -211,15 +215,21 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
       AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://admin:admin@postgres_metadata:5432/metadata_db
-      # Install Spark provider + PySpark at container startup
-      _PIP_ADDITIONAL_REQUIREMENTS: "apache-airflow-providers-apache-spark==4.7.1 pyspark==3.4.0"
-      # Spark connection: Airflow conn_id=spark_default → spark-master:7077
+      # Install Spark provider + PySpark + deps for silver_job driver (client mode)
+      _PIP_ADDITIONAL_REQUIREMENTS: >-
+        apache-airflow-providers-apache-spark==4.7.1
+        pyspark==3.4.0
+        pandas==2.0.3
+        scikit-learn==1.3.0
+        joblib==1.3.2
+      # Spark connection: conn_id=spark_default → spark-master:7077
+      # URI format: spark://<host>:<port>
       AIRFLOW_CONN_SPARK_DEFAULT: "spark://spark-master:7077"
     volumes:
       - ./airflow/dags:/opt/airflow/dags
-      - ./airflow/airflow_logs:/opt/airflow/logs
-      # Mount batch-etl so SparkSubmitOperator can resolve application paths
-      # (spark-submit runs on spark-master, but Airflow resolves the path via Docker volume)
+      # Named volume for logs avoids root-ownership issue with bind mounts
+      - airflow_logs:/opt/airflow/logs
+      # Mount batch-etl so SparkSubmitOperator can locate application .py files
       - ./batch-etl:/opt/spark/work-dir/batch-etl
     ports:
       - "8081:8080"
@@ -237,8 +247,9 @@ services:
     image: apache/superset
     container_name: superset
     depends_on:
-      postgres:
-        condition: service_healthy
+      # Superset uses SQLite by default (stored in superset_home volume).
+      # No hard dependency on postgres needed.
+      - postgres
     ports:
       - "8088:8088"
     environment:
@@ -266,3 +277,4 @@ volumes:
   postgres_data:
   minio_data:
   superset_home:
+  airflow_logs:
