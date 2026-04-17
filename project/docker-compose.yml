@@ -102,7 +102,6 @@ services:
   debezium_connect:
     image: debezium/connect:2.1
     container_name: debezium_connect
-    # [FIX 3] Chờ Kafka sẵn sàng VÀ MongoDB đã được rs.initiate() xong
     depends_on:
       kafka:
         condition: service_healthy
@@ -116,6 +115,62 @@ services:
       OFFSET_STORAGE_TOPIC: my_connect_offsets
       STATUS_STORAGE_TOPIC: my_connect_statuses
       BOOTSTRAP_SERVERS: kafka:29092
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8083/connectors || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+    networks:
+      - data-pipeline-network
+
+  # ── Init: load mock data into MongoDB ─────────────────────────────────────
+  # Runs once after ReplicaSet is ready; idempotent (upsert on natural key).
+  mongo-data-init:
+    image: python:3.10-slim
+    container_name: mongo-data-init
+    depends_on:
+      mongo-init:
+        condition: service_completed_successfully
+    environment:
+      MONGO_URI: "mongodb://mongodb:27017/?replicaSet=rs0"
+    volumes:
+      - ./init/load_data.py:/load_data.py:ro
+      - ../master_data/output:/data:ro
+    command: >
+      bash -c "
+        pip install pymongo==4.6.0 pandas==2.0.3 --quiet &&
+        python /load_data.py
+      "
+    networks:
+      - data-pipeline-network
+
+  # ── Init: register Debezium MongoDB connector ──────────────────────────────
+  # Waits for both Debezium Connect (healthy) and data already in MongoDB.
+  # Idempotent: skips if connector already exists (HTTP 409).
+  debezium-init:
+    image: curlimages/curl:latest
+    container_name: debezium-init
+    depends_on:
+      debezium_connect:
+        condition: service_healthy
+      mongo-data-init:
+        condition: service_completed_successfully
+    volumes:
+      - ./init/mongodb-connector.json:/mongodb-connector.json:ro
+    command: >
+      sh -c "
+        STATUS=$$(curl -o /dev/null -s -w '%{http_code}' http://debezium_connect:8083/connectors/mongo-source);
+        if [ \"$$STATUS\" = '200' ]; then
+          echo 'Connector mongo-source already exists, skipping.';
+        else
+          echo 'Registering mongo-source connector...';
+          curl -X POST http://debezium_connect:8083/connectors \
+            -H 'Content-Type: application/json' \
+            -d @/mongodb-connector.json &&
+          echo 'Connector registered.';
+        fi
+      "
     networks:
       - data-pipeline-network
 
@@ -215,6 +270,8 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
       AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://admin:admin@postgres_metadata:5432/metadata_db
+      # New DAGs start unpaused so the pipeline runs on schedule immediately
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "False"
       # Install Spark provider + PySpark + deps for silver_job driver (client mode)
       _PIP_ADDITIONAL_REQUIREMENTS: >-
         apache-airflow-providers-apache-spark==4.7.1

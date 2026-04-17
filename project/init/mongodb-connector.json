@@ -1,0 +1,20 @@
+{
+  "name": "mongo-source",
+  "config": {
+    "connector.class": "io.debezium.connector.mongodb.MongoDbConnector",
+
+    "mongodb.connection.string": "mongodb://mongodb:27017/?replicaSet=rs0",
+
+    "topic.prefix": "mongo-source",
+    "database.include.list": "telesales",
+    "collection.include.list": "telesales.cust,telesales.offer,telesales.call_logs",
+
+    "snapshot.mode": "initial",
+    "capture.mode": "change_streams_update_full",
+
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false"
+  }
+}
