@@ -60,6 +60,10 @@ CONNECTOR_NAME = "mongo-source"
 DATABASE_NAME  = "telesales"
 COLLECTIONS    = ["cust", "offer", "call_logs"]
 
+# TRIGGER_ONCE=true  → xử lý hết dữ liệu hiện có rồi dừng (dùng khi Airflow orchestrate)
+# TRIGGER_ONCE=false → chạy liên tục micro-batch (default, dùng khi start thủ công)
+TRIGGER_ONCE = os.getenv("TRIGGER_ONCE", "false").lower() == "true"
+
 # ── Spark Session ──────────────────────────────────────────────────────────────
 spark = (
     SparkSession.builder
@@ -174,12 +178,15 @@ for collection in COLLECTIONS:
         .filter(F.col("raw_doc").isNotNull())
     )
 
-    # 3. Ghi vào Iceberg table, micro-batch mỗi 30 giây
+    # 3. Ghi vào Iceberg table
+    #    TRIGGER_ONCE=true  → trigger(once=True): xử lý hết Kafka rồi dừng (Airflow mode)
+    #    TRIGGER_ONCE=false → trigger(processingTime="30 seconds"): chạy liên tục (manual mode)
+    trigger_conf = {"once": True} if TRIGGER_ONCE else {"processingTime": "30 seconds"}
     query = (
         parsed.writeStream
         .format("iceberg")
         .outputMode("append")
-        .trigger(processingTime="30 seconds")
+        .trigger(**trigger_conf)
         .option("checkpointLocation", checkpoint)
         .toTable(f"lakehouse.bronze.{collection}")
     )

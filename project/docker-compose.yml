@@ -211,9 +211,16 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
       AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://admin:admin@postgres_metadata:5432/metadata_db
+      # Install Spark provider + PySpark at container startup
+      _PIP_ADDITIONAL_REQUIREMENTS: "apache-airflow-providers-apache-spark==4.7.1 pyspark==3.4.0"
+      # Spark connection: Airflow conn_id=spark_default → spark-master:7077
+      AIRFLOW_CONN_SPARK_DEFAULT: "spark://spark-master:7077"
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/airflow_logs:/opt/airflow/logs
+      # Mount batch-etl so SparkSubmitOperator can resolve application paths
+      # (spark-submit runs on spark-master, but Airflow resolves the path via Docker volume)
+      - ./batch-etl:/opt/spark/work-dir/batch-etl
     ports:
       - "8081:8080"
     command: >
