@@ -210,6 +210,7 @@ Open and run `NLP model/NLP_model.ipynb` (requires GPU for RoBERTa).
 - [ ] Superset dashboards
 
 ---
+<img width="927" height="914" alt="image" src="https://github.com/user-attachments/assets/744d547b-c7a1-4d1f-9fd5-0b7b34e825f2" />
 
 ## License
 
