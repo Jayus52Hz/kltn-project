@@ -155,6 +155,7 @@ services:
       mc mb myminio/bronze || true;
       mc mb myminio/silver || true;
       mc mb myminio/gold || true;
+      mc mb myminio/lakehouse || true;
       exit 0;
       "
     networks:

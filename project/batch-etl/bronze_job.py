@@ -73,7 +73,7 @@ spark = (
     .config("spark.sql.catalog.lakehouse",
             "org.apache.iceberg.spark.SparkCatalog")
     .config("spark.sql.catalog.lakehouse.type",      "hadoop")
-    .config("spark.sql.catalog.lakehouse.warehouse", "s3a://bronze/warehouse")
+    .config("spark.sql.catalog.lakehouse.warehouse", "s3a://lakehouse/warehouse")
 
     # MinIO / S3A
     .config("spark.hadoop.fs.s3a.endpoint",           MINIO_ENDPOINT)
