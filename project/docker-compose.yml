@@ -136,7 +136,7 @@ services:
       MONGO_URI: "mongodb://mongodb:27017/?replicaSet=rs0"
     volumes:
       - ./init/load_data.py:/load_data.py:ro
-      - ../master_data/output:/data:ro
+      - ./init/data:/data:ro
     command: >
       bash -c "
         pip install pymongo==4.6.0 pandas==2.0.3 --quiet &&
@@ -260,7 +260,7 @@ services:
   # 5. TẦNG ORCHESTRATION & BI
   # ==========================================
   airflow:
-    image: apache/airflow:2.11.0
+    build: ./airflow   # extends apache/airflow:2.11.0 with Java 17
     container_name: airflow
     # [FIX 3] depends_on với healthcheck thay vì loop pg_isready trong command
     depends_on:
