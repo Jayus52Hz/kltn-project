@@ -30,13 +30,17 @@ Spark connection:
 
 from datetime import datetime, timedelta
 
+import requests
+
 from airflow import DAG
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+from airflow.sensors.python import PythonSensor
 
 # ── Common Spark config shared by all 3 jobs ──────────────────────────────────
 SPARK_PACKAGES = ",".join([
     "org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.4.0",
     "org.apache.hadoop:hadoop-aws:3.3.4",
+    "com.amazonaws:aws-java-sdk-bundle:1.12.261",
     "org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0",
 ])
 
@@ -70,6 +74,18 @@ default_args = {
     "email_on_failure": False,
 }
 
+def _debezium_connector_ready():
+    """Return True once the mongo-source connector is registered and reachable."""
+    try:
+        r = requests.get(
+            "http://debezium_connect:8083/connectors/mongo-source",
+            timeout=5,
+        )
+        return r.status_code == 200
+    except Exception:
+        return False
+
+
 with DAG(
     dag_id="telesales_lakehouse_pipeline",
     description="Bronze → Silver → Gold Medallion ETL for Telesales Lakehouse",
@@ -79,6 +95,15 @@ with DAG(
     catchup=False,
     tags=["lakehouse", "telesales", "iceberg"],
 ) as dag:
+
+    # ── Task 0: Wait for Debezium connector before reading Kafka topics ────────
+    wait_for_debezium = PythonSensor(
+        task_id="wait_for_debezium_connector",
+        python_callable=_debezium_connector_ready,
+        poke_interval=15,
+        timeout=300,
+        mode="reschedule",
+    )
 
     # ── Task 1: Bronze — CDC ingestion from Kafka → Iceberg ───────────────────
     bronze_cdc_ingestion = SparkSubmitOperator(
@@ -110,6 +135,7 @@ with DAG(
         packages=",".join([
             "org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.4.0",
             "org.apache.hadoop:hadoop-aws:3.3.4",
+            "com.amazonaws:aws-java-sdk-bundle:1.12.261",
         ]),
         conf=SPARK_CONF,
         env_vars={
@@ -132,6 +158,7 @@ with DAG(
         packages=",".join([
             "org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.4.0",
             "org.apache.hadoop:hadoop-aws:3.3.4",
+            "com.amazonaws:aws-java-sdk-bundle:1.12.261",
         ]),
         conf=SPARK_CONF,
         env_vars={
@@ -144,4 +171,4 @@ with DAG(
     )
 
     # ── Dependencies ───────────────────────────────────────────────────────────
-    bronze_cdc_ingestion >> silver_etl >> gold_star_schema
+    wait_for_debezium >> bronze_cdc_ingestion >> silver_etl >> gold_star_schema
