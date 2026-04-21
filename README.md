@@ -203,11 +203,11 @@ Open and run `NLP model/NLP_model.ipynb` (requires GPU for RoBERTa).
 - [x] Mock data generation (~23,447 AGI call records)
 - [x] Data normalization: JSON → customers / offers / calls
 - [x] NLP model training (BoW baseline + RoBERTa fine-tuned)
-- [ ] PySpark Bronze ETL (Kafka → MinIO Iceberg)
-- [ ] PySpark Silver ETL (PII masking + NLP inference)
-- [ ] PySpark Gold ETL (Star Schema)
-- [ ] Airflow DAGs
-- [ ] Superset dashboards
+- [x] PySpark Bronze ETL (Kafka → MinIO Iceberg)
+- [x] PySpark Silver ETL (PII masking + NLP inference)
+- [x] PySpark Gold ETL (Star Schema)
+- [x] Airflow DAGs
+- [x] Superset dashboards
 
 ---
 <img width="927" height="914" alt="image" src="https://github.com/user-attachments/assets/744d547b-c7a1-4d1f-9fd5-0b7b34e825f2" />
