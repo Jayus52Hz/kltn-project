@@ -258,12 +258,8 @@ dim_date = (
         F.dayofweek(F.col("full_date")).alias("day_of_week"),
         F.date_format(F.col("full_date"), "EEEE").alias("day_name"),
         # dayofweek: 1=Sunday, 7=Saturday
-        F.col("full_date").isin(
-            F.when(F.dayofweek(F.col("full_date")).isin(1, 7), True).otherwise(False)
-        ).alias("is_weekend"),
     )
     # Ghi lại is_weekend đúng cách
-    .drop("is_weekend")
     .withColumn(
         "is_weekend",
         F.dayofweek(F.col("full_date")).isin(1, 7),

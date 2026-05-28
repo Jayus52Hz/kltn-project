@@ -45,6 +45,9 @@ SPARK_PACKAGES = ",".join([
 ])
 
 SPARK_CONF = {
+    # Keep PySpark executors on the same Python minor version as the Airflow driver.
+    "spark.pyspark.python": "python3.9",
+    "spark.executorEnv.PYSPARK_PYTHON": "/usr/bin/python3.9",
     # Iceberg extensions
     "spark.sql.extensions":
         "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions",

@@ -9,7 +9,7 @@ type: project
 
 **Thesis title:** Xây dựng nền tảng dữ liệu Hybrid Data Lakehouse cho hệ thống Telesales  
 **Major:** Data Engineering  
-**Local repo:** `/Users/thinh.nguyen/kltn-project/`  
+**Local repo:** `D:\Đồ án tốt nghiệp`  
 **GitHub:** https://github.com/Jayus52Hz/kltn-project.git
 
 This project builds an end-to-end Hybrid Data Lakehouse for an AGI Telesales system. The main goals are:
@@ -219,6 +219,58 @@ Current bootstrap behavior in Docker Compose:
 - creates MinIO buckets via `minio-mc`
 - mounts Spark ETL scripts into Spark containers
 
+Important operational note:
+- `mongo-init`, `mongo-data-init`, `minio-mc`, and `debezium-init` are one-shot bootstrap jobs
+- Seeing these containers as `Exited (0)` in `docker compose ps -a` is expected and means they completed successfully
+- Long-running services are MongoDB, PostgreSQL, Zookeeper, Kafka, Debezium Connect, MinIO, Spark master/worker, Airflow, and Superset
+
+Validated bootstrap outputs:
+- MongoDB collections: `cust=4344`, `offer=5072`, `call_logs=23447`
+- Debezium connector: `mongo-source`, connector `RUNNING`, task `RUNNING`
+- Kafka topics:
+  - `mongo-source.telesales.cust`
+  - `mongo-source.telesales.offer`
+  - `mongo-source.telesales.call_logs`
+
+---
+
+## Runtime Fixes and Validation, 2026-05-28
+
+The local Docker stack was rebuilt and validated end-to-end on 2026-05-28.
+
+Fixes applied:
+- baked Airflow Spark provider, PySpark, pandas, NumPy, PyArrow, scikit-learn, and joblib into the Airflow image instead of installing through `_PIP_ADDITIONAL_REQUIREMENTS`
+- standardized Airflow/Spark Python runtime to Python 3.9 for PySpark driver/executor compatibility
+- installed Python 3.9 and the Silver-job dependencies into the Spark image
+- mounted `NLP model/models` into Airflow, Spark master, and Spark worker at `/opt/spark/work-dir/batch-etl/models`
+- fixed Airflow `spark_default` connection so SparkSubmit uses `spark://spark-master:7077`
+- fixed Zookeeper healthcheck
+- fixed Debezium MongoDB connector config to use `mongodb.hosts=rs0/mongodb:27017`
+- fixed Debezium registration command in Docker Compose
+- fixed Bronze parsing for Debezium messages emitted without a top-level `payload` wrapper
+- fixed Gold `dim_date.is_weekend` expression
+- retrained the BoW model artifact with `scikit-learn==1.3.0` and `numpy==1.24.4`; the original incompatible artifact is kept locally as `bow_model.pkl.numpy2.bak` and ignored by Git
+
+Validated Airflow DAG run:
+- DAG: `telesales_lakehouse_pipeline`
+- Run id: `manual__2026-05-28T07:02:36+00:00`
+- Result: all tasks succeeded
+  - `wait_for_debezium_connector`
+  - `bronze_cdc_ingestion`
+  - `silver_etl`
+  - `gold_star_schema`
+
+Validated Iceberg counts after Silver/Gold:
+- `lakehouse.silver.cust`: 4344
+- `lakehouse.silver.offer`: 5072
+- `lakehouse.silver.call_logs`: 23447
+- `lakehouse.gold.dim_customer`: 4344
+- `lakehouse.gold.dim_offer`: 5072
+- `lakehouse.gold.dim_date`: 2
+- `lakehouse.gold.fact_telesales_calls`: 23447
+
+Bronze can contain more rows than the source counts during repeated local tests because Debezium emits snapshot/update events each time source data is reloaded. Silver deduplicates by business key and CDC timestamp, so the serving counts above are the expected values.
+
 ---
 
 ## Current Repo Status
@@ -233,11 +285,10 @@ Implemented in the current repository:
 - Gold ETL job with Star Schema generation
 - Airflow DAG for Bronze -> Silver -> Gold orchestration
 - Synthetic data normalization script
+- End-to-end local validation through Bronze, Silver, and Gold
 
 Potential remaining work depends on thesis/demo needs:
-- validating end-to-end runtime locally
-- copying NLP model artifacts into Spark container before Silver job
-- dashboard building / polishing in Superset
+- polishing Superset dashboard and demo story
 - thesis write-up and demo packaging
 
 ---

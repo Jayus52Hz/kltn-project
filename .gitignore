@@ -1,0 +1,8 @@
+# Python/runtime noise
+__pycache__/
+*.py[cod]
+
+# Large NLP artifacts that are not required by the current Spark Silver job
+NLP model/models/roberta_checkpoints/
+NLP model/models/roberta_saved/
+NLP model/models/*.bak

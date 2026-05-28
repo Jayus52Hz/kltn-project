@@ -133,6 +133,9 @@ for col in COLLECTIONS:
 
 # ── Schema của Debezium MongoDB payload (chỉ parse phần cần thiết) ────────────
 DEBEZIUM_SCHEMA = StructType([
+    StructField("after",  StringType(), True),
+    StructField("op",     StringType(), True),
+    StructField("ts_ms",  LongType(),   True),
     StructField("payload", StructType([
         StructField("after",  StringType(), True),
         StructField("op",     StringType(), True),
@@ -166,9 +169,9 @@ for collection in COLLECTIONS:
             F.from_json(F.col("value").cast("string"), DEBEZIUM_SCHEMA)
         )
         .select(
-            F.col("envelope.payload.after").alias("raw_doc"),
-            F.col("envelope.payload.op").alias("op"),
-            F.col("envelope.payload.ts_ms").alias("ts_ms"),
+            F.coalesce(F.col("envelope.after"), F.col("envelope.payload.after")).alias("raw_doc"),
+            F.coalesce(F.col("envelope.op"), F.col("envelope.payload.op")).alias("op"),
+            F.coalesce(F.col("envelope.ts_ms"), F.col("envelope.payload.ts_ms")).alias("ts_ms"),
             F.col("topic"),
             F.col("partition"),
             F.col("offset"),
