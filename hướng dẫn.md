@@ -152,21 +152,45 @@ lakehouse.gold.dim_date                2
 lakehouse.gold.fact_telesales_calls    23447
 ```
 
-## 8. Cac URL hay dung
+## 8. Tao dashboard demo nhanh
+
+Sau khi DAG Airflow chay xong va Gold tables da co du lieu, xuat data cho dashboard:
+
+```powershell
+docker compose -f ".\project\docker-compose.yml" --profile dashboard run --rm dashboard-export
+```
+
+Mo dashboard tinh:
+
+```powershell
+docker compose -f ".\project\docker-compose.yml" up -d dashboard
+```
+
+Truy cap:
+
+```text
+http://localhost:8090
+```
+
+Dashboard nay doc file `project/dashboard/dashboard_data.json`. Moi lan chay lai pipeline va muon refresh so lieu, chay lai job `dashboard-export`.
+
+## 9. Cac URL hay dung
 
 ```text
 Airflow:       http://localhost:8081  admin / admin
 Spark UI:      http://localhost:8080
 MinIO Console: http://localhost:9001  minioadmin / minioadmin
 Superset:      http://localhost:8088
+Demo dashboard: http://localhost:8090
 Debezium REST: http://localhost:8083
 Kafka:         localhost:9092
 ```
 
-## 9. Ghi chu loi thuong gap
+## 10. Ghi chu loi thuong gap
 
 - `mongo-data-init` hoac `debezium-init` khong `Up`: binh thuong neu status la `Exited (0)`.
 - `mongo-data-init` bi `Exited (1)`: xem log bang `docker compose -f ".\project\docker-compose.yml" logs mongo-data-init`.
 - Debezium connector khong `RUNNING`: chay `docker compose -f ".\project\docker-compose.yml" logs debezium_connect debezium-init`.
 - Silver loi model: kiem tra `NLP model/models/bow_model.pkl` co ton tai va compose da mount vao `/opt/spark/work-dir/batch-etl/models`.
 - Silver loi Python worker khac version: build lai image bang `docker compose -f ".\project\docker-compose.yml" up -d --build --force-recreate airflow spark-master spark-worker`.
+- Dashboard bao chua co data: chay `docker compose -f ".\project\docker-compose.yml" --profile dashboard run --rm dashboard-export`.

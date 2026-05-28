@@ -6,3 +6,6 @@ __pycache__/
 NLP model/models/roberta_checkpoints/
 NLP model/models/roberta_saved/
 NLP model/models/*.bak
+
+# Generated dashboard snapshot
+project/dashboard/dashboard_data.json

@@ -34,6 +34,7 @@ This project builds an end-to-end Hybrid Data Lakehouse for an AGI Telesales sys
 | Compute | Apache Spark 3.4.0 (PySpark) | `spark-master`, `spark-worker` |
 | Orchestration | Apache Airflow 2.11.0 | `airflow` |
 | BI | Apache Superset | `superset` |
+| Demo dashboard | Static Nginx dashboard | `telesales-dashboard` |
 
 **Why "Hybrid":**
 - Hybrid Deployment: raw and sensitive data stays on-premise in MinIO, while clean serving data can later be synced outward if needed
@@ -48,6 +49,7 @@ This project builds an end-to-end Hybrid Data Lakehouse for an AGI Telesales sys
 **PostgreSQL:** `admin / admin`, database `metadata_db`, port `5432`  
 **Airflow UI:** `http://localhost:8081`, `admin / admin`  
 **Superset:** `http://localhost:8088`  
+**Demo dashboard:** `http://localhost:8090`  
 **Spark UI:** `http://localhost:8080`, cluster port `7077`  
 **Kafka:** external `9092`, internal `29092`  
 **Debezium REST API:** `http://localhost:8083`
@@ -186,7 +188,8 @@ master_data/transcript_batch*.json
   -> lakehouse.silver.*
   -> gold_job.py
   -> lakehouse.gold.*
-  -> Superset dashboards / BI
+  -> dashboard-export
+  -> static demo dashboard / Superset / BI
 ```
 
 ---
@@ -211,6 +214,8 @@ Relevant files:
 - `project/docker-compose.yml`
 - `project/init/load_data.py`
 - `project/init/mongodb-connector.json`
+- `project/dashboard/export_dashboard_data.py`
+- `project/dashboard/index.html`
 
 Current bootstrap behavior in Docker Compose:
 - initializes MongoDB ReplicaSet
@@ -218,6 +223,8 @@ Current bootstrap behavior in Docker Compose:
 - registers Debezium connector via `debezium-init`
 - creates MinIO buckets via `minio-mc`
 - mounts Spark ETL scripts into Spark containers
+- serves a small static demo dashboard at `http://localhost:8090`
+- exports dashboard-ready JSON from Gold through the `dashboard-export` profile job
 
 Important operational note:
 - `mongo-init`, `mongo-data-init`, `minio-mc`, and `debezium-init` are one-shot bootstrap jobs
@@ -284,6 +291,7 @@ Implemented in the current repository:
 - Silver ETL job with PII masking and NLP inference
 - Gold ETL job with Star Schema generation
 - Airflow DAG for Bronze -> Silver -> Gold orchestration
+- Static demo dashboard assets and Gold-to-JSON exporter
 - Synthetic data normalization script
 - End-to-end local validation through Bronze, Silver, and Gold
 

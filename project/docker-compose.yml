@@ -319,6 +319,30 @@ services:
     networks:
       - data-pipeline-network
 
+  dashboard:
+    image: nginx:alpine
+    container_name: telesales-dashboard
+    ports:
+      - "8090:80"
+    volumes:
+      - ./dashboard:/usr/share/nginx/html:ro
+    networks:
+      - data-pipeline-network
+
+  dashboard-export:
+    image: project-airflow
+    container_name: dashboard-export
+    profiles:
+      - dashboard
+    depends_on:
+      - minio
+    volumes:
+      - ./dashboard:/dashboard
+    command: >
+      bash -c "python /dashboard/export_dashboard_data.py"
+    networks:
+      - data-pipeline-network
+
 networks:
   data-pipeline-network:
     driver: bridge
