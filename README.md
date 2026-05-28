@@ -1,217 +1,345 @@
-# Hybrid Data Lakehouse for AGI Telesales
+# KLTN Hybrid Data Lakehouse for AGI Telesales
 
-> **Graduation Thesis — Data Engineering**  
-> Topic: *Xây dựng nền tảng dữ liệu Hybrid Data Lakehouse cho hệ thống Telesales*
+Graduation thesis project for building an end-to-end Hybrid Data Lakehouse for an AGI Telesales system.
 
-An end-to-end data platform that ingests real-time call events from an AGI Telesales system, processes and anonymizes PII, classifies call transcripts using NLP, and serves a Star Schema to a BI dashboard — all on open-source, containerized infrastructure.
+The platform ingests operational data from MongoDB through Debezium CDC, streams it into Kafka, processes Bronze/Silver/Gold Iceberg tables with Spark, orchestrates the pipeline with Airflow, and serves BI-ready data through Superset plus a lightweight demo dashboard.
 
----
+## Goals
 
-## Problem Statement
-
-| Pain Point | Impact |
-|---|---|
-| **Operational DB overload** | BI tools querying MongoDB directly cause system crashes and drop live AI calls |
-| **Unstructured call transcripts** | Traditional DWH cannot store or query millions of free-text conversations efficiently |
-| **PII compliance** | Customer phone numbers and national IDs must be masked before analysts access data |
-
----
+- Avoid analytics workloads querying MongoDB directly and affecting operational calls.
+- Store and process structured records plus unstructured call transcripts at lakehouse scale.
+- Mask customer PII before data reaches analytics-facing layers.
+- Build a BI-ready Star Schema for telesales performance reporting.
+- Provide a local Docker-based demo that can be rebuilt and tested end to end.
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  AGI Telesales System                                           │
-│  MongoDB (cust / offer / call_logs)  ←  AI generates calls     │
-└──────────────────┬──────────────────────────────────────────────┘
-                   │ CDC (Debezium)
-                   ▼
-         ┌─────────────────┐
-         │   Apache Kafka  │  (decouples operational load)
-         └────────┬────────┘
-                  │ PySpark Structured Streaming / Batch
-         ┌────────▼────────────────────────────────────┐
-         │              MinIO  (S3-compatible)          │
-         │  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
-         │  │  Bronze  │→ │  Silver  │→ │   Gold   │  │
-         │  │ Raw JSON │  │ Cleansed │  │   Star   │  │
-         │  │  Iceberg │  │ PII mask │  │  Schema  │  │
-         │  └──────────┘  │ NLP tags │  └──────────┘  │
-         │                └──────────┘                 │
-         └────────────────────────┬────────────────────┘
-                                  │
-              ┌───────────────────┼───────────────────┐
-              │ Apache Airflow    │            Apache  │
-              │ (orchestration)   │            Superset│
-              └───────────────────┘            (BI)    │
-                                               └───────┘
+```text
+master_data/*.json
+  -> split_to_entities.py
+  -> master_data/output/*.csv
+  -> project/init/load_data.py
+  -> MongoDB telesales.{cust,offer,call_logs}
+  -> Debezium CDC
+  -> Kafka topics
+  -> Spark Bronze ETL
+  -> Iceberg lakehouse.bronze.*
+  -> Spark Silver ETL
+  -> Iceberg lakehouse.silver.*
+  -> Spark Gold ETL
+  -> Iceberg lakehouse.gold.*
+  -> Superset / dashboard-export / static dashboard
 ```
 
-### Why "Hybrid"?
-- **Hybrid Deployment** — sensitive/raw data stays on-premise (MinIO); clean Gold layer is ready to sync to Cloud for business users.
-- **Hybrid Workloads** — Streaming ingestion (Kafka → Bronze) and Batch processing (Spark ETL Silver/Gold) run on the same architecture.
+Why "Hybrid":
 
----
-
-## Medallion Architecture
-
-| Layer | Location | Processing |
-|---|---|---|
-| **Bronze** | `minio://bronze/` | Raw JSON from Kafka, written as Apache Iceberg — no transformation |
-| **Silver** | `minio://silver/` | Flatten JSON · PII masking (`0987***456`) · NLP call code extraction |
-| **Gold** | `minio://gold/` | Star Schema: `fact_telesales_calls` + `dim_customer` / `dim_offer` / `dim_date` |
-
----
+- Hybrid deployment: raw and sensitive data stays in local MinIO/S3-compatible storage; clean serving data can later be published outward if needed.
+- Hybrid workloads: CDC/streaming ingestion and batch ETL run in the same Dockerized platform.
 
 ## Tech Stack
 
-| Layer | Technology | Version |
+| Layer | Technology | Container |
 |---|---|---|
-| Operational DB | MongoDB | 6.0 |
-| Metadata DB | PostgreSQL | 13 |
-| CDC | Debezium Connect | 2.1 |
-| Message Queue | Apache Kafka (Confluent) | 7.3.0 |
-| Object Storage | MinIO | latest |
-| Open Table Format | Apache Iceberg | via Spark |
-| Compute | Apache Spark (PySpark) | 3.4.0 |
-| Orchestration | Apache Airflow | 2.11.0 |
-| BI | Apache Superset | latest |
-
-All services run as Docker containers on a single `data-pipeline-network` bridge network.
-
----
+| Operational database | MongoDB 6.0 ReplicaSet | `mongodb` |
+| Metadata database | PostgreSQL 13 | `postgres_metadata` |
+| CDC | Debezium Connect 2.1 | `debezium_connect` |
+| Queue | Kafka 7.3.0 | `kafka` |
+| Coordination | Zookeeper 7.3.0 | `zookeeper` |
+| Object storage | MinIO | `minio` |
+| Table format | Apache Iceberg | via Spark |
+| Compute | Spark 3.4.0 / PySpark | `spark-master`, `spark-worker` |
+| Orchestration | Airflow 2.11.0 | `airflow` |
+| BI | Superset | `superset` |
+| Demo dashboard | Static Nginx app | `telesales-dashboard` |
 
 ## Repository Structure
 
-```
+```text
 kltn-project/
-├── project/
-│   ├── docker-compose.yml          # Full infrastructure definition
-│   ├── airflow/
-│   │   └── dags/                   # Airflow DAG files (WIP)
-│   └── batch-etl/                  # PySpark ETL scripts (WIP)
-│       └── models/                 # Trained NLP model artifacts
-├── NLP model/
-│   ├── NLP_model.ipynb             # Training notebook (BoW + RoBERTa)
-│   ├── train.csv                   # Training set  (~13,857 records)
-│   ├── valid.csv                   # Validation set (~1,732 records)
-│   └── test.csv                    # Test set       (~1,733 records)
-└── master_data/
-    ├── transcript_batch*.json      # Mock AGI call data (2,635 files, ~23,447 records)
-    ├── split_to_entities.py        # ETL script: merge JSON → 3 normalized CSVs
-    └── output/
-        ├── customers.csv           # dim_customer (10 rows)
-        ├── offers.csv              # dim_offer    (57 rows)
-        └── calls.csv               # fact_call    (23,447 rows)
+|-- README.md
+|-- hướng dẫn.md
+|-- project_kltn_hybrid_lakehouse.md
+|-- master_data/
+|   |-- transcript_batch*.json
+|   |-- split_to_entities.py
+|   `-- output/
+|       |-- customers.csv
+|       |-- offers.csv
+|       `-- calls.csv
+|-- NLP model/
+|   |-- NLP_model.ipynb
+|   |-- train.csv
+|   |-- valid.csv
+|   |-- test.csv
+|   `-- models/
+|       |-- bow_model.pkl
+|       `-- label_classes.json
+`-- project/
+    |-- docker-compose.yml
+    |-- airflow/
+    |   |-- Dockerfile
+    |   `-- dags/telesales_pipeline.py
+    |-- batch-etl/
+    |   |-- bronze_job.py
+    |   |-- silver_job.py
+    |   `-- gold_job.py
+    |-- dashboard/
+    |   |-- index.html
+    |   |-- styles.css
+    |   |-- app.js
+    |   `-- export_dashboard_data.py
+    |-- init/
+    |   |-- load_data.py
+    |   |-- mongodb-connector.json
+    |   `-- data/
+    `-- spark/
+        `-- Dockerfile
 ```
-
----
 
 ## Data Model
 
+MongoDB source database: `telesales`
+
+Collections:
+
+- `cust`: customer profile data.
+- `offer`: campaign and product offer data.
+- `call_logs`: telesales call records and transcripts.
+
+Current initialized source counts:
+
+| Collection | Rows |
+|---|---:|
+| `cust` | 4,344 |
+| `offer` | 5,072 |
+| `call_logs` | 23,447 |
+
+## Medallion Layers
+
+| Layer | Tables | Main logic |
+|---|---|---|
+| Bronze | `lakehouse.bronze.{cust,offer,call_logs}` | Read Debezium CDC messages from Kafka, unwrap payloads, persist raw records to Iceberg. |
+| Silver | `lakehouse.silver.{cust,offer,call_logs}` | Parse typed columns, mask PII, deduplicate by business key and CDC timestamp, run BoW NLP inference. |
+| Gold | `lakehouse.gold.{dim_customer,dim_offer,dim_date,fact_telesales_calls}` | Build Star Schema, derived flags, product/category bands, and dashboard-ready metrics. |
+
+## NLP
+
+The thesis notebook under `NLP model/NLP_model.ipynb` contains two modeling approaches:
+
+- Baseline: CountVectorizer + Logistic Regression.
+- Primary experiment: fine-tuned RoBERTa.
+
+The production Silver ETL currently uses the committed BoW artifact because it is small, deterministic, and suitable for the Docker demo:
+
+- `NLP model/models/bow_model.pkl`
+- `NLP model/models/label_classes.json`
+
+The model directory is mounted into Airflow and Spark containers at:
+
+```text
+/opt/spark/work-dir/batch-etl/models
 ```
-customers (10)          offers (57)              calls (23,447)
-──────────────          ─────────────            ─────────────────
-customer_id  PK ──┐     offer_id     PK ──┐      call_id        PK
-full_name        │     customer_id  FK──┘      offer_id       FK ──┘
-age              └──►  campaign_id            agent_id
-gender                 product_name            call_timestamp
-phone_number *         lead_source             call_status
-national_id *          decile_group            talk_time_seconds
-address                loan_amount             previous_contact_count
-employment_status      interest_rate           call_code          (NLP output)
-monthly_income                                 call_transcript    (raw text)
-credit_score
-is_existing_customer
-
-* PII — masked in Silver layer
-```
-
-**Cardinality:** 1 customer → 2–9 offers · 1 offer → 3–2,532 calls
-
----
-
-## NLP Module
-
-Classifies raw `call_transcript` text into structured `call_code` labels (multi-label, 32 classes).
-
-| Model | Method | F1 Micro | Precision | Recall |
-|---|---|---|---|---|
-| **Baseline** | CountVectorizer + Logistic Regression | 70.16% | 65.92% | 74.98% |
-| **Primary** | RoBERTa (`roberta-base`) fine-tuned | **73.64%** | **80.78%** | 67.67% |
-
-RoBERTa is used as the primary model due to higher precision (fewer false-positive call code assignments).
-
-**Saved artifacts** (after running the notebook):
-```
-NLP model/models/
-├── bow_model.pkl          ← sklearn bundle (vectorizer + classifier + mlb)
-├── label_classes.json     ← 32 class names
-└── roberta_saved/         ← HuggingFace save_pretrained output
-```
-
----
 
 ## Quick Start
 
-### Prerequisites
-- Docker & Docker Compose
-- Python 3.9+
+Requirements:
 
-### 1. Start infrastructure
+- Docker Desktop is running.
+- PowerShell on Windows.
+- Git.
 
-```bash
-cd project
-docker compose up -d
+From the repository root:
+
+```powershell
+docker compose -f ".\project\docker-compose.yml" up -d --build
 ```
+
+Check containers:
+
+```powershell
+docker compose -f ".\project\docker-compose.yml" ps -a
+```
+
+Expected result:
+
+- Long-running services should be `Up`: `mongodb`, `postgres_metadata`, `zookeeper`, `kafka`, `debezium_connect`, `minio`, `spark-master`, `spark-worker`, `airflow`, `superset`, `telesales-dashboard`.
+- Bootstrap jobs should be `Exited (0)`: `mongo-init`, `mongo-data-init`, `minio-mc`, `debezium-init`.
+- `Exited (0)` for bootstrap jobs is expected; they only initialize ReplicaSet, load MongoDB data, create buckets, and register Debezium once.
+
+## Service URLs
 
 | Service | URL | Credentials |
 |---|---|---|
-| MinIO Console | http://localhost:9001 | minioadmin / minioadmin |
-| Spark UI | http://localhost:8080 | — |
-| Airflow | http://localhost:8081 | admin / admin |
-| Superset | http://localhost:8088 | — |
-| Debezium REST | http://localhost:8083 | — |
-| Kafka | localhost:9092 | — |
+| Airflow | http://localhost:8081 | `admin / admin` |
+| Spark UI | http://localhost:8080 | none |
+| MinIO Console | http://localhost:9001 | `minioadmin / minioadmin` |
+| Superset | http://localhost:8088 | configured in container |
+| Demo dashboard | http://localhost:8090 | none |
+| Debezium REST | http://localhost:8083 | none |
+| Kafka external | `localhost:9092` | none |
 
-### 2. Register Debezium MongoDB connector
+## Run End-to-End Pipeline
 
-```bash
-curl -X POST http://localhost:8083/connectors \
-  -H "Content-Type: application/json" \
-  -d @project/debezium/mongodb-connector.json
+Check Debezium:
+
+```powershell
+docker exec debezium_connect curl -fsS http://localhost:8083/connectors/mongo-source/status
 ```
 
-### 3. Prepare normalized data (mock)
+Expected: connector `RUNNING`, task `RUNNING`.
 
-```bash
-cd master_data
-python split_to_entities.py
-# Output: master_data/output/customers.csv, offers.csv, calls.csv
+Check Kafka topics:
+
+```powershell
+docker exec kafka kafka-topics --bootstrap-server kafka:29092 --list
 ```
 
-### 4. Train NLP model
+Expected topics:
 
-Open and run `NLP model/NLP_model.ipynb` (requires GPU for RoBERTa).
+```text
+mongo-source.telesales.cust
+mongo-source.telesales.offer
+mongo-source.telesales.call_logs
+```
 
----
+Trigger the Airflow DAG:
 
-## Current Progress
+```powershell
+docker exec airflow airflow dags trigger telesales_lakehouse_pipeline
+```
 
-- [x] Docker Compose infrastructure (all services)
-- [x] Debezium CDC: MongoDB → Kafka
-- [x] Mock data generation (~23,447 AGI call records)
-- [x] Data normalization: JSON → customers / offers / calls
-- [x] NLP model training (BoW baseline + RoBERTa fine-tuned)
-- [x] PySpark Bronze ETL (Kafka → MinIO Iceberg)
-- [x] PySpark Silver ETL (PII masking + NLP inference)
-- [x] PySpark Gold ETL (Star Schema)
-- [x] Airflow DAGs
-- [x] Superset dashboards
+List DAG runs:
 
----
-<img width="927" height="914" alt="image" src="https://github.com/user-attachments/assets/744d547b-c7a1-4d1f-9fd5-0b7b34e825f2" />
+```powershell
+docker exec airflow airflow dags list-runs -d telesales_lakehouse_pipeline
+```
+
+Check task states. Replace `<run_id>` with the run id from the previous command:
+
+```powershell
+docker exec airflow airflow tasks states-for-dag-run telesales_lakehouse_pipeline "<run_id>"
+```
+
+Expected task result:
+
+```text
+wait_for_debezium_connector  success
+bronze_cdc_ingestion         success
+silver_etl                   success
+gold_star_schema             success
+```
+
+## Refresh Demo Dashboard
+
+After Gold tables exist, export dashboard JSON:
+
+```powershell
+docker compose -f ".\project\docker-compose.yml" --profile dashboard run --rm dashboard-export
+```
+
+Open:
+
+```text
+http://localhost:8090
+```
+
+The static dashboard reads:
+
+```text
+project/dashboard/dashboard_data.json
+```
+
+This JSON file is generated locally and ignored by Git. Run `dashboard-export` again whenever the Gold layer changes.
+
+## Full Rebuild From Zero
+
+Use this when you want a clean local test, including fresh MongoDB, Airflow metadata, MinIO buckets, and Iceberg warehouse:
+
+```powershell
+docker compose -f ".\project\docker-compose.yml" down -v --remove-orphans
+docker compose -f ".\project\docker-compose.yml" up -d --build
+```
+
+Detailed command order is documented in:
+
+```text
+hướng dẫn.md
+```
+
+## Latest End-to-End Validation
+
+Validated locally on 2026-05-28 with a cold rebuild:
+
+1. Ran `docker compose down -v --remove-orphans`.
+2. Rebuilt with `docker compose up -d --build`.
+3. Confirmed all bootstrap jobs completed with `Exited (0)`.
+4. Confirmed Debezium connector and task are `RUNNING`.
+5. Confirmed Kafka has all three MongoDB CDC topics.
+6. Triggered Airflow DAG `telesales_lakehouse_pipeline`.
+7. Confirmed all DAG tasks succeeded.
+8. Queried Iceberg tables directly.
+9. Exported dashboard JSON.
+10. Confirmed dashboard returns HTTP `200 OK` and renders KPI values.
+
+Validated Iceberg counts:
+
+| Table | Rows |
+|---|---:|
+| `lakehouse.bronze.cust` | 4,344 |
+| `lakehouse.bronze.offer` | 5,072 |
+| `lakehouse.bronze.call_logs` | 23,447 |
+| `lakehouse.silver.cust` | 4,344 |
+| `lakehouse.silver.offer` | 5,072 |
+| `lakehouse.silver.call_logs` | 23,447 |
+| `lakehouse.gold.dim_customer` | 4,344 |
+| `lakehouse.gold.dim_offer` | 5,072 |
+| `lakehouse.gold.dim_date` | 2 |
+| `lakehouse.gold.fact_telesales_calls` | 23,447 |
+
+Validated dashboard KPI output:
+
+| KPI | Value |
+|---|---:|
+| Total calls | 23,447 |
+| Customers | 4,344 |
+| Offers | 5,072 |
+| Successful sales | 4,221 |
+| Success rate | 18% |
+| Average talk time | 4m 33s |
+
+## Implementation Notes
+
+Recent fixes included in the repo:
+
+- Airflow image now bakes in Spark provider, PySpark, pandas, NumPy, PyArrow, scikit-learn, and joblib.
+- Airflow and Spark use a compatible Python 3.9 runtime for driver/executor consistency.
+- Spark image includes Python 3.9 and dependencies required by the Silver ETL.
+- Debezium MongoDB connector uses `rs0/mongodb:27017`.
+- Bronze parsing supports Debezium events with and without a top-level `payload` wrapper.
+- Gold `dim_date.is_weekend` logic is fixed.
+- BoW model artifact was regenerated for compatible `scikit-learn` and `numpy` versions.
+- Static dashboard and `dashboard-export` profile were added for quick demo visibility.
+
+## Troubleshooting
+
+- Init containers are not supposed to stay `Up`. If `mongo-init`, `mongo-data-init`, `minio-mc`, or `debezium-init` show `Exited (0)`, they completed successfully.
+- If `mongo-data-init` exits with error, inspect:
+  ```powershell
+  docker compose -f ".\project\docker-compose.yml" logs mongo-data-init
+  ```
+- If Debezium is not running, inspect:
+  ```powershell
+  docker compose -f ".\project\docker-compose.yml" logs debezium_connect debezium-init
+  ```
+- If Airflow cannot submit Spark jobs, rebuild:
+  ```powershell
+  docker compose -f ".\project\docker-compose.yml" up -d --build --force-recreate airflow spark-master spark-worker
+  ```
+- If the dashboard has no data, run:
+  ```powershell
+  docker compose -f ".\project\docker-compose.yml" --profile dashboard run --rm dashboard-export
+  ```
 
 ## License
 
-For academic use only — Graduation Thesis, Data Engineering.
+Academic use only. Graduation thesis project in Data Engineering.
