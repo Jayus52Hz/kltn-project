@@ -251,6 +251,160 @@ project/dashboard/dashboard_data.json
 
 This JSON file is generated locally and ignored by Git. Run `dashboard-export` again whenever the Gold layer changes.
 
+## Sync Gold To BigQuery
+
+The Airflow DAG includes a final `bq_sync_gold` task that publishes the Gold star schema to BigQuery. This is the recommended BI serving path for Looker Studio or Superset:
+
+```text
+lakehouse.gold.* -> bq_sync_gold -> BigQuery kltn0710.* -> BI tool
+```
+
+| BigQuery setting | Value |
+|---|---|
+| Project | `project-ef0c6db5-0765-4391-845` |
+| Dataset | `kltn0710` |
+| Location | `asia-southeast1` |
+
+### Authentication
+
+Install Google Cloud SDK, then initialize and create Application Default Credentials:
+
+```powershell
+gcloud.cmd init
+gcloud.cmd auth application-default login
+gcloud.cmd config set project project-ef0c6db5-0765-4391-845
+```
+
+PowerShell may block `gcloud.ps1` depending on execution policy, so using `gcloud.cmd` and `bq.cmd` is the safest Windows command form.
+
+The Docker services mount your local ADC file from:
+
+```text
+%APPDATA%/gcloud/application_default_credentials.json
+```
+
+Verify local BigQuery access:
+
+```powershell
+bq.cmd ls project-ef0c6db5-0765-4391-845:kltn0710
+```
+
+### Run The Sync
+
+Recreate the services after changing the Compose file or credentials:
+
+```powershell
+docker compose -f ".\project\docker-compose.yml" up -d --build --force-recreate airflow spark-master spark-worker superset
+```
+
+Run the full DAG from Airflow UI, or trigger it from CLI:
+
+```powershell
+docker exec airflow airflow dags trigger telesales_lakehouse_pipeline
+```
+
+If Gold tables already exist and you only want to republish to BigQuery:
+
+```powershell
+docker exec airflow airflow tasks test telesales_lakehouse_pipeline bq_sync_gold 2026-05-29
+```
+
+The sync writes these BigQuery objects:
+
+| BigQuery table | Expected rows |
+|---|---:|
+| `kltn0710.dim_customer` | 4,344 |
+| `kltn0710.dim_offer` | 5,072 |
+| `kltn0710.dim_date` | 2 |
+| `kltn0710.fact_telesales_calls` | 23,447 |
+
+By default, `bq_sync_gold` excludes `dim_customer.full_name` and `dim_customer.address` before publishing to BigQuery. The phone number and national id fields are already masked in Silver/Gold (`phone_number_masked`, `national_id_masked`). Set `BQ_INCLUDE_PII=true` in the DAG task only for a private demo that needs raw name/address fields.
+
+### Create The BI View
+
+After the four BigQuery tables exist, create the joined serving view:
+
+```powershell
+Get-Content -Raw ".\project\bigquery\create_serving_views.sql" | bq.cmd query --use_legacy_sql=false
+```
+
+Validate counts:
+
+```powershell
+bq.cmd query --use_legacy_sql=false "SELECT COUNT(*) AS row_count FROM ``project-ef0c6db5-0765-4391-845.kltn0710.vw_telesales_performance``"
+```
+
+Expected:
+
+```text
+row_count = 23447
+```
+
+### Connect Looker Studio
+
+1. Open Looker Studio.
+2. Create a new data source.
+3. Choose the BigQuery connector.
+4. Select:
+   - Project: `project-ef0c6db5-0765-4391-845`
+   - Dataset: `kltn0710`
+   - View: `vw_telesales_performance`
+5. Use the view as the main reporting table.
+
+Recommended charts:
+
+| Chart | Fields |
+|---|---|
+| KPI cards | `call_id`, `has_successful_sale`, `talk_time_seconds` |
+| Daily calls | `full_date`, count of `call_id` |
+| Outcome breakdown | `outcome_category`, count of `call_id` |
+| Product performance | `product_category`, `product_name`, success rate |
+| Customer segments | `age_group`, `income_band`, `credit_tier` |
+| Agent performance | `agent_id`, calls, sales, average talk time |
+
+### Connect Superset To BigQuery
+
+The local Superset image is built from `project/superset/Dockerfile` and includes:
+
+- `sqlalchemy-bigquery`
+- `pandas-gbq`
+
+Superset also receives the same ADC mount:
+
+```text
+/opt/gcp/application_default_credentials.json
+```
+
+Open Superset at:
+
+```text
+http://localhost:8088
+```
+
+Default login:
+
+```text
+admin / admin
+```
+
+Add a database connection:
+
+```text
+SQLAlchemy URI: bigquery://project-ef0c6db5-0765-4391-845
+```
+
+Then create datasets from:
+
+```text
+kltn0710.vw_telesales_performance
+```
+
+If Superset cannot find credentials, recreate it after ADC login:
+
+```powershell
+docker compose -f ".\project\docker-compose.yml" up -d --build --force-recreate superset
+```
+
 ## Full Rebuild From Zero
 
 Use this when you want a clean local test, including fresh MongoDB, Airflow metadata, MinIO buckets, and Iceberg warehouse:
@@ -306,6 +460,16 @@ Validated dashboard KPI output:
 | Successful sales | 4,221 |
 | Success rate | 18% |
 | Average talk time | 4m 33s |
+
+Validated BigQuery sync on 2026-05-29:
+
+| BigQuery object | Rows |
+|---|---:|
+| `kltn0710.dim_customer` | 4,344 |
+| `kltn0710.dim_offer` | 5,072 |
+| `kltn0710.dim_date` | 2 |
+| `kltn0710.fact_telesales_calls` | 23,447 |
+| `kltn0710.vw_telesales_performance` | 23,447 |
 
 ## Implementation Notes
 

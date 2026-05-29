@@ -33,6 +33,7 @@ from datetime import datetime, timedelta
 import requests
 
 from airflow import DAG
+from airflow.operators.bash import BashOperator
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
 from airflow.sensors.python import PythonSensor
 
@@ -42,6 +43,13 @@ SPARK_PACKAGES = ",".join([
     "org.apache.hadoop:hadoop-aws:3.3.4",
     "com.amazonaws:aws-java-sdk-bundle:1.12.261",
     "org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0",
+])
+
+ICEBERG_BQ_PACKAGES = ",".join([
+    "org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.4.0",
+    "org.apache.hadoop:hadoop-aws:3.3.4",
+    "com.amazonaws:aws-java-sdk-bundle:1.12.261",
+    "com.google.cloud.spark:spark-3.4-bigquery:0.44.2",
 ])
 
 SPARK_CONF = {
@@ -68,6 +76,25 @@ SPARK_CONF = {
 }
 
 WORK_DIR = "/opt/spark/work-dir/batch-etl"
+GCP_CREDENTIALS_FILE = "/opt/gcp/application_default_credentials.json"
+BQ_PROJECT_ID = "project-ef0c6db5-0765-4391-845"
+BQ_DATASET = "kltn0710"
+BQ_SYNC_COMMAND = " ".join([
+    "spark-submit",
+    "--master 'local[*]'",
+    f"--packages {ICEBERG_BQ_PACKAGES}",
+    "--conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions",
+    "--conf spark.sql.catalog.lakehouse=org.apache.iceberg.spark.SparkCatalog",
+    "--conf spark.sql.catalog.lakehouse.type=hadoop",
+    "--conf spark.sql.catalog.lakehouse.warehouse=s3a://lakehouse/warehouse",
+    "--conf spark.hadoop.fs.s3a.endpoint=http://minio:9000",
+    "--conf spark.hadoop.fs.s3a.access.key=minioadmin",
+    "--conf spark.hadoop.fs.s3a.secret.key=minioadmin",
+    "--conf spark.hadoop.fs.s3a.path.style.access=true",
+    "--conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem",
+    "--conf spark.hadoop.fs.s3a.aws.credentials.provider=org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider",
+    f"{WORK_DIR}/bq_sync_job.py",
+])
 
 # ── DAG definition ─────────────────────────────────────────────────────────────
 default_args = {
@@ -173,5 +200,22 @@ with DAG(
         execution_timeout=timedelta(hours=1),
     )
 
+    bq_sync_gold = BashOperator(
+        task_id="bq_sync_gold",
+        bash_command=BQ_SYNC_COMMAND,
+        env={
+            "MINIO_ENDPOINT":                 "http://minio:9000",
+            "MINIO_ACCESS_KEY":               "minioadmin",
+            "MINIO_SECRET_KEY":               "minioadmin",
+            "GOOGLE_APPLICATION_CREDENTIALS": GCP_CREDENTIALS_FILE,
+            "BQ_PROJECT_ID":                  BQ_PROJECT_ID,
+            "BQ_DATASET":                     BQ_DATASET,
+            "BQ_WRITE_METHOD":                "direct",
+            "BQ_INCLUDE_PII":                 "false",
+        },
+        append_env=True,
+        execution_timeout=timedelta(hours=1),
+    )
+
     # ── Dependencies ───────────────────────────────────────────────────────────
-    wait_for_debezium >> bronze_cdc_ingestion >> silver_etl >> gold_star_schema
+    wait_for_debezium >> bronze_cdc_ingestion >> silver_etl >> gold_star_schema >> bq_sync_gold
