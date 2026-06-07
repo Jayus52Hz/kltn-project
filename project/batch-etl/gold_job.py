@@ -140,8 +140,7 @@ CREATE TABLE IF NOT EXISTS lakehouse.gold.fact_telesales_calls (
     talk_time_seconds      INT,
     talk_time_band         STRING    COMMENT 'SHORT/MEDIUM/LONG',
     previous_contact_count INT,
-    call_code_original     ARRAY<STRING> COMMENT 'Labels từ hệ thống nguồn',
-    call_code_predicted    ARRAY<STRING> COMMENT 'Dự đoán từ NLP model',
+    call_code              ARRAY<STRING> COMMENT 'Model-generated source of truth for analytics',
     has_successful_sale    BOOLEAN,
     has_hard_rejection     BOOLEAN,
     has_soft_rejection     BOOLEAN,
@@ -155,6 +154,28 @@ PARTITIONED BY (date_key)
 """)
 
 print("Gold tables ready")
+
+
+def reconcile_fact_schema():
+    table = "lakehouse.gold.fact_telesales_calls"
+    columns = spark.table(table).columns
+
+    if "call_code_predicted" in columns and "call_code" not in columns:
+        spark.sql(f"ALTER TABLE {table} RENAME COLUMN call_code_predicted TO call_code")
+        print(f"Renamed legacy {table}.call_code_predicted -> call_code")
+        columns = spark.table(table).columns
+
+    if "call_code_predicted" in columns:
+        spark.sql(f"ALTER TABLE {table} DROP COLUMN call_code_predicted")
+        print(f"Dropped legacy model output column {table}.call_code_predicted")
+        columns = spark.table(table).columns
+
+    if "call_code_original" in columns:
+        spark.sql(f"ALTER TABLE {table} DROP COLUMN call_code_original")
+        print(f"Dropped legacy training label column {table}.call_code_original")
+
+
+reconcile_fact_schema()
 
 # ── Helper: MERGE INTO ─────────────────────────────────────────────────────────
 def merge_into_gold(df, table, pk_col):
@@ -301,27 +322,26 @@ fact = (
          .alias("talk_time_band"),
 
         F.col("previous_contact_count"),
-        F.col("call_code_original"),
-        F.col("call_code_predicted"),
+        F.col("call_code"),
 
-        # Derived: outcome flags từ call_code_original
-        F.array_contains(F.col("call_code_original"), "SUCCESSFUL_SALE")
+        # Derived: outcome flags from model-generated call_code.
+        F.array_contains(F.col("call_code"), "SUCCESSFUL_SALE")
          .alias("has_successful_sale"),
-        F.array_contains(F.col("call_code_original"), "HARD_REJECTION")
+        F.array_contains(F.col("call_code"), "HARD_REJECTION")
          .alias("has_hard_rejection"),
-        F.array_contains(F.col("call_code_original"), "SOFT_REJECTION")
+        F.array_contains(F.col("call_code"), "SOFT_REJECTION")
          .alias("has_soft_rejection"),
-        F.array_contains(F.col("call_code_original"), "DO_NOT_CALL_REQUEST")
+        F.array_contains(F.col("call_code"), "DO_NOT_CALL_REQUEST")
          .alias("has_do_not_call"),
-        F.array_contains(F.col("call_code_original"), "OBJECTION_HANDLING")
+        F.array_contains(F.col("call_code"), "OBJECTION_HANDLING")
          .alias("has_objection"),
 
         # Derived: outcome_category (priority-based)
-        F.when(F.array_contains(F.col("call_code_original"), "SUCCESSFUL_SALE"),   "SALE")
-         .when(F.array_contains(F.col("call_code_original"), "DO_NOT_CALL_REQUEST"),"DO_NOT_CALL")
-         .when(F.array_contains(F.col("call_code_original"), "HARD_REJECTION"),    "HARD_REJECTION")
-         .when(F.array_contains(F.col("call_code_original"), "SOFT_REJECTION"),    "SOFT_REJECTION")
-         .when(F.array_contains(F.col("call_code_original"), "WARM_LEAD"),         "CALLBACK")
+        F.when(F.array_contains(F.col("call_code"), "SUCCESSFUL_SALE"),   "SALE")
+         .when(F.array_contains(F.col("call_code"), "DO_NOT_CALL_REQUEST"),"DO_NOT_CALL")
+         .when(F.array_contains(F.col("call_code"), "HARD_REJECTION"),    "HARD_REJECTION")
+         .when(F.array_contains(F.col("call_code"), "SOFT_REJECTION"),    "SOFT_REJECTION")
+         .when(F.array_contains(F.col("call_code"), "WARM_LEAD"),         "CALLBACK")
          .otherwise("IN_PROGRESS")
          .alias("outcome_category"),
 

@@ -1,0 +1,8 @@
+metric,primary_telesales_dataset,callcenteren_baseline_subset,interpretation
+Role,primary dataset,external baseline and auxiliary corpus,The primary dataset supports the business task; CallCenterEN supports external validation and auxiliary learning.
+Rows,23447,3000,The thesis uses a task-specific dataset and a smaller controlled external subset.
+Average transcript characters,897.2545,3890.2737,"CallCenterEN calls are longer, reflecting real-world customer-service conversations."
+Average duration seconds,272.8059,348.4023,Both datasets model telephone conversations with measurable call duration.
+Task-specific labels,call_code,not available,CallCenterEN cannot replace the primary dataset because it lacks call_code labels.
+PII signal,customer PII fields masked in Silver layer,avg 58.8953 redaction tokens per sample,The external corpus supports the thesis decision to include PII masking in the data pipeline.
+Training role,supervised fine-tuning and evaluation,domain adaptation or pseudo-label auxiliary training,The external corpus can participate in training without becoming the primary source of truth.

@@ -157,7 +157,7 @@ with DAG(
         execution_timeout=timedelta(hours=2),
     )
 
-    # ── Task 2: Silver — Flatten, PII mask, Dedup, NLP inference ──────────────
+    # ── Task 2: Silver — Flatten, PII mask, Dedup, BoW NLP inference ─────────
     silver_etl = SparkSubmitOperator(
         task_id="silver_etl",
         conn_id="spark_default",
@@ -172,12 +172,14 @@ with DAG(
             "MINIO_ENDPOINT":   "http://minio:9000",
             "MINIO_ACCESS_KEY": "minioadmin",
             "MINIO_SECRET_KEY": "minioadmin",
-            # bow_model.pkl must be pre-copied into the container:
-            # docker cp "NLP model/models/" spark-master:/opt/spark/work-dir/batch-etl/models/
+            # BoW is the production model after full-rebuild experiments showed
+            # RoBERTa inference was too heavy for CPU-only Airflow/Spark runs.
+            # Set NLP_MODEL_TYPE=roberta only for comparison experiments.
             "MODELS_PATH":      "/opt/spark/work-dir/batch-etl/models",
+            "NLP_MODEL_TYPE":   "bow",
         },
         name="silver_etl",
-        execution_timeout=timedelta(hours=1),
+        execution_timeout=timedelta(hours=2),
     )
 
     # ── Task 3: Gold — Star Schema build for BI / Superset ────────────────────
@@ -211,7 +213,6 @@ with DAG(
             "BQ_PROJECT_ID":                  BQ_PROJECT_ID,
             "BQ_DATASET":                     BQ_DATASET,
             "BQ_WRITE_METHOD":                "direct",
-            "BQ_INCLUDE_PII":                 "false",
         },
         append_env=True,
         execution_timeout=timedelta(hours=1),

@@ -9,7 +9,8 @@ Transformations:
   1. Flatten   — parse raw_doc JSON string → typed columns
   2. PII Mask  — phone_number: 555-***-4567 | national_id: XXX-XX-****
   3. Deduplicate — giữ record mới nhất theo ts_ms, bỏ DELETE (op='d')
-  4. NLP       — call_transcript → call_code_predicted (BoW model, Pandas UDF)
+  4. NLP       — call_transcript → call_code (BoW + Logistic Regression by
+                 default, RoBERTa fine-tuned available as experimental baseline)
 
 Input:  lakehouse.bronze.{cust, offer, call_logs}
 Output: lakehouse.silver.{cust, offer, call_logs}
@@ -26,12 +27,15 @@ Spark-submit:
     /opt/spark/work-dir/batch-etl/silver_job.py
 
 Yêu cầu:
-  Copy NLP model artifacts vào container trước khi chạy:
-    docker cp "NLP model/models/" spark-master:/opt/spark/work-dir/batch-etl/models/
+  Mount/copy NLP model artifacts vào container trước khi chạy:
+    /opt/spark/work-dir/batch-etl/models/bow_model.pkl
+  Nếu cần chạy baseline RoBERTa:
+    NLP_MODEL_TYPE=roberta và /opt/spark/work-dir/batch-etl/models/roberta_saved/
 """
 
 import os
 import sys
+import json
 import joblib
 import pandas as pd
 from pyspark.sql import SparkSession, Window
@@ -47,12 +51,34 @@ MINIO_ENDPOINT   = os.getenv("MINIO_ENDPOINT",   "http://minio:9000")
 MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY", "minioadmin")
 MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY", "minioadmin")
 MODELS_PATH      = os.getenv("MODELS_PATH",      "/opt/spark/work-dir/batch-etl/models")
+NLP_MODEL_TYPE   = os.getenv("NLP_MODEL_TYPE",   "bow").lower()
 BOW_MODEL_PATH   = os.path.join(MODELS_PATH, "bow_model.pkl")
+ROBERTA_PATH     = os.path.join(MODELS_PATH, "roberta_saved")
+LABELS_PATH      = os.path.join(MODELS_PATH, "label_classes.json")
+ROBERTA_THRESHOLD = float(os.getenv("ROBERTA_THRESHOLD", "0.5"))
+ROBERTA_BATCH_SIZE = int(os.getenv("ROBERTA_BATCH_SIZE", "8"))
+ROBERTA_NUM_PARTITIONS = int(os.getenv("ROBERTA_NUM_PARTITIONS", "2"))
+TORCH_NUM_THREADS = int(os.getenv("TORCH_NUM_THREADS", "1"))
 
 # ── Kiểm tra model tồn tại trước khi khởi động Spark ──────────────────────────
-if not os.path.exists(BOW_MODEL_PATH):
-    print(f"[ERROR] BoW model not found: {BOW_MODEL_PATH}")
-    print("  Run: docker cp \"NLP model/models/\" spark-master:/opt/spark/work-dir/batch-etl/models/")
+if NLP_MODEL_TYPE == "roberta":
+    missing = [
+        path for path in [ROBERTA_PATH, LABELS_PATH]
+        if not os.path.exists(path)
+    ]
+    if missing:
+        print("[ERROR] RoBERTa artifacts not found:")
+        for path in missing:
+            print(f"  - {path}")
+        print("  Mount/copy: \"NLP model/models\" -> /opt/spark/work-dir/batch-etl/models")
+        sys.exit(1)
+elif NLP_MODEL_TYPE == "bow":
+    if not os.path.exists(BOW_MODEL_PATH):
+        print(f"[ERROR] BoW model not found: {BOW_MODEL_PATH}")
+        print("  Run: docker cp \"NLP model/models/\" spark-master:/opt/spark/work-dir/batch-etl/models/")
+        sys.exit(1)
+else:
+    print(f"[ERROR] Unsupported NLP_MODEL_TYPE={NLP_MODEL_TYPE!r}. Use 'roberta' or 'bow'.")
     sys.exit(1)
 
 # ── Spark Session ──────────────────────────────────────────────────────────────
@@ -132,8 +158,7 @@ CREATE TABLE IF NOT EXISTS lakehouse.silver.call_logs (
     call_status            STRING,
     talk_time_seconds      INT,
     previous_contact_count INT,
-    call_code_original     ARRAY<STRING> COMMENT 'Labels from source system',
-    call_code_predicted    ARRAY<STRING> COMMENT 'NLP model prediction (BoW)',
+    call_code              ARRAY<STRING> COMMENT 'Model-generated source of truth for downstream analytics',
     call_transcript        STRING,
     _op                    STRING,
     _ts_ms                 BIGINT,
@@ -144,6 +169,28 @@ PARTITIONED BY (call_status)
 """)
 
 print("Silver tables ready")
+
+
+def reconcile_call_log_schema():
+    table = "lakehouse.silver.call_logs"
+    columns = spark.table(table).columns
+
+    if "call_code_predicted" in columns and "call_code" not in columns:
+        spark.sql(f"ALTER TABLE {table} RENAME COLUMN call_code_predicted TO call_code")
+        print(f"Renamed legacy {table}.call_code_predicted -> call_code")
+        columns = spark.table(table).columns
+
+    if "call_code_predicted" in columns:
+        spark.sql(f"ALTER TABLE {table} DROP COLUMN call_code_predicted")
+        print(f"Dropped legacy model output column {table}.call_code_predicted")
+        columns = spark.table(table).columns
+
+    if "call_code_original" in columns:
+        spark.sql(f"ALTER TABLE {table} DROP COLUMN call_code_original")
+        print(f"Dropped legacy training label column {table}.call_code_original")
+
+
+reconcile_call_log_schema()
 
 # ── JSON schemas cho from_json() ───────────────────────────────────────────────
 
@@ -180,7 +227,6 @@ CALL_SCHEMA = StructType([
     StructField("call_status",            StringType(),              True),
     StructField("talk_time_seconds",      IntegerType(),             True),
     StructField("previous_contact_count", IntegerType(),             True),
-    StructField("call_code",              ArrayType(StringType()),   True),
     StructField("call_transcript",        StringType(),              True),
 ])
 
@@ -195,18 +241,79 @@ def dedup_latest(df, pk_col):
         .drop("_rn")
     )
 
-# ── NLP: broadcast BoW model ───────────────────────────────────────────────────
-print(f"Loading BoW model from {BOW_MODEL_PATH} ...")
-bow_broadcast = spark.sparkContext.broadcast(joblib.load(BOW_MODEL_PATH))
-print("BoW model loaded and broadcast")
+# ── NLP: BoW chính, RoBERTa baseline/thực nghiệm ──────────────────────────────
+#
+# BoW + Logistic Regression được chọn cho pipeline vận hành vì thời gian
+# inference ổn định hơn nhiều trong full rebuild CPU, trong khi chênh lệch chất
+# lượng so với RoBERTa không đủ lớn để bù chi phí vận hành.
+if NLP_MODEL_TYPE == "roberta":
+    with open(LABELS_PATH, "r", encoding="utf-8") as f:
+        label_classes = json.load(f)
+    labels_broadcast = spark.sparkContext.broadcast(label_classes)
+    print(f"Using RoBERTa model from {ROBERTA_PATH}")
+    print(
+        f"RoBERTa threshold={ROBERTA_THRESHOLD}, "
+        f"batch_size={ROBERTA_BATCH_SIZE}, "
+        f"partitions={ROBERTA_NUM_PARTITIONS}, "
+        f"torch_threads={TORCH_NUM_THREADS}"
+    )
 
-@F.pandas_udf(ArrayType(StringType()))
-def predict_call_codes(transcripts: pd.Series) -> pd.Series:
-    bundle     = bow_broadcast.value
-    X          = bundle["vectorizer"].transform(transcripts.fillna(""))
-    y_pred     = bundle["classifier"].predict(X)
-    label_list = bundle["mlb"].inverse_transform(y_pred)
-    return pd.Series([list(labels) for labels in label_list])
+    _roberta_model = None
+    _roberta_tokenizer = None
+    _roberta_device = None
+
+    @F.pandas_udf(ArrayType(StringType()))
+    def predict_call_codes(transcripts: pd.Series) -> pd.Series:
+        global _roberta_model, _roberta_tokenizer, _roberta_device
+
+        if _roberta_model is None or _roberta_tokenizer is None:
+            import torch
+            from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+            torch.set_num_threads(TORCH_NUM_THREADS)
+            torch.set_num_interop_threads(1)
+            _roberta_device = "cuda" if torch.cuda.is_available() else "cpu"
+            _roberta_tokenizer = AutoTokenizer.from_pretrained(ROBERTA_PATH)
+            _roberta_model = AutoModelForSequenceClassification.from_pretrained(ROBERTA_PATH)
+            _roberta_model.to(_roberta_device)
+            _roberta_model.eval()
+
+        import torch
+
+        labels = labels_broadcast.value
+        values = transcripts.fillna("").astype(str).tolist()
+        outputs = []
+
+        with torch.no_grad():
+            for start in range(0, len(values), ROBERTA_BATCH_SIZE):
+                batch = values[start:start + ROBERTA_BATCH_SIZE]
+                encoded = _roberta_tokenizer(
+                    batch,
+                    truncation=True,
+                    padding=True,
+                    max_length=512,
+                    return_tensors="pt",
+                )
+                encoded = {k: v.to(_roberta_device) for k, v in encoded.items()}
+                probs = torch.sigmoid(_roberta_model(**encoded).logits).cpu().numpy()
+                for row in probs:
+                    pred = [labels[i] for i, score in enumerate(row) if score >= ROBERTA_THRESHOLD]
+                    outputs.append(pred)
+
+        return pd.Series(outputs)
+
+else:
+    print(f"Using BoW production model from {BOW_MODEL_PATH} ...")
+    bow_broadcast = spark.sparkContext.broadcast(joblib.load(BOW_MODEL_PATH))
+    print("BoW model loaded and broadcast")
+
+    @F.pandas_udf(ArrayType(StringType()))
+    def predict_call_codes(transcripts: pd.Series) -> pd.Series:
+        bundle     = bow_broadcast.value
+        X          = bundle["vectorizer"].transform(transcripts.fillna(""))
+        y_pred     = bundle["classifier"].predict(X)
+        label_list = bundle["mlb"].inverse_transform(y_pred)
+        return pd.Series([list(labels) for labels in label_list])
 
 # ── PII masking ────────────────────────────────────────────────────────────────
 def mask_phone(col_expr):
@@ -326,7 +433,6 @@ parsed_calls = (
         F.col("doc.call_status"),
         F.col("doc.talk_time_seconds"),
         F.col("doc.previous_contact_count"),
-        F.col("doc.call_code").alias("call_code_original"),
         F.col("doc.call_transcript"),
         F.col("op"),
         F.col("ts_ms"),
@@ -336,11 +442,14 @@ parsed_calls = (
 
 # Deduplicate trước khi chạy NLP (tránh inference trùng lặp)
 parsed_calls = dedup_latest(parsed_calls, "call_id")
+if NLP_MODEL_TYPE == "roberta" and ROBERTA_NUM_PARTITIONS > 1:
+    parsed_calls = parsed_calls.repartition(ROBERTA_NUM_PARTITIONS, "call_id")
 
-# NLP inference — thêm call_code_predicted
+# NLP inference: downstream call_code is generated by the model, not copied from
+# the synthetic source label used during training.
 silver_calls = (
     parsed_calls
-    .withColumn("call_code_predicted", predict_call_codes(F.col("call_transcript")))
+    .withColumn("call_code", predict_call_codes(F.col("call_transcript")))
     .withColumn("_processed_at", F.current_timestamp())
     .withColumnRenamed("op", "_op")
     .withColumnRenamed("ts_ms", "_ts_ms")

@@ -1,0 +1,39 @@
+You are labeling call-center transcripts for an academic telesales NLP experiment.
+
+Task:
+Assign 2 to 5 labels from the allowed `call_code` taxonomy to the transcript.
+The labels are weak/pseudo labels, not ground truth. Prefer conservative labels.
+
+Allowed labels:
+OPENING, PRODUCT_PITCH, HARD_REJECTION, NEEDS_ANALYSIS, FEE_DISCUSSION, SOFT_REJECTION, PASSIVE_AGREEMENT, ANGRY_OUTBURST, SUSPICIOUS_PROBING, DEFENSIVE_POSTURE, FOLLOW_UP_EMAIL_REQUESTED, CURIOUS_EXPLORATION, SUDDEN_HANG_UP, ANNOYED_SIGHING, OVERWHELMED_CONFUSION, WARM_LEAD, SARCASTIC_MOCKERY, APATHETIC_RESPONSE, COMPETITOR_COMPARISON, DO_NOT_CALL_REQUEST, FREQUENT_INTERRUPTIONS, STALLING_FOR_TIME, RUSHING_THE_CALL, ACTIVE_LISTENING, OBJECTION_HANDLING, THREATENING_COMPLAINT, INDECISIVE_FLIPPING, DEMANDING_MANAGER, ENTHUSIASTIC_AGREEMENT, SUCCESSFUL_SALE, CLOSING_NEGOTIATION, MISUNDERSTANDING
+
+Decision rules:
+- Always include OPENING only if the transcript contains the call opening or greeting.
+- Use PRODUCT_PITCH only if an offer, quote, plan, policy, loan, card, or service is actively presented.
+- Use NEEDS_ANALYSIS if the agent asks about customer needs, eligibility, situation, current provider, or household/financial details.
+- Use FEE_DISCUSSION if price, rate, APR, premium, payment, quote, fee, or cost is discussed.
+- Use OBJECTION_HANDLING if the customer resists and the agent tries to respond.
+- Use HARD_REJECTION or SOFT_REJECTION only when rejection is clear.
+- Use DO_NOT_CALL_REQUEST only when the customer asks not to be contacted again.
+- Use SUDDEN_HANG_UP only when the transcript indicates abrupt disconnection or hang-up.
+- Use SUCCESSFUL_SALE only when there is explicit commitment, purchase, enrollment, signed-up, or application started.
+- Do not invent labels that are not in the allowed list.
+
+Return only valid minified JSON. Do not wrap it in Markdown. Do not include
+line breaks inside string values. Use double quotes for every JSON string.
+Use exactly this schema:
+{
+  "pseudo_call_codes": ["LABEL_1", "LABEL_2"],
+  "confidence": 0.0,
+  "rationale": "short explanation under 40 words",
+  "should_use_for_training": true
+}
+
+Transcript metadata:
+- source_domain: insurance
+- call_direction: inbound
+- audio_duration: 283.0
+- asr_confidence: 0.9492447
+
+Transcript:
+This call may be recorded for quality assurance. Thank you for calling [ORGANIZATION] [ORGANIZATION] [ORGANIZATION]. Quote, my name is [PERSON_NAME]. Are you calling today seeking coverage for a new auto insurance policy? Yeah. All right. And so in order to connect you with the right [OCCUPATION], I just need to quickly verify some information with you. Sir, may I have your first and last name? [PERSON_NAME]. Guys. Okay. How do you spell your first name, sir? [PERSON_NAME]. Okay, you said [PERSON_NAME]. [PERSON_NAME]. [PERSON_NAME], [PERSON_NAME], [PERSON_NAME], [PERSON_NAME], [PERSON_NAME], [PERSON_NAME], [PERSON_NAME]. Okay, and your zip code, sir? [LOCATION]. Was [LOCATION], correct? Yep. All right. And who's your auto insurance provider, sir? [ORGANIZATION]. Okay. [ORGANIZATION]. And how long you been with the [ORGANIZATION]? [DURATION] [DURATION]. How much are you paying monthly pay? $[MONEY_AMOUNT] [DURATION] [DURATION]. Okay. [MONEY_AMOUNT] [MONEY_AMOUNT]. All right. And do you own your own home, sir? I do. All right. Would you like to bundle your auto and home together and save money that way? No, I don't insure my home. Okay. And can you confirm your date of birth? [DATE_OF_BIRTH] [DATE_OF_BIRTH], [DATE_OF_BIRTH]. All right, in the past [DURATION] [DURATION], have you had any DUIs, SR22s, or iPhone estimates? No. All right. Have you had two or more tickets in the past [DURATION] [DURATION]? No. Okay. How many vehicles you're looking to insure, sir? Two. All right. All right. And are you seeking coverage above the statement of requirement, liability, or full coverage on the one vehicle? Full coverage on the other one? Just liability. Okay. And would you say that your credit is excellent, good, fair, poor? What's that? Now? Would you say that your credit is excellent, good, fair, poor? That's excellent. All right. And have you, your [MARITAL_STATUS], ever honorably served in [ORGANIZATION] [ORGANIZATION] [ORGANIZATION] job? No. Military. Okay. All right. And so, lastly, can you please confirm your street address, sir? [LOCATION] [LOCATION] [LOCATION], [LOCATION] [LOCATION] [LOCATION], [LOCATION] [LOCATION]. All right. Thank you for that, sir. All right. And so. Thanks for that, [PERSON_NAME]. That's all the information I need. I'm searching now for your best match. Also, to ensure that you're satisfied with the coverage options you receive from the [OCCUPATION] [OCCUPATION], can we follow up with an automatic text message to this number? And your consent is not required to receive a quote. Okay. Yeah, that's fine. Okay. And so, [PERSON_NAME], it should take [DURATION] [DURATION] [DURATION] [DURATION] to go over the coverage options available. I'm showing that your best match here. Give me one moment. I'm showing that [ORGANIZATION] is your best match. Give me one moment when I connect you. Okay? Yeah. All right. One moment, please. Stay on the line while we connect you. You have been kicked from this conference. I. Thanks.

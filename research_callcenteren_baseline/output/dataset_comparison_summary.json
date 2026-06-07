@@ -1,0 +1,443 @@
+{
+  "primary_dataset": {
+    "dataset": "Thesis primary telesales dataset",
+    "role": "primary dataset",
+    "rows": 23447,
+    "avg_chars": 897.2545,
+    "median_chars": 956,
+    "p90_chars": 1373.0,
+    "avg_words": 151.0447,
+    "median_words": 162,
+    "avg_duration_seconds": 272.8059,
+    "median_duration_seconds": 240.0,
+    "has_task_labels": true,
+    "task_label_field": "call_code",
+    "top_call_codes": [
+      [
+        "OPENING",
+        23447
+      ],
+      [
+        "PRODUCT_PITCH",
+        14521
+      ],
+      [
+        "NEEDS_ANALYSIS",
+        14083
+      ],
+      [
+        "HARD_REJECTION",
+        6461
+      ],
+      [
+        "SUDDEN_HANG_UP",
+        4238
+      ],
+      [
+        "SUCCESSFUL_SALE",
+        4221
+      ],
+      [
+        "CLOSING_NEGOTIATION",
+        4098
+      ],
+      [
+        "OBJECTION_HANDLING",
+        3185
+      ],
+      [
+        "DO_NOT_CALL_REQUEST",
+        3155
+      ],
+      [
+        "FEE_DISCUSSION",
+        3089
+      ],
+      [
+        "SUSPICIOUS_PROBING",
+        2958
+      ],
+      [
+        "WARM_LEAD",
+        2728
+      ],
+      [
+        "ANGRY_OUTBURST",
+        2628
+      ],
+      [
+        "SOFT_REJECTION",
+        1698
+      ],
+      [
+        "OVERWHELMED_CONFUSION",
+        1408
+      ],
+      [
+        "DEFENSIVE_POSTURE",
+        1396
+      ],
+      [
+        "COMPETITOR_COMPARISON",
+        1109
+      ],
+      [
+        "ANNOYED_SIGHING",
+        582
+      ],
+      [
+        "FOLLOW_UP_EMAIL_REQUESTED",
+        569
+      ],
+      [
+        "THREATENING_COMPLAINT",
+        238
+      ],
+      [
+        "RUSHING_THE_CALL",
+        227
+      ],
+      [
+        "ACTIVE_LISTENING",
+        101
+      ],
+      [
+        "STALLING_FOR_TIME",
+        32
+      ],
+      [
+        "APATHETIC_RESPONSE",
+        24
+      ],
+      [
+        "PASSIVE_AGREEMENT",
+        10
+      ],
+      [
+        "CURIOUS_EXPLORATION",
+        2
+      ],
+      [
+        "ENTHUSIASTIC_AGREEMENT",
+        1
+      ]
+    ],
+    "call_status_distribution": {
+      "Answered": 23447
+    },
+    "product_distribution": {
+      "Personal Loan": 12607,
+      "Signature Credit Card": 10786,
+      "Business Loan": 28,
+      "Business Line of Credit": 13,
+      "Debt Consolidation Loan": 6,
+      "Home Equity Loan": 4,
+      "Secured Credit Card": 1,
+      "Payday Loan": 1,
+      "Credit Builder Loan": 1
+    }
+  },
+  "callcenteren_baseline_subset": {
+    "dataset": "CallCenterEN controlled subset",
+    "role": "external baseline and auxiliary corpus",
+    "rows": 3000,
+    "avg_chars": 3890.2737,
+    "median_chars": 3843.0,
+    "p90_chars": 5431.0,
+    "avg_words": 644.6783,
+    "median_words": 640.0,
+    "avg_duration_seconds": 348.4023,
+    "median_duration_seconds": 331.0,
+    "avg_asr_confidence": 0.9534,
+    "avg_pii_tokens": 58.8953,
+    "has_task_labels": false,
+    "task_label_field": null,
+    "source_zip_distribution": {
+      "insurance_outbound.zip": 1666,
+      "auto_insurance_customer_service_inbound.zip": 1028,
+      "customer_service_general_inbound.zip": 306
+    },
+    "domain_distribution": {
+      "insurance": 2694,
+      "customer_service": 306
+    },
+    "direction_distribution": {
+      "outbound": 1666,
+      "inbound": 1334
+    },
+    "top_pii_types": [
+      [
+        "PERSON_NAME",
+        2976
+      ],
+      [
+        "OCCUPATION",
+        2861
+      ],
+      [
+        "LOCATION",
+        2801
+      ],
+      [
+        "DURATION",
+        2700
+      ],
+      [
+        "ORGANIZATION",
+        2620
+      ],
+      [
+        "DATE_OF_BIRTH",
+        2555
+      ],
+      [
+        "MONEY_AMOUNT",
+        1944
+      ],
+      [
+        "DATE_INTERVAL",
+        822
+      ],
+      [
+        "MARITAL_STATUS",
+        781
+      ],
+      [
+        "PHONE_NUMBER",
+        731
+      ],
+      [
+        "PERSON_AGE",
+        706
+      ],
+      [
+        "MEDICAL_CONDITION",
+        327
+      ],
+      [
+        "MEDICAL_PROCESS",
+        207
+      ],
+      [
+        "DATE",
+        179
+      ],
+      [
+        "PHYSICAL_ATTRIBUTE",
+        166
+      ],
+      [
+        "URL",
+        156
+      ],
+      [
+        "TIME",
+        150
+      ],
+      [
+        "DRUG",
+        137
+      ],
+      [
+        "HEALTHCARE_NUMBER",
+        134
+      ],
+      [
+        "US_SOCIAL_SECURITY_NUMBER",
+        122
+      ],
+      [
+        "LANGUAGE",
+        115
+      ],
+      [
+        "INJURY",
+        94
+      ],
+      [
+        "NUMBER_SEQUENCE",
+        86
+      ],
+      [
+        "EVENT",
+        71
+      ],
+      [
+        "EMAIL_ADDRESS",
+        70
+      ],
+      [
+        "VEHICLE_ID",
+        42
+      ],
+      [
+        "DRIVERS_LICENSE",
+        23
+      ],
+      [
+        "NATIONALITY",
+        22
+      ],
+      [
+        "GENDER_SEXUALITY",
+        15
+      ],
+      [
+        "CREDIT_CARD_EXPIRATION",
+        14
+      ]
+    ]
+  },
+  "training_label_distribution": [
+    [
+      "OPENING",
+      9959
+    ],
+    [
+      "PRODUCT_PITCH",
+      6034
+    ],
+    [
+      "HARD_REJECTION",
+      4633
+    ],
+    [
+      "NEEDS_ANALYSIS",
+      3287
+    ],
+    [
+      "FEE_DISCUSSION",
+      2583
+    ],
+    [
+      "SOFT_REJECTION",
+      2432
+    ],
+    [
+      "PASSIVE_AGREEMENT",
+      2410
+    ],
+    [
+      "ANGRY_OUTBURST",
+      2290
+    ],
+    [
+      "SUSPICIOUS_PROBING",
+      1950
+    ],
+    [
+      "DEFENSIVE_POSTURE",
+      1890
+    ],
+    [
+      "FOLLOW_UP_EMAIL_REQUESTED",
+      1876
+    ],
+    [
+      "CURIOUS_EXPLORATION",
+      1766
+    ],
+    [
+      "SUDDEN_HANG_UP",
+      1548
+    ],
+    [
+      "ANNOYED_SIGHING",
+      1477
+    ],
+    [
+      "OVERWHELMED_CONFUSION",
+      1337
+    ],
+    [
+      "WARM_LEAD",
+      1155
+    ],
+    [
+      "SARCASTIC_MOCKERY",
+      1091
+    ],
+    [
+      "APATHETIC_RESPONSE",
+      1043
+    ],
+    [
+      "COMPETITOR_COMPARISON",
+      944
+    ],
+    [
+      "DO_NOT_CALL_REQUEST",
+      781
+    ],
+    [
+      "FREQUENT_INTERRUPTIONS",
+      775
+    ],
+    [
+      "STALLING_FOR_TIME",
+      641
+    ],
+    [
+      "RUSHING_THE_CALL",
+      627
+    ],
+    [
+      "ACTIVE_LISTENING",
+      619
+    ],
+    [
+      "OBJECTION_HANDLING",
+      556
+    ],
+    [
+      "THREATENING_COMPLAINT",
+      506
+    ],
+    [
+      "INDECISIVE_FLIPPING",
+      405
+    ],
+    [
+      "DEMANDING_MANAGER",
+      346
+    ],
+    [
+      "ENTHUSIASTIC_AGREEMENT",
+      252
+    ],
+    [
+      "SUCCESSFUL_SALE",
+      133
+    ],
+    [
+      "CLOSING_NEGOTIATION",
+      82
+    ],
+    [
+      "MISUNDERSTANDING",
+      1
+    ]
+  ],
+  "sources": [
+    {
+      "name": "CallCenterEN paper",
+      "url": "https://arxiv.org/abs/2507.02958"
+    },
+    {
+      "name": "CallCenterEN dataset card",
+      "url": "https://huggingface.co/datasets/AIxBlock/92k-real-world-call-center-scripts-english"
+    },
+    {
+      "name": "Don't Stop Pretraining",
+      "url": "https://aclanthology.org/2020.acl-main.740/"
+    },
+    {
+      "name": "Data Programming",
+      "url": "https://papers.neurips.cc/paper/6523-data-programming-creating-large-training-sets-quickly"
+    },
+    {
+      "name": "Self-Training survey",
+      "url": "https://arxiv.org/abs/2202.12040"
+    }
+  ]
+}

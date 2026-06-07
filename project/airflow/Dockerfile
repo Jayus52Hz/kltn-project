@@ -20,4 +20,7 @@ RUN pip install --no-cache-dir \
     pandas==2.0.3 \
     pyarrow==12.0.1 \
     scikit-learn==1.3.0 \
-    joblib==1.3.2
+    joblib==1.3.2 \
+    torch==2.5.1 \
+    transformers==4.45.2 \
+    safetensors==0.4.5

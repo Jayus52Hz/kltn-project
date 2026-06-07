@@ -1,0 +1,191 @@
+{
+  "rows": 3000,
+  "domain_distribution": [
+    [
+      "insurance",
+      2694
+    ],
+    [
+      "customer_service",
+      306
+    ]
+  ],
+  "direction_distribution": [
+    [
+      "outbound",
+      1666
+    ],
+    [
+      "inbound",
+      1334
+    ]
+  ],
+  "source_distribution": [
+    [
+      "insurance_outbound.zip",
+      1666
+    ],
+    [
+      "auto_insurance_customer_service_inbound.zip",
+      1028
+    ],
+    [
+      "customer_service_general_inbound.zip",
+      306
+    ]
+  ],
+  "avg_chars": 3890.2737,
+  "avg_words": 644.6783,
+  "avg_duration": 348.4023,
+  "avg_confidence": 0.9534,
+  "avg_pii_tokens": 58.8953,
+  "top_pii_types": [
+    [
+      "PERSON_NAME",
+      2976
+    ],
+    [
+      "OCCUPATION",
+      2861
+    ],
+    [
+      "LOCATION",
+      2801
+    ],
+    [
+      "DURATION",
+      2700
+    ],
+    [
+      "ORGANIZATION",
+      2620
+    ],
+    [
+      "DATE_OF_BIRTH",
+      2555
+    ],
+    [
+      "MONEY_AMOUNT",
+      1944
+    ],
+    [
+      "DATE_INTERVAL",
+      822
+    ],
+    [
+      "MARITAL_STATUS",
+      781
+    ],
+    [
+      "PHONE_NUMBER",
+      731
+    ],
+    [
+      "PERSON_AGE",
+      706
+    ],
+    [
+      "MEDICAL_CONDITION",
+      327
+    ],
+    [
+      "MEDICAL_PROCESS",
+      207
+    ],
+    [
+      "DATE",
+      179
+    ],
+    [
+      "PHYSICAL_ATTRIBUTE",
+      166
+    ],
+    [
+      "URL",
+      156
+    ],
+    [
+      "TIME",
+      150
+    ],
+    [
+      "DRUG",
+      137
+    ],
+    [
+      "HEALTHCARE_NUMBER",
+      134
+    ],
+    [
+      "US_SOCIAL_SECURITY_NUMBER",
+      122
+    ]
+  ],
+  "keyword_coverage": {
+    "opening": {
+      "rows": 2999,
+      "percent": 99.97
+    },
+    "product_or_offer": {
+      "rows": 2959,
+      "percent": 98.63
+    },
+    "identity_verification": {
+      "rows": 2935,
+      "percent": 97.83
+    },
+    "fee_discussion": {
+      "rows": 2560,
+      "percent": 85.33
+    },
+    "needs_analysis": {
+      "rows": 2452,
+      "percent": 81.73
+    },
+    "handoff_or_followup": {
+      "rows": 2181,
+      "percent": 72.7
+    },
+    "objection_or_rejection": {
+      "rows": 537,
+      "percent": 17.9
+    }
+  },
+  "prompt_design_mapping": [
+    {
+      "callcenteren_observation": "Transcript có lời chào, IVR hoặc câu mở đầu của agent/customer.",
+      "prompt_rule_for_primary_dataset": "Bắt buộc transcript sinh ra có đoạn OPENING rõ ràng, có speaker Agent/Customer.",
+      "primary_dataset_field_or_label": "call_transcript, OPENING"
+    },
+    {
+      "callcenteren_observation": "Nhiều cuộc gọi có xác minh thông tin như tên, tuổi, địa chỉ, số điện thoại, ngày sinh.",
+      "prompt_rule_for_primary_dataset": "Sinh customer profile và đưa một phần thông tin vào hội thoại, sau đó pipeline phải xử lý PII.",
+      "primary_dataset_field_or_label": "customer fields, PII masking"
+    },
+    {
+      "callcenteren_observation": "Agent thường hỏi nhu cầu, tình trạng hiện tại, coverage, household hoặc khả năng chi trả.",
+      "prompt_rule_for_primary_dataset": "Prompt phải yêu cầu đoạn NEEDS_ANALYSIS trước khi pitch sản phẩm.",
+      "primary_dataset_field_or_label": "NEEDS_ANALYSIS"
+    },
+    {
+      "callcenteren_observation": "Các cuộc gọi bảo hiểm/customer service có thảo luận quote, premium, payment, plan, benefit.",
+      "prompt_rule_for_primary_dataset": "Prompt sinh offer/product và yêu cầu transcript chứa PRODUCT_PITCH/FEE_DISCUSSION khi phù hợp.",
+      "primary_dataset_field_or_label": "offer, product_name, PRODUCT_PITCH, FEE_DISCUSSION"
+    },
+    {
+      "callcenteren_observation": "Khách hàng có thể đồng ý thụ động, phản đối, từ chối, yêu cầu gọi lại hoặc kết thúc đột ngột.",
+      "prompt_rule_for_primary_dataset": "Prompt phải tạo outcome đa dạng: WARM_LEAD, SOFT_REJECTION, HARD_REJECTION, DO_NOT_CALL_REQUEST, SUDDEN_HANG_UP.",
+      "primary_dataset_field_or_label": "call_code, outcome flags"
+    },
+    {
+      "callcenteren_observation": "Dữ liệu thực tế có inbound/outbound và nhiều domain.",
+      "prompt_rule_for_primary_dataset": "Dataset chính giữ domain telesales tài chính nhưng vẫn mô phỏng các kịch bản lead source, campaign và sản phẩm khác nhau.",
+      "primary_dataset_field_or_label": "lead_source, campaign_id, product_name"
+    },
+    {
+      "callcenteren_observation": "Có metadata về audio_duration và confidence.",
+      "prompt_rule_for_primary_dataset": "Dataset chính cần có talk_time_seconds; ASR confidence được ghi là hướng mở rộng nếu có audio/ASR thật.",
+      "primary_dataset_field_or_label": "talk_time_seconds"
+    }
+  ]
+}

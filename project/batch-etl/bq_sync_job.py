@@ -9,6 +9,7 @@ Output: BigQuery {BQ_PROJECT_ID}.{BQ_DATASET}.{same table names}
 
 import os
 
+from google.cloud import bigquery
 from pyspark.sql import SparkSession
 
 
@@ -19,8 +20,15 @@ MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY", "minioadmin")
 BQ_PROJECT_ID = os.environ["BQ_PROJECT_ID"]
 BQ_DATASET = os.getenv("BQ_DATASET", "kltn0710")
 BQ_WRITE_METHOD = os.getenv("BQ_WRITE_METHOD", "direct")
-BQ_INCLUDE_PII = os.getenv("BQ_INCLUDE_PII", "false").lower() == "true"
 GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+
+BLOCKED_BIGQUERY_COLUMNS = {
+    "call_transcript",
+    "call_code_original",
+    "call_code_predicted",
+    "full_name",
+    "address",
+}
 
 
 spark = (
@@ -46,6 +54,8 @@ spark = (
 )
 spark.sparkContext.setLogLevel("WARN")
 
+bq_client = bigquery.Client(project=BQ_PROJECT_ID)
+
 
 def gold_table(name):
     return spark.table(f"lakehouse.gold.{name}")
@@ -58,11 +68,17 @@ tables = {
     "fact_telesales_calls": gold_table("fact_telesales_calls"),
 }
 
-if not BQ_INCLUDE_PII:
-    tables["dim_customer"] = tables["dim_customer"].drop("full_name", "address")
+for table_name, df in list(tables.items()):
+    blocked_cols = [col for col in df.columns if col in BLOCKED_BIGQUERY_COLUMNS]
+    if blocked_cols:
+        print(f"Excluding non-analytic or sensitive columns from {table_name}: {blocked_cols}")
+        tables[table_name] = df.drop(*blocked_cols)
 
 for table_name, df in tables.items():
     target = f"{BQ_PROJECT_ID}.{BQ_DATASET}.{table_name}"
+    bq_client.delete_table(target, not_found_ok=True)
+    print(f"Deleted existing BigQuery table if present: {target}")
+
     writer = (
         df.write
         .format("bigquery")

@@ -312,6 +312,7 @@ services:
     environment:
       SUPERSET_SECRET_KEY: "your_secret_key_here_change_in_production"
       GOOGLE_APPLICATION_CREDENTIALS: /opt/gcp/application_default_credentials.json
+      GOOGLE_CLOUD_PROJECT: project-ef0c6db5-0765-4391-845
     # [FIX 6] Mount volume đã khai báo
     volumes:
       - superset_home:/app/superset_home
@@ -322,6 +323,7 @@ services:
         superset db upgrade &&
         superset fab create-admin --username admin --firstname Admin --lastname Admin --email admin@superset.com --password admin || true;
         superset init &&
+        /app/.venv/bin/python /app/create_telesales_dashboard.py &&
         superset run -h 0.0.0.0 -p 8088
       "
     networks:
