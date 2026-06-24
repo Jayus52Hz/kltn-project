@@ -10,5 +10,9 @@ NLP model/models/*.bak
 # Generated dashboard snapshot
 project/dashboard/dashboard_data.json
 
+# Generated report QA/review outputs
+outputs/rendered_reports/
+outputs/review/review_output/
+
 # External Hugging Face dataset clone with large LFS archives
 92k-real-world-call-center-scripts-english/

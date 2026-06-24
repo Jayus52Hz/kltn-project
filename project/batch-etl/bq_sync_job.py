@@ -4,6 +4,7 @@ bq_sync_job.py
 Sync Gold Iceberg tables to Google BigQuery for Looker Studio / Superset.
 
 Input:  lakehouse.gold.{dim_customer, dim_offer, dim_date, fact_telesales_calls}
+        plus optional CallCenterEN comparison/analytics tables
 Output: BigQuery {BQ_PROJECT_ID}.{BQ_DATASET}.{same table names}
 """
 
@@ -61,12 +62,40 @@ def gold_table(name):
     return spark.table(f"lakehouse.gold.{name}")
 
 
+def external_gold_table(name):
+    return spark.table(f"lakehouse.gold_external.{name}")
+
+
+def optional_gold_table(name):
+    try:
+        return gold_table(name)
+    except Exception as exc:
+        print(f"Skipping optional Gold table {name}: {exc}")
+        return None
+
+
+def optional_external_gold_table(name):
+    try:
+        return external_gold_table(name)
+    except Exception as exc:
+        print(f"Skipping optional external Gold table {name}: {exc}")
+        return None
+
+
 tables = {
     "dim_customer": gold_table("dim_customer"),
     "dim_offer": gold_table("dim_offer"),
     "dim_date": gold_table("dim_date"),
     "fact_telesales_calls": gold_table("fact_telesales_calls"),
 }
+
+optional_tables = {
+    "dataset_profile_comparison": optional_gold_table("dataset_profile_comparison"),
+    "call_code_distribution_comparison": optional_gold_table("call_code_distribution_comparison"),
+    "model_experiment_comparison": optional_gold_table("model_experiment_comparison"),
+    "callcenteren_call_analytics": optional_external_gold_table("callcenteren_call_analytics"),
+}
+tables.update({name: df for name, df in optional_tables.items() if df is not None})
 
 for table_name, df in list(tables.items()):
     blocked_cols = [col for col in df.columns if col in BLOCKED_BIGQUERY_COLUMNS]

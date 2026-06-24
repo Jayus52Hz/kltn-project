@@ -45,6 +45,30 @@ from pyspark.sql.types import IntegerType
 MINIO_ENDPOINT   = os.getenv("MINIO_ENDPOINT",   "http://minio:9000")
 MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY", "minioadmin")
 MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY", "minioadmin")
+ALLOWED_ENTITIES = ["dim_customer", "dim_offer", "dim_date", "fact_telesales_calls"]
+
+
+def parse_list_env(name, default_values, allowed_values):
+    raw_value = os.getenv(name)
+    if not raw_value:
+        return list(default_values)
+
+    selected_values = [
+        value.strip()
+        for value in raw_value.split(",")
+        if value.strip()
+    ]
+    unknown_values = sorted(set(selected_values) - set(allowed_values))
+    if unknown_values:
+        raise ValueError(
+            f"Unsupported {name} value(s): {unknown_values}. "
+            f"Allowed values: {allowed_values}"
+        )
+    return selected_values
+
+
+SELECTED_ENTITIES = parse_list_env("GOLD_ENTITIES", ALLOWED_ENTITIES, ALLOWED_ENTITIES)
+print(f"Gold selected entities: {', '.join(SELECTED_ENTITIES)}")
 
 # ── Spark Session ──────────────────────────────────────────────────────────────
 spark = (
@@ -193,171 +217,180 @@ def merge_into_gold(df, table, pk_col):
 # ══════════════════════════════════════════════════════════════════════════════
 # 1. DIM_CUSTOMER
 # ══════════════════════════════════════════════════════════════════════════════
-print("\n[1/4] Building dim_customer ...")
+if "dim_customer" in SELECTED_ENTITIES:
+    print("\n[1/4] Building dim_customer ...")
 
-dim_customer = (
-    spark.table("lakehouse.silver.cust")
-    .select(
-        F.col("customer_id"),
-        F.col("full_name"),
-        F.col("age"),
-        F.when(F.col("age") <= 30, "Young (<=30)")
-         .when(F.col("age") <= 45, "Mid (31-45)")
-         .when(F.col("age") <= 60, "Senior (46-60)")
-         .otherwise("Elder (60+)")
-         .alias("age_group"),
-        F.col("gender"),
-        F.col("phone_number_masked"),
-        F.col("national_id_masked"),
-        F.col("address"),
-        F.col("employment_status"),
-        F.col("monthly_income"),
-        F.when(F.col("monthly_income") <  4000, "Low")
-         .when(F.col("monthly_income") <  8000, "Mid")
-         .otherwise("High")
-         .alias("income_band"),
-        F.col("credit_score"),
-        F.when(F.col("credit_score") < 580, "Poor")
-         .when(F.col("credit_score") < 670, "Fair")
-         .when(F.col("credit_score") < 740, "Good")
-         .otherwise("Excellent")
-         .alias("credit_tier"),
-        F.col("is_existing_customer"),
-        F.current_timestamp().alias("_processed_at"),
+    dim_customer = (
+        spark.table("lakehouse.silver.cust")
+        .select(
+            F.col("customer_id"),
+            F.col("full_name"),
+            F.col("age"),
+            F.when(F.col("age") <= 30, "Young (<=30)")
+             .when(F.col("age") <= 45, "Mid (31-45)")
+             .when(F.col("age") <= 60, "Senior (46-60)")
+             .otherwise("Elder (60+)")
+             .alias("age_group"),
+            F.col("gender"),
+            F.col("phone_number_masked"),
+            F.col("national_id_masked"),
+            F.col("address"),
+            F.col("employment_status"),
+            F.col("monthly_income"),
+            F.when(F.col("monthly_income") <  4000, "Low")
+             .when(F.col("monthly_income") <  8000, "Mid")
+             .otherwise("High")
+             .alias("income_band"),
+            F.col("credit_score"),
+            F.when(F.col("credit_score") < 580, "Poor")
+             .when(F.col("credit_score") < 670, "Fair")
+             .when(F.col("credit_score") < 740, "Good")
+             .otherwise("Excellent")
+             .alias("credit_tier"),
+            F.col("is_existing_customer"),
+            F.current_timestamp().alias("_processed_at"),
+        )
     )
-)
 
-merge_into_gold(dim_customer, "lakehouse.gold.dim_customer", "customer_id")
+    merge_into_gold(dim_customer, "lakehouse.gold.dim_customer", "customer_id")
+else:
+    print('\\n[1/4] Skipping dim_customer')
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 2. DIM_OFFER
 # ══════════════════════════════════════════════════════════════════════════════
-print("\n[2/4] Building dim_offer ...")
+if "dim_offer" in SELECTED_ENTITIES:
+    print("\n[2/4] Building dim_offer ...")
 
-dim_offer = (
-    spark.table("lakehouse.silver.offer")
-    .select(
-        F.col("offer_id"),
-        F.col("customer_id"),
-        F.col("campaign_id"),
-        F.col("product_name"),
-        F.when(F.lower(F.col("product_name")).contains("loan"), "Loan")
-         .when(F.lower(F.col("product_name")).contains("card"), "Card")
-         .otherwise("Other")
-         .alias("product_category"),
-        F.col("lead_source"),
-        F.col("decile_group"),
-        F.col("loan_amount"),
-        F.col("interest_rate"),
-        F.current_timestamp().alias("_processed_at"),
+    dim_offer = (
+        spark.table("lakehouse.silver.offer")
+        .select(
+            F.col("offer_id"),
+            F.col("customer_id"),
+            F.col("campaign_id"),
+            F.col("product_name"),
+            F.when(F.lower(F.col("product_name")).contains("loan"), "Loan")
+             .when(F.lower(F.col("product_name")).contains("card"), "Card")
+             .otherwise("Other")
+             .alias("product_category"),
+            F.col("lead_source"),
+            F.col("decile_group"),
+            F.col("loan_amount"),
+            F.col("interest_rate"),
+            F.current_timestamp().alias("_processed_at"),
+        )
     )
-)
 
-merge_into_gold(dim_offer, "lakehouse.gold.dim_offer", "offer_id")
+    merge_into_gold(dim_offer, "lakehouse.gold.dim_offer", "offer_id")
+else:
+    print('\\n[2/4] Skipping dim_offer')
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 3. DIM_DATE
 # ══════════════════════════════════════════════════════════════════════════════
-print("\n[3/4] Building dim_date ...")
+if "dim_date" in SELECTED_ENTITIES:
+    print("\n[3/4] Building dim_date ...")
 
-# Sinh date dimension từ toàn bộ ngày thực tế có trong call_logs
-dim_date = (
-    spark.table("lakehouse.silver.call_logs")
-    .select(F.to_date(F.col("call_timestamp")).alias("full_date"))
-    .distinct()
-    .filter(F.col("full_date").isNotNull())
-    .select(
-        F.date_format(F.col("full_date"), "yyyyMMdd")
-         .cast(IntegerType()).alias("date_key"),
-        F.col("full_date"),
-        F.year(F.col("full_date")).alias("year"),
-        F.quarter(F.col("full_date")).alias("quarter"),
-        F.month(F.col("full_date")).alias("month"),
-        F.date_format(F.col("full_date"), "MMMM").alias("month_name"),
-        F.weekofyear(F.col("full_date")).alias("week_of_year"),
-        F.dayofmonth(F.col("full_date")).alias("day_of_month"),
-        F.dayofweek(F.col("full_date")).alias("day_of_week"),
-        F.date_format(F.col("full_date"), "EEEE").alias("day_name"),
-        # dayofweek: 1=Sunday, 7=Saturday
+    # Sinh date dimension từ toàn bộ ngày thực tế có trong call_logs
+    dim_date = (
+        spark.table("lakehouse.silver.call_logs")
+        .select(F.to_date(F.col("call_timestamp")).alias("full_date"))
+        .distinct()
+        .filter(F.col("full_date").isNotNull())
+        .select(
+            F.date_format(F.col("full_date"), "yyyyMMdd")
+             .cast(IntegerType()).alias("date_key"),
+            F.col("full_date"),
+            F.year(F.col("full_date")).alias("year"),
+            F.quarter(F.col("full_date")).alias("quarter"),
+            F.month(F.col("full_date")).alias("month"),
+            F.date_format(F.col("full_date"), "MMMM").alias("month_name"),
+            F.weekofyear(F.col("full_date")).alias("week_of_year"),
+            F.dayofmonth(F.col("full_date")).alias("day_of_month"),
+            F.dayofweek(F.col("full_date")).alias("day_of_week"),
+            F.date_format(F.col("full_date"), "EEEE").alias("day_name"),
+            # dayofweek: 1=Sunday, 7=Saturday
+        )
+        # Ghi lại is_weekend đúng cách
+        .withColumn(
+            "is_weekend",
+            F.dayofweek(F.col("full_date")).isin(1, 7),
+        )
     )
-    # Ghi lại is_weekend đúng cách
-    .withColumn(
-        "is_weekend",
-        F.dayofweek(F.col("full_date")).isin(1, 7),
-    )
-)
 
-merge_into_gold(dim_date, "lakehouse.gold.dim_date", "date_key")
+    merge_into_gold(dim_date, "lakehouse.gold.dim_date", "date_key")
+else:
+    print('\\n[3/4] Skipping dim_date')
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 4. FACT_TELESALES_CALLS
 # ══════════════════════════════════════════════════════════════════════════════
-print("\n[4/4] Building fact_telesales_calls ...")
+if "fact_telesales_calls" in SELECTED_ENTITIES:
+    print("\n[4/4] Building fact_telesales_calls ...")
 
-silver_calls = spark.table("lakehouse.silver.call_logs")
-silver_offer = spark.table("lakehouse.silver.offer").select("offer_id", "customer_id")
+    silver_calls = spark.table("lakehouse.silver.call_logs")
+    silver_offer = spark.table("lakehouse.silver.offer").select("offer_id", "customer_id")
 
-# Join để lấy customer_id vào fact (thông qua offer)
-calls_with_customer = silver_calls.join(silver_offer, on="offer_id", how="left")
+    # Join để lấy customer_id vào fact (thông qua offer)
+    calls_with_customer = silver_calls.join(silver_offer, on="offer_id", how="left")
 
-fact = (
-    calls_with_customer
-    .select(
-        F.col("call_id"),
-        F.col("customer_id"),
-        F.col("offer_id"),
+    fact = (
+        calls_with_customer
+        .select(
+            F.col("call_id"),
+            F.col("customer_id"),
+            F.col("offer_id"),
 
-        # FK → dim_date
-        F.date_format(F.col("call_timestamp"), "yyyyMMdd")
-         .cast(IntegerType()).alias("date_key"),
+            # FK → dim_date
+            F.date_format(F.col("call_timestamp"), "yyyyMMdd")
+             .cast(IntegerType()).alias("date_key"),
 
-        F.col("agent_id"),
-        F.col("call_status"),
-        F.col("talk_time_seconds"),
+            F.col("agent_id"),
+            F.col("call_status"),
+            F.col("talk_time_seconds"),
 
-        # Derived: talk_time_band
-        F.when(F.col("talk_time_seconds") <=  60, "SHORT (<=60s)")
-         .when(F.col("talk_time_seconds") <= 180, "MEDIUM (61-180s)")
-         .otherwise("LONG (>180s)")
-         .alias("talk_time_band"),
+            # Derived: talk_time_band
+            F.when(F.col("talk_time_seconds") <=  60, "SHORT (<=60s)")
+             .when(F.col("talk_time_seconds") <= 180, "MEDIUM (61-180s)")
+             .otherwise("LONG (>180s)")
+             .alias("talk_time_band"),
 
-        F.col("previous_contact_count"),
-        F.col("call_code"),
+            F.col("previous_contact_count"),
+            F.col("call_code"),
 
-        # Derived: outcome flags from model-generated call_code.
-        F.array_contains(F.col("call_code"), "SUCCESSFUL_SALE")
-         .alias("has_successful_sale"),
-        F.array_contains(F.col("call_code"), "HARD_REJECTION")
-         .alias("has_hard_rejection"),
-        F.array_contains(F.col("call_code"), "SOFT_REJECTION")
-         .alias("has_soft_rejection"),
-        F.array_contains(F.col("call_code"), "DO_NOT_CALL_REQUEST")
-         .alias("has_do_not_call"),
-        F.array_contains(F.col("call_code"), "OBJECTION_HANDLING")
-         .alias("has_objection"),
+            # Derived: outcome flags from model-generated call_code.
+            F.array_contains(F.col("call_code"), "SUCCESSFUL_SALE")
+             .alias("has_successful_sale"),
+            F.array_contains(F.col("call_code"), "HARD_REJECTION")
+             .alias("has_hard_rejection"),
+            F.array_contains(F.col("call_code"), "SOFT_REJECTION")
+             .alias("has_soft_rejection"),
+            F.array_contains(F.col("call_code"), "DO_NOT_CALL_REQUEST")
+             .alias("has_do_not_call"),
+            F.array_contains(F.col("call_code"), "OBJECTION_HANDLING")
+             .alias("has_objection"),
 
-        # Derived: outcome_category (priority-based)
-        F.when(F.array_contains(F.col("call_code"), "SUCCESSFUL_SALE"),   "SALE")
-         .when(F.array_contains(F.col("call_code"), "DO_NOT_CALL_REQUEST"),"DO_NOT_CALL")
-         .when(F.array_contains(F.col("call_code"), "HARD_REJECTION"),    "HARD_REJECTION")
-         .when(F.array_contains(F.col("call_code"), "SOFT_REJECTION"),    "SOFT_REJECTION")
-         .when(F.array_contains(F.col("call_code"), "WARM_LEAD"),         "CALLBACK")
-         .otherwise("IN_PROGRESS")
-         .alias("outcome_category"),
+            # Derived: outcome_category (priority-based)
+            F.when(F.array_contains(F.col("call_code"), "SUCCESSFUL_SALE"),   "SALE")
+             .when(F.array_contains(F.col("call_code"), "DO_NOT_CALL_REQUEST"),"DO_NOT_CALL")
+             .when(F.array_contains(F.col("call_code"), "HARD_REJECTION"),    "HARD_REJECTION")
+             .when(F.array_contains(F.col("call_code"), "SOFT_REJECTION"),    "SOFT_REJECTION")
+             .when(F.array_contains(F.col("call_code"), "WARM_LEAD"),         "CALLBACK")
+             .otherwise("IN_PROGRESS")
+             .alias("outcome_category"),
 
-        F.current_timestamp().alias("_processed_at"),
+            F.current_timestamp().alias("_processed_at"),
+        )
     )
-)
 
-merge_into_gold(fact, "lakehouse.gold.fact_telesales_calls", "call_id")
+    merge_into_gold(fact, "lakehouse.gold.fact_telesales_calls", "call_id")
+else:
+    print('\\n[4/4] Skipping fact_telesales_calls')
 
 # ── Done ───────────────────────────────────────────────────────────────────────
 print("\nGold job completed successfully.")
-print("  lakehouse.gold.dim_customer        ✓")
-print("  lakehouse.gold.dim_offer           ✓")
-print("  lakehouse.gold.dim_date            ✓")
-print("  lakehouse.gold.fact_telesales_calls ✓")
+for entity in SELECTED_ENTITIES:
+    print(f"  lakehouse.gold.{entity} ready")
 print()
-print("Star Schema ready for Superset BI.")
-
+print("Star Schema stage completed.")
 spark.stop()

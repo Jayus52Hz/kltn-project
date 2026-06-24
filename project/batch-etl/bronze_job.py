@@ -58,7 +58,29 @@ CHECKPOINT_BASE  = os.getenv("CHECKPOINT_BASE",         "s3a://bronze/_checkpoin
 # Debezium connector name phải khớp với field "name" trong mongodb-connector.json
 CONNECTOR_NAME = "mongo-source"
 DATABASE_NAME  = "telesales"
-COLLECTIONS    = ["cust", "offer", "call_logs"]
+ALLOWED_COLLECTIONS = ["cust", "offer", "call_logs"]
+
+
+def parse_list_env(name, default_values, allowed_values):
+    raw_value = os.getenv(name)
+    if not raw_value:
+        return list(default_values)
+
+    selected_values = [
+        value.strip()
+        for value in raw_value.split(",")
+        if value.strip()
+    ]
+    unknown_values = sorted(set(selected_values) - set(allowed_values))
+    if unknown_values:
+        raise ValueError(
+            f"Unsupported {name} value(s): {unknown_values}. "
+            f"Allowed values: {allowed_values}"
+        )
+    return selected_values
+
+
+COLLECTIONS = parse_list_env("BRONZE_COLLECTIONS", ALLOWED_COLLECTIONS, ALLOWED_COLLECTIONS)
 
 # TRIGGER_ONCE=true  → xử lý hết dữ liệu hiện có rồi dừng (dùng khi Airflow orchestrate)
 # TRIGGER_ONCE=false → chạy liên tục micro-batch (default, dùng khi start thủ công)

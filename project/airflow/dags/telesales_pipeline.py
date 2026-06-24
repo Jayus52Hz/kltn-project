@@ -1,31 +1,11 @@
 """
 telesales_pipeline.py
 =====================
-Airflow DAG — Telesales Lakehouse Pipeline
+Airflow DAG for the Telesales Lakehouse pipeline.
 
-Orchestrates the full Medallion pipeline:
-  Bronze (CDC ingestion) → Silver (ETL + NLP) → Gold (Star Schema)
-
-Schedule: daily at 02:00 UTC
-Trigger:  also runnable manually via Airflow UI
-
-Task graph:
-  bronze_cdc_ingestion
-        │
-        ▼
-    silver_etl
-        │
-        ▼
-  gold_star_schema
-
-Bronze note:
-  The bronze_job.py is a Spark Structured Streaming job.
-  We run it with TRIGGER_ONCE=true so it processes all available
-  Kafka offsets and exits, making it compatible with Airflow task model.
-
-Spark connection:
-  Airflow connection id: spark_default
-  Set via env: AIRFLOW_CONN_SPARK_DEFAULT=spark://spark-master:7077
+The DAG is split by dataset and stage so a manual trigger no longer appears as
+one coarse Spark task. Each primary dataset has Bronze and Silver stages, while
+Gold tables and the CallCenterEN branch are exposed as separate stage tasks.
 """
 
 from datetime import datetime, timedelta
@@ -36,13 +16,20 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
 from airflow.sensors.python import PythonSensor
+from airflow.utils.task_group import TaskGroup
 
-# ── Common Spark config shared by all 3 jobs ──────────────────────────────────
+
 SPARK_PACKAGES = ",".join([
     "org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.4.0",
     "org.apache.hadoop:hadoop-aws:3.3.4",
     "com.amazonaws:aws-java-sdk-bundle:1.12.261",
     "org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0",
+])
+
+ICEBERG_PACKAGES = ",".join([
+    "org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.4.0",
+    "org.apache.hadoop:hadoop-aws:3.3.4",
+    "com.amazonaws:aws-java-sdk-bundle:1.12.261",
 ])
 
 ICEBERG_BQ_PACKAGES = ",".join([
@@ -53,30 +40,33 @@ ICEBERG_BQ_PACKAGES = ",".join([
 ])
 
 SPARK_CONF = {
-    # Keep PySpark executors on the same Python minor version as the Airflow driver.
     "spark.pyspark.python": "python3.9",
     "spark.executorEnv.PYSPARK_PYTHON": "/usr/bin/python3.9",
-    # Iceberg extensions
-    "spark.sql.extensions":
-        "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions",
-    # Iceberg catalog
-    "spark.sql.catalog.lakehouse":
-        "org.apache.iceberg.spark.SparkCatalog",
-    "spark.sql.catalog.lakehouse.type":      "hadoop",
+    "spark.sql.extensions": "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions",
+    "spark.sql.catalog.lakehouse": "org.apache.iceberg.spark.SparkCatalog",
+    "spark.sql.catalog.lakehouse.type": "hadoop",
     "spark.sql.catalog.lakehouse.warehouse": "s3a://lakehouse/warehouse",
-    # MinIO / S3A
-    "spark.hadoop.fs.s3a.endpoint":                       "http://minio:9000",
-    "spark.hadoop.fs.s3a.access.key":                     "minioadmin",
-    "spark.hadoop.fs.s3a.secret.key":                     "minioadmin",
-    "spark.hadoop.fs.s3a.path.style.access":              "true",
-    "spark.hadoop.fs.s3a.impl":
-        "org.apache.hadoop.fs.s3a.S3AFileSystem",
-    "spark.hadoop.fs.s3a.aws.credentials.provider":
-        "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider",
+    "spark.hadoop.fs.s3a.endpoint": "http://minio:9000",
+    "spark.hadoop.fs.s3a.access.key": "minioadmin",
+    "spark.hadoop.fs.s3a.secret.key": "minioadmin",
+    "spark.hadoop.fs.s3a.path.style.access": "true",
+    "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem",
+    "spark.hadoop.fs.s3a.aws.credentials.provider": (
+        "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
+    ),
+}
+
+BASE_ENV = {
+    "MINIO_ENDPOINT": "http://minio:9000",
+    "MINIO_ACCESS_KEY": "minioadmin",
+    "MINIO_SECRET_KEY": "minioadmin",
 }
 
 WORK_DIR = "/opt/spark/work-dir/batch-etl"
 GCP_CREDENTIALS_FILE = "/opt/gcp/application_default_credentials.json"
+CALLCENTEREN_OUTPUT_DIR = "/opt/spark/work-dir/callcenteren-output/callcenteren_finetuned_max4"
+CALLCENTEREN_SCHEMA_CSV = f"{CALLCENTEREN_OUTPUT_DIR}/callcenteren_15k_with_model_callcodes.csv"
+MODEL_METRICS_CSV = f"{CALLCENTEREN_OUTPUT_DIR}/callcenteren_finetune_metrics.csv"
 BQ_PROJECT_ID = "project-ef0c6db5-0765-4391-845"
 BQ_DATASET = "kltn0710"
 BQ_SYNC_COMMAND = " ".join([
@@ -96,7 +86,24 @@ BQ_SYNC_COMMAND = " ".join([
     f"{WORK_DIR}/bq_sync_job.py",
 ])
 
-# ── DAG definition ─────────────────────────────────────────────────────────────
+PRIMARY_DATASETS = {
+    "cust": {
+        "bronze_collection": "cust",
+        "silver_entity": "cust",
+        "gold_entity": "dim_customer",
+    },
+    "offer": {
+        "bronze_collection": "offer",
+        "silver_entity": "offer",
+        "gold_entity": "dim_offer",
+    },
+    "call_logs": {
+        "bronze_collection": "call_logs",
+        "silver_entity": "call_logs",
+        "gold_entities": ["dim_date", "fact_telesales_calls"],
+    },
+}
+
 default_args = {
     "owner": "thinh-nguyen-ts",
     "retries": 1,
@@ -104,29 +111,115 @@ default_args = {
     "email_on_failure": False,
 }
 
+
 def _debezium_connector_ready():
     """Return True once the mongo-source connector is registered and reachable."""
     try:
-        r = requests.get(
+        response = requests.get(
             "http://debezium_connect:8083/connectors/mongo-source",
             timeout=5,
         )
-        return r.status_code == 200
+        return response.status_code == 200
     except Exception:
         return False
 
 
+def spark_task(
+    *,
+    task_id: str,
+    application: str,
+    packages: str,
+    env_vars: dict[str, str],
+    name: str,
+    execution_timeout: timedelta,
+) -> SparkSubmitOperator:
+    return SparkSubmitOperator(
+        task_id=task_id,
+        conn_id="spark_default",
+        application=application,
+        packages=packages,
+        conf=SPARK_CONF,
+        env_vars=env_vars,
+        name=name,
+        execution_timeout=execution_timeout,
+    )
+
+
+def primary_dataset_group(dataset_name: str, config: dict[str, str]) -> dict[str, SparkSubmitOperator]:
+    with TaskGroup(group_id=f"{dataset_name}_dataset") as group:
+        bronze = spark_task(
+            task_id="bronze",
+            application=f"{WORK_DIR}/bronze_job.py",
+            packages=SPARK_PACKAGES,
+            env_vars={
+                **BASE_ENV,
+                "KAFKA_BOOTSTRAP_SERVERS": "kafka:29092",
+                "CHECKPOINT_BASE": "s3a://bronze/_checkpoints",
+                "TRIGGER_ONCE": "true",
+                "BRONZE_COLLECTIONS": config["bronze_collection"],
+            },
+            name=f"bronze_{dataset_name}",
+            execution_timeout=timedelta(hours=2),
+        )
+
+        silver = spark_task(
+            task_id="silver",
+            application=f"{WORK_DIR}/silver_job.py",
+            packages=ICEBERG_PACKAGES,
+            env_vars={
+                **BASE_ENV,
+                "MODELS_PATH": "/opt/spark/work-dir/batch-etl/models",
+                "NLP_MODEL_TYPE": "bow",
+                "SILVER_ENTITIES": config["silver_entity"],
+            },
+            name=f"silver_{dataset_name}",
+            execution_timeout=timedelta(hours=2),
+        )
+
+        bronze >> silver
+
+    return {"group": group, "bronze": bronze, "silver": silver}
+
+
+def gold_task(task_id: str, gold_entity: str) -> SparkSubmitOperator:
+    return spark_task(
+        task_id=task_id,
+        application=f"{WORK_DIR}/gold_job.py",
+        packages=ICEBERG_PACKAGES,
+        env_vars={
+            **BASE_ENV,
+            "GOLD_ENTITIES": gold_entity,
+        },
+        name=task_id,
+        execution_timeout=timedelta(hours=1),
+    )
+
+
+def callcenteren_stage_task(stage: str) -> SparkSubmitOperator:
+    return spark_task(
+        task_id=stage,
+        application=f"{WORK_DIR}/callcenteren_external_job.py",
+        packages=ICEBERG_PACKAGES,
+        env_vars={
+            **BASE_ENV,
+            "CALLCENTEREN_STAGE": stage,
+            "CALLCENTEREN_SCHEMA_CSV": CALLCENTEREN_SCHEMA_CSV,
+            "MODEL_METRICS_CSV": MODEL_METRICS_CSV,
+        },
+        name=f"callcenteren_{stage}",
+        execution_timeout=timedelta(hours=1),
+    )
+
+
 with DAG(
     dag_id="telesales_lakehouse_pipeline",
-    description="Bronze → Silver → Gold Medallion ETL for Telesales Lakehouse",
+    description="Dataset-staged Bronze/Silver/Gold ETL for Telesales Lakehouse",
     default_args=default_args,
     start_date=datetime(2025, 1, 1),
-    schedule_interval="0 2 * * *",   # daily at 02:00 UTC
+    schedule_interval="0 2 * * *",
     catchup=False,
     tags=["lakehouse", "telesales", "iceberg"],
 ) as dag:
-
-    # ── Task 0: Wait for Debezium connector before reading Kafka topics ────────
     wait_for_debezium = PythonSensor(
         task_id="wait_for_debezium_connector",
         python_callable=_debezium_connector_ready,
@@ -135,88 +228,44 @@ with DAG(
         mode="reschedule",
     )
 
-    # ── Task 1: Bronze — CDC ingestion from Kafka → Iceberg ───────────────────
-    bronze_cdc_ingestion = SparkSubmitOperator(
-        task_id="bronze_cdc_ingestion",
-        conn_id="spark_default",
-        application=f"{WORK_DIR}/bronze_job.py",
-        packages=SPARK_PACKAGES,
-        conf=SPARK_CONF,
-        env_vars={
-            "KAFKA_BOOTSTRAP_SERVERS": "kafka:29092",
-            "MINIO_ENDPOINT":          "http://minio:9000",
-            "MINIO_ACCESS_KEY":        "minioadmin",
-            "MINIO_SECRET_KEY":        "minioadmin",
-            "CHECKPOINT_BASE":         "s3a://bronze/_checkpoints",
-            # TRIGGER_ONCE=true: Spark Structured Streaming processes all
-            # available Kafka offsets then exits (compatible with Airflow tasks)
-            "TRIGGER_ONCE":            "true",
-        },
-        name="bronze_cdc_ingestion",
-        # Bronze may take longer when backfilling large Kafka topics
-        execution_timeout=timedelta(hours=2),
-    )
+    with TaskGroup(group_id="primary_telesales") as primary_telesales:
+        primary_tasks = {
+            dataset_name: primary_dataset_group(dataset_name, config)
+            for dataset_name, config in PRIMARY_DATASETS.items()
+        }
 
-    # ── Task 2: Silver — Flatten, PII mask, Dedup, BoW NLP inference ─────────
-    silver_etl = SparkSubmitOperator(
-        task_id="silver_etl",
-        conn_id="spark_default",
-        application=f"{WORK_DIR}/silver_job.py",
-        packages=",".join([
-            "org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.4.0",
-            "org.apache.hadoop:hadoop-aws:3.3.4",
-            "com.amazonaws:aws-java-sdk-bundle:1.12.261",
-        ]),
-        conf=SPARK_CONF,
-        env_vars={
-            "MINIO_ENDPOINT":   "http://minio:9000",
-            "MINIO_ACCESS_KEY": "minioadmin",
-            "MINIO_SECRET_KEY": "minioadmin",
-            # BoW is the production model after full-rebuild experiments showed
-            # RoBERTa inference was too heavy for CPU-only Airflow/Spark runs.
-            # Set NLP_MODEL_TYPE=roberta only for comparison experiments.
-            "MODELS_PATH":      "/opt/spark/work-dir/batch-etl/models",
-            "NLP_MODEL_TYPE":   "bow",
-        },
-        name="silver_etl",
-        execution_timeout=timedelta(hours=2),
-    )
+        with TaskGroup(group_id="gold") as primary_gold:
+            dim_customer = gold_task("dim_customer", "dim_customer")
+            dim_offer = gold_task("dim_offer", "dim_offer")
+            dim_date = gold_task("dim_date", "dim_date")
+            fact_telesales_calls = gold_task("fact_telesales_calls", "fact_telesales_calls")
 
-    # ── Task 3: Gold — Star Schema build for BI / Superset ────────────────────
-    gold_star_schema = SparkSubmitOperator(
-        task_id="gold_star_schema",
-        conn_id="spark_default",
-        application=f"{WORK_DIR}/gold_job.py",
-        packages=",".join([
-            "org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.4.0",
-            "org.apache.hadoop:hadoop-aws:3.3.4",
-            "com.amazonaws:aws-java-sdk-bundle:1.12.261",
-        ]),
-        conf=SPARK_CONF,
-        env_vars={
-            "MINIO_ENDPOINT":   "http://minio:9000",
-            "MINIO_ACCESS_KEY": "minioadmin",
-            "MINIO_SECRET_KEY": "minioadmin",
-        },
-        name="gold_star_schema",
-        execution_timeout=timedelta(hours=1),
-    )
+        primary_tasks["cust"]["silver"] >> dim_customer
+        primary_tasks["offer"]["silver"] >> dim_offer
+        primary_tasks["call_logs"]["silver"] >> dim_date
+        [dim_customer, dim_offer, dim_date] >> fact_telesales_calls
+
+    with TaskGroup(group_id="callcenteren_external") as callcenteren_external:
+        callcenteren_bronze = callcenteren_stage_task("bronze")
+        callcenteren_silver = callcenteren_stage_task("silver")
+        callcenteren_gold = callcenteren_stage_task("gold")
+
+        callcenteren_bronze >> callcenteren_silver >> callcenteren_gold
 
     bq_sync_gold = BashOperator(
         task_id="bq_sync_gold",
         bash_command=BQ_SYNC_COMMAND,
         env={
-            "MINIO_ENDPOINT":                 "http://minio:9000",
-            "MINIO_ACCESS_KEY":               "minioadmin",
-            "MINIO_SECRET_KEY":               "minioadmin",
+            **BASE_ENV,
             "GOOGLE_APPLICATION_CREDENTIALS": GCP_CREDENTIALS_FILE,
-            "BQ_PROJECT_ID":                  BQ_PROJECT_ID,
-            "BQ_DATASET":                     BQ_DATASET,
-            "BQ_WRITE_METHOD":                "direct",
+            "BQ_PROJECT_ID": BQ_PROJECT_ID,
+            "BQ_DATASET": BQ_DATASET,
+            "BQ_WRITE_METHOD": "direct",
         },
         append_env=True,
         execution_timeout=timedelta(hours=1),
     )
 
-    # ── Dependencies ───────────────────────────────────────────────────────────
-    wait_for_debezium >> bronze_cdc_ingestion >> silver_etl >> gold_star_schema >> bq_sync_gold
+    wait_for_debezium >> primary_telesales
+    primary_telesales >> callcenteren_external
+    [fact_telesales_calls, callcenteren_gold] >> bq_sync_gold

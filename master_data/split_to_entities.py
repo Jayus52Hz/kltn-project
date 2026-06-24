@@ -1,7 +1,7 @@
 """
 split_to_entities.py
 ====================
-Merges all transcript_batch*.json files and splits into 3 normalized CSV files:
+Merges all raw/transcript_batch*.json files and splits into 3 normalized CSV files:
 
     customers.csv  —  1 row per unique customer       (~4,344 rows)
     offers.csv     —  1 row per customer x campaign   (~5,072 rows)
@@ -38,7 +38,7 @@ from pathlib import Path
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 SCRIPT_DIR = Path(__file__).parent
-DATA_GLOB  = str(SCRIPT_DIR / 'transcript_batch*.json')
+DATA_GLOB  = str(SCRIPT_DIR / 'raw' / 'transcript_batch*.json')
 OUTPUT_DIR = SCRIPT_DIR / 'output'
 OUTPUT_DIR.mkdir(exist_ok=True)
 

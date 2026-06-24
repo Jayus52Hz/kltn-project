@@ -18,7 +18,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = Path(__file__).resolve().parent / "output"
-PRIMARY_DATA_GLOB = ROOT / "master_data"
+PRIMARY_DATA_GLOB = ROOT / "master_data" / "raw"
 CALLCENTEREN_BASELINE_CSV = (
     ROOT
     / "92k-real-world-call-center-scripts-english"

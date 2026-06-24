@@ -59,9 +59,32 @@ ROBERTA_THRESHOLD = float(os.getenv("ROBERTA_THRESHOLD", "0.5"))
 ROBERTA_BATCH_SIZE = int(os.getenv("ROBERTA_BATCH_SIZE", "8"))
 ROBERTA_NUM_PARTITIONS = int(os.getenv("ROBERTA_NUM_PARTITIONS", "2"))
 TORCH_NUM_THREADS = int(os.getenv("TORCH_NUM_THREADS", "1"))
+ALLOWED_ENTITIES = ["cust", "offer", "call_logs"]
+
+
+def parse_list_env(name, default_values, allowed_values):
+    raw_value = os.getenv(name)
+    if not raw_value:
+        return list(default_values)
+
+    selected_values = [
+        value.strip()
+        for value in raw_value.split(",")
+        if value.strip()
+    ]
+    unknown_values = sorted(set(selected_values) - set(allowed_values))
+    if unknown_values:
+        print(f"[ERROR] Unsupported {name} value(s): {unknown_values}. Allowed values: {allowed_values}")
+        sys.exit(1)
+    return selected_values
+
+
+SELECTED_ENTITIES = parse_list_env("SILVER_ENTITIES", ALLOWED_ENTITIES, ALLOWED_ENTITIES)
+RUN_CALL_LOGS = "call_logs" in SELECTED_ENTITIES
+print(f"Silver selected entities: {', '.join(SELECTED_ENTITIES)}")
 
 # ── Kiểm tra model tồn tại trước khi khởi động Spark ──────────────────────────
-if NLP_MODEL_TYPE == "roberta":
+if RUN_CALL_LOGS and NLP_MODEL_TYPE == "roberta":
     missing = [
         path for path in [ROBERTA_PATH, LABELS_PATH]
         if not os.path.exists(path)
@@ -72,12 +95,12 @@ if NLP_MODEL_TYPE == "roberta":
             print(f"  - {path}")
         print("  Mount/copy: \"NLP model/models\" -> /opt/spark/work-dir/batch-etl/models")
         sys.exit(1)
-elif NLP_MODEL_TYPE == "bow":
+elif RUN_CALL_LOGS and NLP_MODEL_TYPE == "bow":
     if not os.path.exists(BOW_MODEL_PATH):
         print(f"[ERROR] BoW model not found: {BOW_MODEL_PATH}")
         print("  Run: docker cp \"NLP model/models/\" spark-master:/opt/spark/work-dir/batch-etl/models/")
         sys.exit(1)
-else:
+elif RUN_CALL_LOGS:
     print(f"[ERROR] Unsupported NLP_MODEL_TYPE={NLP_MODEL_TYPE!r}. Use 'roberta' or 'bow'.")
     sys.exit(1)
 
@@ -246,7 +269,7 @@ def dedup_latest(df, pk_col):
 # BoW + Logistic Regression được chọn cho pipeline vận hành vì thời gian
 # inference ổn định hơn nhiều trong full rebuild CPU, trong khi chênh lệch chất
 # lượng so với RoBERTa không đủ lớn để bù chi phí vận hành.
-if NLP_MODEL_TYPE == "roberta":
+if RUN_CALL_LOGS and NLP_MODEL_TYPE == "roberta":
     with open(LABELS_PATH, "r", encoding="utf-8") as f:
         label_classes = json.load(f)
     labels_broadcast = spark.sparkContext.broadcast(label_classes)
@@ -302,7 +325,7 @@ if NLP_MODEL_TYPE == "roberta":
 
         return pd.Series(outputs)
 
-else:
+elif RUN_CALL_LOGS and NLP_MODEL_TYPE == "bow":
     print(f"Using BoW production model from {BOW_MODEL_PATH} ...")
     bow_broadcast = spark.sparkContext.broadcast(joblib.load(BOW_MODEL_PATH))
     print("BoW model loaded and broadcast")
@@ -347,120 +370,127 @@ def merge_into_silver(new_df, table, pk_col):
 # ══════════════════════════════════════════════════════════════════════════════
 # 1. PROCESS CUST
 # ══════════════════════════════════════════════════════════════════════════════
-print("\n[1/3] Processing cust ...")
+if "cust" in SELECTED_ENTITIES:
+    print("\n[1/3] Processing cust ...")
 
-bronze_cust = spark.table("lakehouse.bronze.cust")
+    bronze_cust = spark.table("lakehouse.bronze.cust")
 
-silver_cust = (
-    bronze_cust
-    # Flatten raw_doc JSON string → typed struct
-    .withColumn("doc", F.from_json(F.col("raw_doc"), CUST_SCHEMA))
-    .select(
-        F.col("doc.customer_id"),
-        F.col("doc.full_name"),
-        F.col("doc.age"),
-        F.col("doc.gender"),
-        # PII masking
-        mask_phone(F.col("doc.phone_number")).alias("phone_number_masked"),
-        mask_national_id(F.col("doc.national_id")).alias("national_id_masked"),
-        F.col("doc.address"),
-        F.col("doc.employment_status"),
-        F.col("doc.monthly_income"),
-        F.col("doc.credit_score"),
-        F.col("doc.is_existing_customer"),
-        # CDC metadata
-        F.col("op"),
-        F.col("ts_ms"),
-        F.current_timestamp().alias("_processed_at"),
+    silver_cust = (
+        bronze_cust
+        # Flatten raw_doc JSON string → typed struct
+        .withColumn("doc", F.from_json(F.col("raw_doc"), CUST_SCHEMA))
+        .select(
+            F.col("doc.customer_id"),
+            F.col("doc.full_name"),
+            F.col("doc.age"),
+            F.col("doc.gender"),
+            # PII masking
+            mask_phone(F.col("doc.phone_number")).alias("phone_number_masked"),
+            mask_national_id(F.col("doc.national_id")).alias("national_id_masked"),
+            F.col("doc.address"),
+            F.col("doc.employment_status"),
+            F.col("doc.monthly_income"),
+            F.col("doc.credit_score"),
+            F.col("doc.is_existing_customer"),
+            # CDC metadata
+            F.col("op"),
+            F.col("ts_ms"),
+            F.current_timestamp().alias("_processed_at"),
+        )
+        # Bỏ rows parse lỗi (customer_id null)
+        .filter(F.col("customer_id").isNotNull())
     )
-    # Bỏ rows parse lỗi (customer_id null)
-    .filter(F.col("customer_id").isNotNull())
-)
 
-silver_cust = dedup_latest(silver_cust, "customer_id")
+    silver_cust = dedup_latest(silver_cust, "customer_id")
 
-# Rename để khớp Silver schema
-silver_cust = silver_cust.withColumnRenamed("op", "_op").withColumnRenamed("ts_ms", "_ts_ms")
+    # Rename để khớp Silver schema
+    silver_cust = silver_cust.withColumnRenamed("op", "_op").withColumnRenamed("ts_ms", "_ts_ms")
 
-merge_into_silver(silver_cust, "lakehouse.silver.cust", "customer_id")
+    merge_into_silver(silver_cust, "lakehouse.silver.cust", "customer_id")
+else:
+    print('\\n[1/3] Skipping cust')
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 2. PROCESS OFFER
 # ══════════════════════════════════════════════════════════════════════════════
-print("\n[2/3] Processing offer ...")
+if "offer" in SELECTED_ENTITIES:
+    print("\n[2/3] Processing offer ...")
 
-bronze_offer = spark.table("lakehouse.bronze.offer")
+    bronze_offer = spark.table("lakehouse.bronze.offer")
 
-silver_offer = (
-    bronze_offer
-    .withColumn("doc", F.from_json(F.col("raw_doc"), OFFER_SCHEMA))
-    .select(
-        F.col("doc.offer_id"),
-        F.col("doc.customer_id"),
-        F.col("doc.campaign_id"),
-        F.col("doc.product_name"),
-        F.col("doc.lead_source"),
-        F.col("doc.decile_group"),
-        F.col("doc.loan_amount"),
-        F.col("doc.interest_rate"),
-        F.col("op"),
-        F.col("ts_ms"),
-        F.current_timestamp().alias("_processed_at"),
+    silver_offer = (
+        bronze_offer
+        .withColumn("doc", F.from_json(F.col("raw_doc"), OFFER_SCHEMA))
+        .select(
+            F.col("doc.offer_id"),
+            F.col("doc.customer_id"),
+            F.col("doc.campaign_id"),
+            F.col("doc.product_name"),
+            F.col("doc.lead_source"),
+            F.col("doc.decile_group"),
+            F.col("doc.loan_amount"),
+            F.col("doc.interest_rate"),
+            F.col("op"),
+            F.col("ts_ms"),
+            F.current_timestamp().alias("_processed_at"),
+        )
+        .filter(F.col("offer_id").isNotNull())
     )
-    .filter(F.col("offer_id").isNotNull())
-)
 
-silver_offer = dedup_latest(silver_offer, "offer_id")
-silver_offer = silver_offer.withColumnRenamed("op", "_op").withColumnRenamed("ts_ms", "_ts_ms")
+    silver_offer = dedup_latest(silver_offer, "offer_id")
+    silver_offer = silver_offer.withColumnRenamed("op", "_op").withColumnRenamed("ts_ms", "_ts_ms")
 
-merge_into_silver(silver_offer, "lakehouse.silver.offer", "offer_id")
+    merge_into_silver(silver_offer, "lakehouse.silver.offer", "offer_id")
+else:
+    print('\\n[2/3] Skipping offer')
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 3. PROCESS CALL_LOGS
 # ══════════════════════════════════════════════════════════════════════════════
-print("\n[3/3] Processing call_logs ...")
+if "call_logs" in SELECTED_ENTITIES:
+    print("\n[3/3] Processing call_logs ...")
 
-bronze_calls = spark.table("lakehouse.bronze.call_logs")
+    bronze_calls = spark.table("lakehouse.bronze.call_logs")
 
-parsed_calls = (
-    bronze_calls
-    .withColumn("doc", F.from_json(F.col("raw_doc"), CALL_SCHEMA))
-    .select(
-        F.col("doc.call_id"),
-        F.col("doc.offer_id"),
-        F.col("doc.agent_id"),
-        F.to_timestamp(F.col("doc.call_timestamp")).alias("call_timestamp"),
-        F.col("doc.call_status"),
-        F.col("doc.talk_time_seconds"),
-        F.col("doc.previous_contact_count"),
-        F.col("doc.call_transcript"),
-        F.col("op"),
-        F.col("ts_ms"),
+    parsed_calls = (
+        bronze_calls
+        .withColumn("doc", F.from_json(F.col("raw_doc"), CALL_SCHEMA))
+        .select(
+            F.col("doc.call_id"),
+            F.col("doc.offer_id"),
+            F.col("doc.agent_id"),
+            F.to_timestamp(F.col("doc.call_timestamp")).alias("call_timestamp"),
+            F.col("doc.call_status"),
+            F.col("doc.talk_time_seconds"),
+            F.col("doc.previous_contact_count"),
+            F.col("doc.call_transcript"),
+            F.col("op"),
+            F.col("ts_ms"),
+        )
+        .filter(F.col("call_id").isNotNull())
     )
-    .filter(F.col("call_id").isNotNull())
-)
 
-# Deduplicate trước khi chạy NLP (tránh inference trùng lặp)
-parsed_calls = dedup_latest(parsed_calls, "call_id")
-if NLP_MODEL_TYPE == "roberta" and ROBERTA_NUM_PARTITIONS > 1:
-    parsed_calls = parsed_calls.repartition(ROBERTA_NUM_PARTITIONS, "call_id")
+    # Deduplicate trước khi chạy NLP (tránh inference trùng lặp)
+    parsed_calls = dedup_latest(parsed_calls, "call_id")
+    if NLP_MODEL_TYPE == "roberta" and ROBERTA_NUM_PARTITIONS > 1:
+        parsed_calls = parsed_calls.repartition(ROBERTA_NUM_PARTITIONS, "call_id")
 
-# NLP inference: downstream call_code is generated by the model, not copied from
-# the synthetic source label used during training.
-silver_calls = (
-    parsed_calls
-    .withColumn("call_code", predict_call_codes(F.col("call_transcript")))
-    .withColumn("_processed_at", F.current_timestamp())
-    .withColumnRenamed("op", "_op")
-    .withColumnRenamed("ts_ms", "_ts_ms")
-)
+    # NLP inference: downstream call_code is generated by the model, not copied from
+    # the synthetic source label used during training.
+    silver_calls = (
+        parsed_calls
+        .withColumn("call_code", predict_call_codes(F.col("call_transcript")))
+        .withColumn("_processed_at", F.current_timestamp())
+        .withColumnRenamed("op", "_op")
+        .withColumnRenamed("ts_ms", "_ts_ms")
+    )
 
-merge_into_silver(silver_calls, "lakehouse.silver.call_logs", "call_id")
+    merge_into_silver(silver_calls, "lakehouse.silver.call_logs", "call_id")
+else:
+    print('\\n[3/3] Skipping call_logs')
 
 # ── Done ───────────────────────────────────────────────────────────────────────
 print("\nSilver job completed successfully.")
-print("  lakehouse.silver.cust      ✓")
-print("  lakehouse.silver.offer     ✓")
-print("  lakehouse.silver.call_logs ✓")
-
+for entity in SELECTED_ENTITIES:
+    print(f"  lakehouse.silver.{entity} ready")
 spark.stop()
