@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hướng Dẫn Demo End-to-End Hệ Thống</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --paper: #ffffff;
+      --text: #172033;
+      --muted: #5d6678;
+      --line: #dce2ec;
+      --blue: #1d4ed8;
+      --orange: #c2410c;
+      --green: #15803d;
+      --purple: #6d28d9;
+      --red: #be123c;
+      --soft-blue: #eef6ff;
+      --soft-orange: #fff4ea;
+      --soft-green: #ecfdf3;
+      --soft-purple: #f4f0ff;
+      --soft-red: #fff1f2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    header {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 12px 28px rgba(23, 32, 51, 0.06);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    .lead {
+      max-width: 900px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .pipeline {
+      width: 100%;
+      margin-top: 24px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      display: block;
+    }
+
+    .section {
+      margin-top: 22px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 24px rgba(23, 32, 51, 0.04);
+    }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 14px;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .source { color: var(--blue); background: var(--soft-blue); border-color: #bfdbfe; }
+    .stream { color: var(--orange); background: var(--soft-orange); border-color: #fed7aa; }
+    .lake { color: var(--green); background: var(--soft-green); border-color: #bbf7d0; }
+    .serve { color: var(--purple); background: var(--soft-purple); border-color: #ddd6fe; }
+    .airflow { color: var(--red); background: var(--soft-red); border-color: #fecdd3; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f4f9;
+      font-weight: 700;
+    }
+
+    tr:nth-child(even) td {
+      background: #fbfcfe;
+    }
+
+    code {
+      background: #f1f4f9;
+      border: 1px solid #dce2ec;
+      border-radius: 5px;
+      padding: 1px 5px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.94em;
+    }
+
+    pre {
+      margin: 12px 0 0;
+      padding: 14px;
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid #dce2ec;
+      background: #101827;
+      color: #eef2ff;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfcfe;
+    }
+
+    .note {
+      border-left: 4px solid var(--purple);
+      background: var(--soft-purple);
+      padding: 12px 14px;
+      border-radius: 8px;
+      color: #33225f;
+      margin-top: 14px;
+    }
+
+    .closing {
+      border-left: 4px solid var(--green);
+      background: var(--soft-green);
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 18px 12px 36px;
+      }
+
+      header,
+      .section {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1>Hướng Dẫn Demo End-to-End Hệ Thống</h1>
+      <p class="lead">
+        Mục tiêu demo là chứng minh dữ liệu đi trọn luồng từ hệ thống nguồn đến dashboard:
+        MongoDB, Debezium, Kafka, Spark Lakehouse, BigQuery và Superset.
+      </p>
+      <div class="flow" aria-label="Luồng dữ liệu chính">
+        <span class="chip source">MongoDB</span>
+        <span class="chip stream">Debezium CDC</span>
+        <span class="chip stream">Kafka</span>
+        <span class="chip airflow">Airflow DAG</span>
+        <span class="chip lake">Spark Bronze</span>
+        <span class="chip lake">Spark Silver + NLP</span>
+        <span class="chip lake">Spark Gold</span>
+        <span class="chip serve">BigQuery</span>
+        <span class="chip serve">Superset</span>
+      </div>
+      <img class="pipeline" src="assets/demo_data_pipeline.png" alt="Sơ đồ pipeline dữ liệu end-to-end">
+    </header>
+
+    <section class="section">
+      <h2>1. Câu Nói Mở Đầu</h2>
+      <p>
+        Hệ thống của em xây dựng một Hybrid Data Lakehouse cho bài toán phân tích telesales.
+        Dữ liệu nguồn nằm trong MongoDB, Debezium bắt thay đổi bằng CDC và đưa vào Kafka.
+        Spark xử lý dữ liệu qua các lớp Bronze, Silver và Gold trên Lakehouse/Iceberg.
+        Sau đó Gold được đồng bộ sang BigQuery và Superset dùng BigQuery để hiển thị dashboard BI.
+      </p>
+      <p>
+        Ở lớp Silver, hệ thống làm sạch dữ liệu, deduplicate và áp dụng mô hình NLP Bag-of-Words
+        để sinh <code>call_code</code> từ transcript. Transcript và PII không được đưa lên dashboard serving.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>2. Checklist Trước Khi Demo</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Cần kiểm tra</th>
+            <th>Lệnh hoặc màn hình</th>
+            <th>Kết quả mong đợi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Docker Desktop</td>
+            <td>Mở Docker Desktop</td>
+            <td>Engine đang chạy</td>
+          </tr>
+          <tr>
+            <td>Google Cloud auth</td>
+            <td><code>gcloud.cmd auth list</code></td>
+            <td>Có tài khoản active</td>
+          </tr>
+          <tr>
+            <td>BigQuery project</td>
+            <td><code>gcloud.cmd config set project project-ef0c6db5-0765-4391-845</code></td>
+            <td>Đúng project đồ án</td>
+          </tr>
+          <tr>
+            <td>ADC credentials</td>
+            <td><code>gcloud.cmd auth application-default login</code></td>
+            <td>Airflow và Superset đọc được BigQuery</td>
+          </tr>
+          <tr>
+            <td>Docker stack</td>
+            <td><code>docker compose -f ".\project\docker-compose.yml" ps -a</code></td>
+            <td>Service chính <code>Up</code>, init job <code>Exited (0)</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>3. Các Bước Demo</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Bước</th>
+            <th>Cần show</th>
+            <th>Nói ngắn gọn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1. Start stack</td>
+            <td><code>docker compose -f ".\project\docker-compose.yml" up -d --build</code></td>
+            <td>Em khởi động toàn bộ các tầng bằng Docker Compose.</td>
+          </tr>
+          <tr>
+            <td>2. Kiểm tra container</td>
+            <td><code>docker compose -f ".\project\docker-compose.yml" ps -a</code></td>
+            <td>Các service chính như MongoDB, Kafka, Debezium, Spark, Airflow và Superset đang chạy.</td>
+          </tr>
+          <tr>
+            <td>3. Source MongoDB</td>
+            <td>Container <code>mongodb</code>, init job <code>mongo-data-init</code></td>
+            <td>MongoDB là hệ thống nguồn chứa customer, offer và call logs.</td>
+          </tr>
+          <tr>
+            <td>4. Debezium CDC</td>
+            <td><code>docker exec debezium_connect curl -fsS http://localhost:8083/connectors/mongo-source/status</code></td>
+            <td>Debezium bắt thay đổi từ MongoDB và tạo event CDC.</td>
+          </tr>
+          <tr>
+            <td>5. Kafka</td>
+            <td><code>docker exec kafka kafka-topics --bootstrap-server kafka:29092 --list</code></td>
+            <td>Kafka lưu các event CDC để Spark đọc vào Lakehouse.</td>
+          </tr>
+          <tr>
+            <td>6. Airflow DAG</td>
+            <td>Mở <code>http://localhost:8081</code>, login <code>admin/admin</code>, trigger <code>telesales_lakehouse_pipeline</code></td>
+            <td>Airflow điều phối toàn bộ pipeline từ Bronze đến BigQuery.</td>
+          </tr>
+          <tr>
+            <td>7. Bronze</td>
+            <td>Task <code>*.bronze</code> màu xanh</td>
+            <td>Bronze lưu raw CDC event, giữ lineage từ nguồn.</td>
+          </tr>
+          <tr>
+            <td>8. Silver</td>
+            <td>Task <code>*.silver</code> màu xanh</td>
+            <td>Silver làm sạch, deduplicate, masking/drop PII và sinh <code>call_code</code> bằng NLP.</td>
+          </tr>
+          <tr>
+            <td>9. Gold</td>
+            <td>Task group <code>primary_telesales.gold</code> màu xanh</td>
+            <td>Gold xây Star Schema gồm fact và dimension phục vụ BI.</td>
+          </tr>
+          <tr>
+            <td>10. CallCenterEN</td>
+            <td>Task group <code>callcenteren_external</code> màu xanh</td>
+            <td>Nhánh này chứng minh hệ thống mở rộng được sang nguồn hội thoại bên ngoài.</td>
+          </tr>
+          <tr>
+            <td>11. BigQuery sync</td>
+            <td>Task <code>bq_sync_gold</code> màu xanh</td>
+            <td>Gold được publish sang BigQuery làm serving layer.</td>
+          </tr>
+          <tr>
+            <td>12. Serving view</td>
+            <td>Chạy file SQL <code>project\bigquery\create_serving_views.sql</code></td>
+            <td>View này join sẵn dữ liệu để BI truy vấn dễ hơn.</td>
+          </tr>
+          <tr>
+            <td>13. Superset</td>
+            <td>Mở <code>http://localhost:8088</code>, login <code>admin/admin</code>, dashboard <code>Telesales BigQuery Dashboard</code></td>
+            <td>Superset hiển thị KPI, outcome, xu hướng cuộc gọi và hiệu suất agent.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>4. Vai Trò Của Từng Step Trong Đồ Án Và Báo Cáo</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Bước</th>
+            <th>Vai trò trong hệ thống</th>
+            <th>Làm gì trong đồ án</th>
+            <th>Đối chiếu với báo cáo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1. Start stack</td>
+            <td>Khởi động môi trường thực nghiệm</td>
+            <td>Tạo đầy đủ các service cần để chạy pipeline local</td>
+            <td>Chương 3: kiến trúc triển khai; Chương 4: môi trường kiểm thử</td>
+          </tr>
+          <tr>
+            <td>2. Kiểm tra container</td>
+            <td>Chứng minh hệ thống sẵn sàng</td>
+            <td>Xác nhận MongoDB, Kafka, Debezium, MinIO, Spark, Airflow, Superset đã chạy</td>
+            <td>Chương 4: kiểm thử vận hành hệ thống</td>
+          </tr>
+          <tr>
+            <td>3. Source MongoDB</td>
+            <td>Tầng dữ liệu nguồn operational</td>
+            <td>Lưu customer, offer và call logs trước khi CDC</td>
+            <td>Chương 2: mô tả dữ liệu; Chương 3: tầng source database</td>
+          </tr>
+          <tr>
+            <td>4. Debezium CDC</td>
+            <td>Tầng thu nhận thay đổi</td>
+            <td>Bắt thay đổi từ MongoDB và tạo CDC event</td>
+            <td>Chương 1: lý thuyết CDC/Debezium; Chương 3: thiết kế ingestion</td>
+          </tr>
+          <tr>
+            <td>5. Kafka</td>
+            <td>Tầng streaming trung gian</td>
+            <td>Lưu event CDC để Spark đọc theo luồng</td>
+            <td>Chương 1: Apache Kafka; Chương 3: streaming layer</td>
+          </tr>
+          <tr>
+            <td>6. Airflow DAG</td>
+            <td>Tầng điều phối pipeline</td>
+            <td>Sắp xếp thứ tự Bronze, Silver, Gold, CallCenterEN và BigQuery sync</td>
+            <td>Chương 1: Airflow; Chương 3: orchestration; Chương 4: kiểm thử DAG</td>
+          </tr>
+          <tr>
+            <td>7. Bronze</td>
+            <td>Lớp raw trong Lakehouse</td>
+            <td>Ghi raw CDC event, giữ lineage và khả năng tái xử lý</td>
+            <td>Chương 1: Medallion/Lakehouse; Chương 3: thiết kế Bronze; Chương 4: kết quả ETL</td>
+          </tr>
+          <tr>
+            <td>8. Silver</td>
+            <td>Lớp dữ liệu sạch</td>
+            <td>Deduplicate, chuẩn hóa schema, masking/drop PII, sinh <code>call_code</code> bằng BoW</td>
+            <td>Chương 2: xử lý dữ liệu/mô hình; Chương 3: thiết kế Silver; Chương 4: thực nghiệm NLP</td>
+          </tr>
+          <tr>
+            <td>9. Gold</td>
+            <td>Lớp phân tích</td>
+            <td>Xây Star Schema gồm fact và dimension cho BI</td>
+            <td>Chương 1: Star Schema/BI; Chương 3: thiết kế Gold; Chương 4: row count Gold</td>
+          </tr>
+          <tr>
+            <td>10. CallCenterEN</td>
+            <td>Nhánh dữ liệu thứ hai</td>
+            <td>Xử lý CallCenterEN như một nhánh tương đương với AGI Telesales</td>
+            <td>Chương 2: hai nhánh dữ liệu; Chương 3: multi-source architecture; Chương 4: kiểm thử CallCenterEN</td>
+          </tr>
+          <tr>
+            <td>11. BigQuery sync</td>
+            <td>Tầng serving bên ngoài</td>
+            <td>Publish Gold tables sang BigQuery để BI truy vấn</td>
+            <td>Chương 1: BigQuery; Chương 3: serving layer; Chương 4: BigQuery verification</td>
+          </tr>
+          <tr>
+            <td>12. Serving view</td>
+            <td>Lớp semantic cho BI</td>
+            <td>Tạo view join sẵn, giảm độ phức tạp cho dashboard</td>
+            <td>Chương 3: thiết kế serving/BI; Chương 4: kiểm thử serving view</td>
+          </tr>
+          <tr>
+            <td>13. Superset</td>
+            <td>Tầng trực quan hóa</td>
+            <td>Hiển thị KPI, outcome, xu hướng và hiệu suất agent</td>
+            <td>Chương 1: Superset; Chương 3: BI layer; Chương 4: dashboard validation</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>5. Lệnh Dùng Khi Demo</h2>
+      <pre>docker compose -f ".\project\docker-compose.yml" up -d --build
+docker compose -f ".\project\docker-compose.yml" ps -a</pre>
+      <pre>docker exec debezium_connect curl -fsS http://localhost:8083/connectors/mongo-source/status
+docker exec kafka kafka-topics --bootstrap-server kafka:29092 --list</pre>
+      <pre>docker exec airflow airflow dags trigger telesales_lakehouse_pipeline
+docker exec airflow airflow dags list-runs -d telesales_lakehouse_pipeline</pre>
+      <pre>Get-Content -Raw ".\project\bigquery\create_serving_views.sql" | bq.cmd query --use_legacy_sql=false</pre>
+    </section>
+
+    <section class="section">
+      <h2>6. Row Count Mong Đợi</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Object</th>
+            <th>Rows</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>dim_customer</code></td>
+            <td>4,344</td>
+          </tr>
+          <tr>
+            <td><code>dim_offer</code></td>
+            <td>5,072</td>
+          </tr>
+          <tr>
+            <td><code>dim_date</code></td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td><code>fact_telesales_calls</code></td>
+            <td>23,447</td>
+          </tr>
+          <tr>
+            <td><code>vw_telesales_performance</code></td>
+            <td>23,447</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>7. Điểm Cần Nhấn Mạnh Trên Superset</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Total Calls</h3>
+          <p>Quy mô dữ liệu đã xử lý qua toàn bộ pipeline.</p>
+        </div>
+        <div class="card">
+          <h3>Successful Sales</h3>
+          <p>Số cuộc gọi có kết quả bán hàng thành công.</p>
+        </div>
+        <div class="card">
+          <h3>Success Rate</h3>
+          <p>Metric chính để đánh giá hiệu quả telesales.</p>
+        </div>
+        <div class="card">
+          <h3>Calls by Date</h3>
+          <p>Xu hướng cuộc gọi theo ngày.</p>
+        </div>
+        <div class="card">
+          <h3>Outcome Breakdown</h3>
+          <p>Phân bố kết quả cuộc gọi theo nhóm outcome.</p>
+        </div>
+        <div class="card">
+          <h3>Agent Performance</h3>
+          <p>So sánh hiệu suất agent theo calls, sales, success rate và talk time.</p>
+        </div>
+      </div>
+      <div class="note">
+        Dashboard Superset hiện tại tập trung vào <code>vw_telesales_performance</code>.
+        Để chứng minh thêm CallCenterEN, mở BigQuery và show các view:
+        <code>vw_callcenteren_labeled</code>, <code>vw_callcenteren_performance</code>,
+        <code>vw_callcenteren_call_codes</code>.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>8. Câu Kết Demo</h2>
+      <p class="closing">
+        Qua demo này, em chứng minh hệ thống đã chạy end-to-end: từ MongoDB, qua Debezium CDC và Kafka,
+        xử lý Lakehouse bằng Spark theo Bronze/Silver/Gold, đồng bộ sang BigQuery và hiển thị trên Superset.
+        Hệ thống đảm bảo được data lineage, khả năng tái xử lý, NLP enrichment và kiểm soát PII trước khi
+        đưa dữ liệu lên BI.
+      </p>
+    </section>
+  </main>
+</body>
+</html>

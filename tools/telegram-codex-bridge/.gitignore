@@ -1,0 +1,4 @@
+.env
+state.json
+bridge.log
+__pycache__/

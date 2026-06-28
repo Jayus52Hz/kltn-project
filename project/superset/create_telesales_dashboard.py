@@ -7,9 +7,103 @@ from superset.extensions import db
 
 PROJECT_ID = "project-ef0c6db5-0765-4391-845"
 SCHEMA = "kltn0710"
-TABLE = "vw_telesales_performance"
 DB_NAME = "BigQuery - KLTN Telesales"
-DASHBOARD_TITLE = "Telesales BigQuery Dashboard"
+DASHBOARD_TITLE = "KLTN Hybrid Lakehouse - End-to-End BI Dashboard"
+LEGACY_DASHBOARD_TITLES = ["Telesales BigQuery Dashboard"]
+
+
+DATASETS = {
+    "primary": {
+        "table": "vw_telesales_performance",
+        "dttm": "full_date",
+        "metrics": {
+            "count_calls": ("COUNT(call_id)", "Total Calls", ",d"),
+            "successful_sales": (
+                "SUM(IF(has_successful_sale, 1, 0))",
+                "Successful Sales",
+                ",d",
+            ),
+            "success_rate_pct": (
+                "100 * SAFE_DIVIDE(SUM(IF(has_successful_sale, 1, 0)), COUNT(call_id))",
+                "Success Rate %",
+                ".1f",
+            ),
+            "avg_talk_time_seconds": (
+                "AVG(talk_time_seconds)",
+                "Avg Talk Time Seconds",
+                ",.0f",
+            ),
+        },
+    },
+    "callcenter": {
+        "table": "vw_callcenteren_performance",
+        "dttm": None,
+        "metrics": {
+            "count_callcenter_calls": (
+                "COUNT(callcenter_call_id)",
+                "CallCenterEN Calls",
+                ",d",
+            ),
+            "avg_audio_duration": (
+                "AVG(audio_duration)",
+                "Avg Audio Duration",
+                ",.0f",
+            ),
+            "avg_model_confidence": (
+                "AVG(model_call_code_confidence)",
+                "Avg Model Confidence",
+                ".3f",
+            ),
+            "training_ready_calls": (
+                "SUM(IF(should_use_for_training, 1, 0))",
+                "Training-Ready Calls",
+                ",d",
+            ),
+        },
+    },
+    "callcenter_codes": {
+        "table": "vw_callcenteren_call_codes",
+        "dttm": None,
+        "metrics": {
+            "count_label_links": (
+                "COUNT(callcenter_call_id)",
+                "Call-Code Links",
+                ",d",
+            ),
+            "avg_label_confidence": (
+                "AVG(label_confidence)",
+                "Avg Label Confidence",
+                ".3f",
+            ),
+        },
+    },
+    "dataset_profile": {
+        "table": "dataset_profile_comparison",
+        "dttm": None,
+        "metrics": {
+            "rows": ("SUM(row_count)", "Rows", ",d"),
+            "avg_duration": ("AVG(avg_duration_seconds)", "Avg Duration Seconds", ",.0f"),
+            "avg_words": ("AVG(avg_word_count)", "Avg Word Count", ",.0f"),
+            "avg_pii": ("AVG(avg_pii_token_count)", "Avg PII Tokens", ",.1f"),
+        },
+    },
+    "label_distribution": {
+        "table": "call_code_distribution_comparison",
+        "dttm": None,
+        "metrics": {
+            "label_count": ("SUM(label_count)", "Label Count", ",d"),
+        },
+    },
+    "model_experiment": {
+        "table": "model_experiment_comparison",
+        "dttm": None,
+        "metrics": {
+            "eval_rows": ("SUM(eval_rows)", "Eval Rows", ",d"),
+            "micro_f1": ("AVG(micro_f1)", "Micro-F1", ".3f"),
+            "exact_match_rate": ("AVG(exact_match_rate)", "Exact Match Rate", ".3f"),
+        },
+    },
+}
 
 
 def metric_obj(name, expression, label):
@@ -35,6 +129,60 @@ def upsert_metric(dataset, admin, name, expression, label, d3format):
     return metric
 
 
+def get_or_create_database(admin):
+    from superset.models.core import Database
+
+    database = db.session.query(Database).filter_by(database_name=DB_NAME).one_or_none()
+    if database is None:
+        database = Database(database_name=DB_NAME)
+        db.session.add(database)
+    database.set_sqlalchemy_uri(f"bigquery://{PROJECT_ID}")
+    database.expose_in_sqllab = True
+    database.allow_ctas = False
+    database.allow_cvas = False
+    database.extra = json.dumps(
+        {
+            "metadata_params": {},
+            "engine_params": {},
+            "metadata_cache_timeout": {},
+            "schemas_allowed_for_file_upload": [],
+        }
+    )
+    database.created_by = database.changed_by = admin
+    db.session.flush()
+    return database
+
+
+def get_or_create_dataset(database, admin, table_name, main_dttm_col):
+    from superset.connectors.sqla.models import SqlaTable
+
+    dataset = (
+        db.session.query(SqlaTable)
+        .filter_by(database_id=database.id, schema=SCHEMA, table_name=table_name)
+        .one_or_none()
+    )
+    if dataset is None:
+        dataset = SqlaTable(table_name=table_name, schema=SCHEMA, database=database)
+        db.session.add(dataset)
+    dataset.database = database
+    dataset.main_dttm_col = main_dttm_col
+    dataset.filter_select_enabled = True
+    dataset.created_by = dataset.changed_by = admin
+    db.session.flush()
+
+    try:
+        dataset.fetch_metadata()
+    except Exception as exc:
+        print(f"Warning: could not refresh metadata for {table_name}: {exc}")
+
+    for column in dataset.columns:
+        column.filterable = True
+        column.groupby = True
+        column.is_dttm = bool(main_dttm_col and column.column_name == main_dttm_col)
+        column.created_by = column.changed_by = admin
+    return dataset
+
+
 def chart_node(chart, width, height, parents):
     node_id = f"CHART-{chart.id}"
     return node_id, {
@@ -46,231 +194,323 @@ def chart_node(chart, width, height, parents):
     }
 
 
+def make_base(dataset):
+    return {
+        "datasource": f"{dataset.id}__table",
+        "adhoc_filters": [],
+        "time_range": "No filter",
+        "url_params": {},
+    }
+
+
+def big_number(base, metric, subheader="", y_axis_format=",d"):
+    return {
+        **base,
+        "viz_type": "big_number_total",
+        "metric": metric,
+        "header_font_size": 0.4,
+        "subheader": subheader,
+        "subheader_font_size": 0.14,
+        "y_axis_format": y_axis_format,
+        "queryFields": {"metric": "metrics"},
+    }
+
+
+def pie_chart(base, metric, groupby, row_limit=20):
+    return {
+        **base,
+        "viz_type": "pie",
+        "groupby": [groupby],
+        "metric": metric,
+        "donut": True,
+        "innerRadius": 42,
+        "outerRadius": 68,
+        "label_type": "key_percent",
+        "show_labels": True,
+        "labels_outside": True,
+        "label_line": True,
+        "show_legend": True,
+        "row_limit": row_limit,
+        "number_format": "SMART_NUMBER",
+        "color_scheme": "supersetColors",
+        "queryFields": {"metric": "metrics", "groupby": "groupby"},
+    }
+
+
+def time_bar(base, metric):
+    return {
+        **base,
+        "viz_type": "echarts_timeseries_bar",
+        "granularity_sqla": "full_date",
+        "time_grain_sqla": "P1D",
+        "metrics": [metric],
+        "groupby": [],
+        "row_limit": 10000,
+        "show_legend": False,
+        "show_brush": "auto",
+        "rich_tooltip": True,
+        "x_axis_label": "Date",
+        "y_axis_label": "Calls",
+        "y_axis_format": ",d",
+        "x_axis_format": "%Y-%m-%d",
+        "x_ticks_layout": "auto",
+        "color_scheme": "supersetColors",
+        "queryFields": {"metrics": "metrics", "groupby": "groupby"},
+    }
+
+
+def table_chart(base, groupby, metrics, row_limit=50, order_by_cols=None):
+    return {
+        **base,
+        "viz_type": "table",
+        "groupby": groupby,
+        "metrics": metrics,
+        "all_columns": [],
+        "percent_metrics": [],
+        "order_by_cols": order_by_cols or [],
+        "row_limit": row_limit,
+        "server_page_length": row_limit,
+        "include_search": True,
+        "show_cell_bars": True,
+        "page_length": row_limit,
+        "queryFields": {"metrics": "metrics", "groupby": "groupby"},
+    }
+
+
+def upsert_chart(admin, dataset, name, viz_type, params):
+    from superset.models.slice import Slice
+
+    chart = db.session.query(Slice).filter_by(slice_name=name).one_or_none()
+    if chart is None:
+        chart = Slice(slice_name=name)
+        db.session.add(chart)
+    chart.viz_type = viz_type
+    chart.datasource_id = dataset.id
+    chart.datasource_type = "table"
+    chart.datasource_name = f"{SCHEMA}.{dataset.table_name}"
+    chart.params = json.dumps(params, sort_keys=True)
+    chart.query_context = None
+    chart.owners = [admin]
+    chart.created_by = chart.changed_by = admin
+    chart.last_saved_by = admin
+    chart.last_saved_at = datetime.utcnow()
+    return chart
+
+
+def add_row(layout, row_id):
+    layout["GRID_ID"]["children"].append(row_id)
+    layout[row_id] = {
+        "type": "ROW",
+        "id": row_id,
+        "parents": ["ROOT_ID", "GRID_ID"],
+        "children": [],
+        "meta": {"background": "BACKGROUND_TRANSPARENT"},
+    }
+
+
+def add_chart_to_row(layout, row_id, chart, width, height):
+    node_id, node = chart_node(chart, width, height, ["ROOT_ID", "GRID_ID", row_id])
+    layout[node_id] = node
+    layout[row_id]["children"].append(node_id)
+
+
 def main():
     app = create_app()
     with app.app_context():
-        from superset.models.core import Database
-        from superset.connectors.sqla.models import SqlaTable
-        from superset.models.slice import Slice
         from superset.models.dashboard import Dashboard
 
         admin = app.appbuilder.sm.find_user(username="admin")
+        database = get_or_create_database(admin)
 
-        database = db.session.query(Database).filter_by(database_name=DB_NAME).one_or_none()
-        if database is None:
-            database = Database(database_name=DB_NAME)
-            db.session.add(database)
-        database.set_sqlalchemy_uri(f"bigquery://{PROJECT_ID}")
-        database.expose_in_sqllab = True
-        database.allow_ctas = False
-        database.allow_cvas = False
-        database.extra = json.dumps(
-            {
-                "metadata_params": {},
-                "engine_params": {},
-                "metadata_cache_timeout": {},
-                "schemas_allowed_for_file_upload": [],
-            }
-        )
-        database.created_by = database.changed_by = admin
+        datasets = {}
+        metrics = {}
+        for key, config in DATASETS.items():
+            dataset = get_or_create_dataset(
+                database,
+                admin,
+                config["table"],
+                config["dttm"],
+            )
+            datasets[key] = dataset
+            metrics[key] = {}
+            for name, (expression, label, d3format) in config["metrics"].items():
+                upsert_metric(dataset, admin, name, expression, label, d3format)
+                metrics[key][name] = metric_obj(name, expression, label)
         db.session.flush()
 
-        dataset = (
-            db.session.query(SqlaTable)
-            .filter_by(database_id=database.id, schema=SCHEMA, table_name=TABLE)
-            .one_or_none()
-        )
-        if dataset is None:
-            dataset = SqlaTable(table_name=TABLE, schema=SCHEMA, database=database)
-            db.session.add(dataset)
-        dataset.database = database
-        dataset.main_dttm_col = "full_date"
-        dataset.filter_select_enabled = True
-        dataset.created_by = dataset.changed_by = admin
-        db.session.flush()
-
-        try:
-            dataset.fetch_metadata()
-        except Exception as exc:
-            print(f"Warning: could not refresh BigQuery metadata: {exc}")
-
-        for column in dataset.columns:
-            column.filterable = True
-            column.groupby = True
-            column.is_dttm = column.column_name == "full_date"
-            column.created_by = column.changed_by = admin
-
-        metric_defs = {
-            "count_calls": ("COUNT(call_id)", "Total Calls", ",d"),
-            "successful_sales": (
-                "SUM(IF(has_successful_sale, 1, 0))",
-                "Successful Sales",
-                ",d",
-            ),
-            "success_rate_pct": (
-                "100 * SAFE_DIVIDE(SUM(IF(has_successful_sale, 1, 0)), COUNT(call_id))",
-                "Success Rate %",
-                ".1f",
-            ),
-            "avg_talk_time_seconds": (
-                "AVG(talk_time_seconds)",
-                "Avg Talk Time Seconds",
-                ",.0f",
-            ),
-        }
-        for name, (expression, label, d3format) in metric_defs.items():
-            upsert_metric(dataset, admin, name, expression, label, d3format)
-        db.session.flush()
-
-        datasource = f"{dataset.id}__table"
-        base = {
-            "datasource": datasource,
-            "adhoc_filters": [],
-            "time_range": "No filter",
-            "url_params": {},
-        }
-
-        metrics = {
-            name: metric_obj(name, expression, label)
-            for name, (expression, label, _) in metric_defs.items()
-        }
+        primary_base = make_base(datasets["primary"])
+        callcenter_base = make_base(datasets["callcenter"])
+        callcenter_codes_base = make_base(datasets["callcenter_codes"])
+        dataset_profile_base = make_base(datasets["dataset_profile"])
+        label_distribution_base = make_base(datasets["label_distribution"])
+        model_experiment_base = make_base(datasets["model_experiment"])
 
         chart_specs = [
             (
-                "Total Calls",
+                "KLTN - Primary Total Calls",
+                datasets["primary"],
                 "big_number_total",
-                {
-                    **base,
-                    "viz_type": "big_number_total",
-                    "metric": metrics["count_calls"],
-                    "granularity_sqla": "full_date",
-                    "header_font_size": 0.42,
-                    "subheader": "",
-                    "subheader_font_size": 0.15,
-                    "y_axis_format": ",d",
-                    "queryFields": {"metric": "metrics"},
-                },
+                big_number(primary_base, metrics["primary"]["count_calls"]),
             ),
             (
-                "Successful Sales",
+                "KLTN - Primary Successful Sales",
+                datasets["primary"],
                 "big_number_total",
-                {
-                    **base,
-                    "viz_type": "big_number_total",
-                    "metric": metrics["successful_sales"],
-                    "granularity_sqla": "full_date",
-                    "header_font_size": 0.42,
-                    "subheader": "",
-                    "subheader_font_size": 0.15,
-                    "y_axis_format": ",d",
-                    "queryFields": {"metric": "metrics"},
-                },
+                big_number(primary_base, metrics["primary"]["successful_sales"]),
             ),
             (
-                "Success Rate",
+                "KLTN - Primary Success Rate",
+                datasets["primary"],
                 "big_number_total",
-                {
-                    **base,
-                    "viz_type": "big_number_total",
-                    "metric": metrics["success_rate_pct"],
-                    "granularity_sqla": "full_date",
-                    "header_font_size": 0.42,
-                    "subheader": "% successful calls",
-                    "subheader_font_size": 0.15,
-                    "y_axis_format": ".1f",
-                    "queryFields": {"metric": "metrics"},
-                },
+                big_number(
+                    primary_base,
+                    metrics["primary"]["success_rate_pct"],
+                    "successful calls",
+                    ".1f",
+                ),
             ),
             (
-                "Calls by Date",
+                "KLTN - CallCenterEN Calls",
+                datasets["callcenter"],
+                "big_number_total",
+                big_number(callcenter_base, metrics["callcenter"]["count_callcenter_calls"]),
+            ),
+            (
+                "KLTN - CallCenterEN Label Links",
+                datasets["callcenter_codes"],
+                "big_number_total",
+                big_number(
+                    callcenter_codes_base,
+                    metrics["callcenter_codes"]["count_label_links"],
+                    "bridge rows",
+                ),
+            ),
+            (
+                "KLTN - CallCenterEN Avg Model Confidence",
+                datasets["callcenter"],
+                "big_number_total",
+                big_number(
+                    callcenter_base,
+                    metrics["callcenter"]["avg_model_confidence"],
+                    "model_call_code confidence",
+                    ".3f",
+                ),
+            ),
+            (
+                "KLTN - Primary Calls by Date",
+                datasets["primary"],
                 "echarts_timeseries_bar",
-                {
-                    **base,
-                    "viz_type": "echarts_timeseries_bar",
-                    "granularity_sqla": "full_date",
-                    "time_grain_sqla": "P1D",
-                    "metrics": [metrics["count_calls"]],
-                    "groupby": [],
-                    "row_limit": 10000,
-                    "show_legend": False,
-                    "show_brush": "auto",
-                    "rich_tooltip": True,
-                    "x_axis_label": "Date",
-                    "y_axis_label": "Calls",
-                    "y_axis_format": ",d",
-                    "x_axis_format": "%Y-%m-%d",
-                    "x_ticks_layout": "auto",
-                    "color_scheme": "supersetColors",
-                    "queryFields": {"metrics": "metrics", "groupby": "groupby"},
-                },
+                time_bar(primary_base, metrics["primary"]["count_calls"]),
             ),
             (
-                "Outcome Breakdown",
+                "KLTN - Primary Outcome Breakdown",
+                datasets["primary"],
                 "pie",
-                {
-                    **base,
-                    "viz_type": "pie",
-                    "granularity_sqla": "full_date",
-                    "groupby": ["outcome_category"],
-                    "metric": metrics["count_calls"],
-                    "donut": True,
-                    "innerRadius": 42,
-                    "outerRadius": 68,
-                    "label_type": "key_percent",
-                    "show_labels": True,
-                    "labels_outside": True,
-                    "label_line": True,
-                    "show_legend": True,
-                    "row_limit": 20,
-                    "number_format": "SMART_NUMBER",
-                    "color_scheme": "supersetColors",
-                    "queryFields": {"metric": "metrics", "groupby": "groupby"},
-                },
+                pie_chart(primary_base, metrics["primary"]["count_calls"], "outcome_category"),
             ),
             (
-                "Agent Performance",
+                "KLTN - Primary Product Category",
+                datasets["primary"],
+                "pie",
+                pie_chart(primary_base, metrics["primary"]["count_calls"], "product_category"),
+            ),
+            (
+                "KLTN - Primary Agent Performance",
+                datasets["primary"],
                 "table",
-                {
-                    **base,
-                    "viz_type": "table",
-                    "granularity_sqla": "full_date",
-                    "groupby": ["agent_id"],
-                    "metrics": [
-                        metrics["count_calls"],
-                        metrics["successful_sales"],
-                        metrics["success_rate_pct"],
-                        metrics["avg_talk_time_seconds"],
+                table_chart(
+                    primary_base,
+                    ["agent_id"],
+                    [
+                        metrics["primary"]["count_calls"],
+                        metrics["primary"]["successful_sales"],
+                        metrics["primary"]["success_rate_pct"],
+                        metrics["primary"]["avg_talk_time_seconds"],
                     ],
-                    "all_columns": [],
-                    "percent_metrics": [],
-                    "order_by_cols": [],
-                    "row_limit": 50,
-                    "server_page_length": 50,
-                    "include_search": True,
-                    "show_cell_bars": True,
-                    "page_length": 50,
-                    "queryFields": {"metrics": "metrics", "groupby": "groupby"},
-                },
+                    row_limit=50,
+                ),
+            ),
+            (
+                "KLTN - CallCenterEN Source Domains",
+                datasets["callcenter"],
+                "pie",
+                pie_chart(
+                    callcenter_base,
+                    metrics["callcenter"]["count_callcenter_calls"],
+                    "source_domain",
+                    row_limit=12,
+                ),
+            ),
+            (
+                "KLTN - CallCenterEN Direction Mix",
+                datasets["callcenter"],
+                "pie",
+                pie_chart(
+                    callcenter_base,
+                    metrics["callcenter"]["count_callcenter_calls"],
+                    "call_direction",
+                    row_limit=8,
+                ),
+            ),
+            (
+                "KLTN - CallCenterEN Top Call Codes",
+                datasets["callcenter_codes"],
+                "pie",
+                pie_chart(
+                    callcenter_codes_base,
+                    metrics["callcenter_codes"]["count_label_links"],
+                    "call_code",
+                    row_limit=15,
+                ),
+            ),
+            (
+                "KLTN - Multi-Source Dataset Profile",
+                datasets["dataset_profile"],
+                "table",
+                table_chart(
+                    dataset_profile_base,
+                    ["dataset_name"],
+                    [
+                        metrics["dataset_profile"]["rows"],
+                        metrics["dataset_profile"]["avg_duration"],
+                        metrics["dataset_profile"]["avg_words"],
+                        metrics["dataset_profile"]["avg_pii"],
+                    ],
+                    row_limit=10,
+                ),
+            ),
+            (
+                "KLTN - Multi-Source Call Code Distribution",
+                datasets["label_distribution"],
+                "table",
+                table_chart(
+                    label_distribution_base,
+                    ["dataset_name", "call_code"],
+                    [metrics["label_distribution"]["label_count"]],
+                    row_limit=60,
+                ),
+            ),
+            (
+                "KLTN - Model Experiment Comparison",
+                datasets["model_experiment"],
+                "table",
+                table_chart(
+                    model_experiment_base,
+                    ["model", "train_dataset", "eval_dataset"],
+                    [
+                        metrics["model_experiment"]["eval_rows"],
+                        metrics["model_experiment"]["micro_f1"],
+                        metrics["model_experiment"]["exact_match_rate"],
+                    ],
+                    row_limit=20,
+                ),
             ),
         ]
 
-        charts = []
-        for name, viz_type, params in chart_specs:
-            chart = db.session.query(Slice).filter_by(slice_name=name).one_or_none()
-            if chart is None:
-                chart = Slice(slice_name=name)
-                db.session.add(chart)
-            chart.viz_type = viz_type
-            chart.datasource_id = dataset.id
-            chart.datasource_type = "table"
-            chart.datasource_name = f"{SCHEMA}.{TABLE}"
-            chart.params = json.dumps(params, sort_keys=True)
-            chart.query_context = None
-            chart.owners = [admin]
-            chart.created_by = chart.changed_by = admin
-            chart.last_saved_by = admin
-            chart.last_saved_at = datetime.utcnow()
-            charts.append(chart)
+        charts = [
+            upsert_chart(admin, dataset, name, viz_type, params)
+            for name, dataset, viz_type, params in chart_specs
+        ]
         db.session.flush()
 
         dashboard = (
@@ -281,7 +521,7 @@ def main():
         if dashboard is None:
             dashboard = Dashboard(dashboard_title=DASHBOARD_TITLE)
             db.session.add(dashboard)
-        dashboard.slug = "telesales-bigquery-dashboard"
+        dashboard.slug = "kltn-hybrid-lakehouse-end-to-end-bi"
         dashboard.published = True
         dashboard.owners = [admin]
         dashboard.slices = charts
@@ -292,7 +532,7 @@ def main():
                 "expanded_slices": {},
                 "refresh_frequency": 0,
                 "default_filters": "{}",
-                "color_namespace": "telesales_bigquery",
+                "color_namespace": "kltn_hybrid_lakehouse",
                 "label_colors": {},
                 "chart_configuration": {},
                 "global_chart_configuration": {
@@ -310,55 +550,46 @@ def main():
                 "type": "GRID",
                 "id": "GRID_ID",
                 "parents": ["ROOT_ID"],
-                "children": ["ROW-KPI", "ROW-MAIN", "ROW-TABLE"],
-            },
-            "HEADER_ID": {
-                "type": "HEADER",
-                "id": "HEADER_ID",
-                "meta": {"text": DASHBOARD_TITLE},
-            },
-            "ROW-KPI": {
-                "type": "ROW",
-                "id": "ROW-KPI",
-                "parents": ["ROOT_ID", "GRID_ID"],
                 "children": [],
-                "meta": {"background": "BACKGROUND_TRANSPARENT"},
-            },
-            "ROW-MAIN": {
-                "type": "ROW",
-                "id": "ROW-MAIN",
-                "parents": ["ROOT_ID", "GRID_ID"],
-                "children": [],
-                "meta": {"background": "BACKGROUND_TRANSPARENT"},
-            },
-            "ROW-TABLE": {
-                "type": "ROW",
-                "id": "ROW-TABLE",
-                "parents": ["ROOT_ID", "GRID_ID"],
-                "children": [],
-                "meta": {"background": "BACKGROUND_TRANSPARENT"},
             },
         }
+        for row_id in [
+            "ROW-PRIMARY-KPI",
+            "ROW-CALLCENTER-KPI",
+            "ROW-PRIMARY-CHARTS",
+            "ROW-PRIMARY-TABLE",
+            "ROW-CALLCENTER-CHARTS",
+            "ROW-COMPARISON",
+        ]:
+            add_row(layout, row_id)
+
         for index in [0, 1, 2]:
-            node_id, node = chart_node(
-                charts[index], 4, 16, ["ROOT_ID", "GRID_ID", "ROW-KPI"]
-            )
-            layout[node_id] = node
-            layout["ROW-KPI"]["children"].append(node_id)
-        for index, width in [(3, 8), (4, 4)]:
-            node_id, node = chart_node(
-                charts[index], width, 50, ["ROOT_ID", "GRID_ID", "ROW-MAIN"]
-            )
-            layout[node_id] = node
-            layout["ROW-MAIN"]["children"].append(node_id)
-        node_id, node = chart_node(charts[5], 12, 50, ["ROOT_ID", "GRID_ID", "ROW-TABLE"])
-        layout[node_id] = node
-        layout["ROW-TABLE"]["children"].append(node_id)
+            add_chart_to_row(layout, "ROW-PRIMARY-KPI", charts[index], 4, 16)
+        for index in [3, 4, 5]:
+            add_chart_to_row(layout, "ROW-CALLCENTER-KPI", charts[index], 4, 16)
+        for index, width in [(6, 5), (7, 4), (8, 3)]:
+            add_chart_to_row(layout, "ROW-PRIMARY-CHARTS", charts[index], width, 48)
+        add_chart_to_row(layout, "ROW-PRIMARY-TABLE", charts[9], 12, 48)
+        for index in [10, 11, 12]:
+            add_chart_to_row(layout, "ROW-CALLCENTER-CHARTS", charts[index], 4, 46)
+        for index in [13, 14, 15]:
+            add_chart_to_row(layout, "ROW-COMPARISON", charts[index], 4, 52)
 
         dashboard.position_json = json.dumps(layout, indent=2)
+
+        for legacy_title in LEGACY_DASHBOARD_TITLES:
+            legacy_dashboard = (
+                db.session.query(Dashboard)
+                .filter_by(dashboard_title=legacy_title)
+                .one_or_none()
+            )
+            if legacy_dashboard is not None:
+                legacy_dashboard.published = False
+                legacy_dashboard.changed_by = admin
+
         db.session.commit()
 
-        print(f"Seeded Superset BigQuery dashboard: /superset/dashboard/{dashboard.id}/")
+        print(f"Seeded Superset dashboard: /superset/dashboard/{dashboard.id}/")
 
 
 if __name__ == "__main__":

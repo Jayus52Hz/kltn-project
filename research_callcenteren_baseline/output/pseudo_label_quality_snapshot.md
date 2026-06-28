@@ -1,0 +1,81 @@
+# Pseudo-Label Quality Snapshot
+
+## Progress
+
+| Metric | Value |
+|---|---:|
+| Source rows | 15,000 |
+| Labeled rows | 2,420 |
+| Labeling progress | 16.13% |
+| Unique labeled hashes | 2,420 |
+| Duplicate hash rows | 0 |
+| Usable rows, confidence >= 0.80 | 2,340 |
+| Usable rows / labeled | 96.69% |
+| Empty label rows | 0 |
+| Invalid label values | 0 |
+
+## Confidence Buckets
+
+| Item | Count |
+|---|---:|
+| `>=0.90` | 1,649 |
+| `0.65-0.79` | 60 |
+| `0.80-0.89` | 699 |
+| `<0.65` | 12 |
+
+## Top Pseudo Labels
+
+| Item | Count |
+|---|---:|
+| `OPENING` | 2,404 |
+| `NEEDS_ANALYSIS` | 2,108 |
+| `PRODUCT_PITCH` | 1,056 |
+| `FEE_DISCUSSION` | 959 |
+| `CURIOUS_EXPLORATION` | 553 |
+| `ACTIVE_LISTENING` | 304 |
+| `PASSIVE_AGREEMENT` | 291 |
+| `WARM_LEAD` | 198 |
+| `SUCCESSFUL_SALE` | 191 |
+| `SOFT_REJECTION` | 133 |
+| `OBJECTION_HANDLING` | 115 |
+| `MISUNDERSTANDING` | 79 |
+| `FOLLOW_UP_EMAIL_REQUESTED` | 46 |
+| `OVERWHELMED_CONFUSION` | 37 |
+| `DEFENSIVE_POSTURE` | 35 |
+| `ENTHUSIASTIC_AGREEMENT` | 32 |
+| `COMPETITOR_COMPARISON` | 27 |
+| `CLOSING_NEGOTIATION` | 22 |
+| `STALLING_FOR_TIME` | 19 |
+| `SUSPICIOUS_PROBING` | 18 |
+| `SUDDEN_HANG_UP` | 15 |
+| `ANGRY_OUTBURST` | 14 |
+| `HARD_REJECTION` | 7 |
+| `THREATENING_COMPLAINT` | 5 |
+| `RUSHING_THE_CALL` | 5 |
+| `APATHETIC_RESPONSE` | 3 |
+| `DEMANDING_MANAGER` | 3 |
+| `DO_NOT_CALL_REQUEST` | 2 |
+| `SARCASTIC_MOCKERY` | 1 |
+| `INDECISIVE_FLIPPING` | 1 |
+
+## Domain Distribution
+
+| Item | Count |
+|---|---:|
+| `insurance` | 688 |
+| `medicare` | 641 |
+| `home_service_telecom` | 549 |
+| `automotive` | 279 |
+| `customer_service` | 111 |
+| `medical_equipment` | 72 |
+
+## Direction Distribution
+
+| Item | Count |
+|---|---:|
+| `inbound` | 1,752 |
+| `outbound` | 588 |
+
+## Invalid Labels
+
+No invalid labels found.

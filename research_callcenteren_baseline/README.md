@@ -1,19 +1,20 @@
 # CallCenterEN Baseline Research Workflow
 
-This folder contains the research workflow for using CallCenterEN as:
+This folder contains the research workflow for using CallCenterEN as the second
+main dataset branch in a multi-source Hybrid Data Lakehouse. The AGI Telesales
+dataset and CallCenterEN are processed as separate branches and compared through
+dataset profiling, label distribution, and BoW model experiments.
 
-1. an external real-world baseline to justify the thesis dataset design; and
-2. an auxiliary corpus for pseudo-label or domain-adaptive model experiments.
-
-The primary thesis dataset remains `master_data/*.json`. CallCenterEN must not be
-treated as the main dataset and should not be mixed into the primary test set.
+CallCenterEN `call_code` values are pseudo-labels. They are accepted as trusted
+labels for the CallCenterEN branch experiments, but the test splits of the two
+datasets remain separate to avoid train/test leakage.
 
 ## Inputs
 
 Expected files:
 
 ```text
-master_data/transcript_batch*.json
+master_data/raw/transcript_batch*.json
 92k-real-world-call-center-scripts-english/prepared_subset/baseline_analysis_sample.csv
 92k-real-world-call-center-scripts-english/prepared_subset/auxiliary_training_candidate.csv
 NLP model/train.csv
@@ -97,10 +98,170 @@ python .\research_callcenteren_baseline\batch_pseudo_label_call_codes.py --targe
 python .\research_callcenteren_baseline\batch_pseudo_label_call_codes.py --target-total 2000 --batch-size 5 --sleep 4.2 --max-transcript-chars 1600
 ```
 
+## Step 2b: 15k CallCenterEN Pseudo-Labeling
+
+The old `auxiliary_training_candidate.csv` has only 2,000 rows. For a 15k run,
+first prepare a larger candidate file from all local CallCenterEN ZIP archives:
+
+```powershell
+python .\research_callcenteren_baseline\prepare_callcenteren_15k_candidates.py
+```
+
+Outputs:
+
+```text
+research_callcenteren_baseline/output/callcenteren_15k_candidate.csv
+research_callcenteren_baseline/output/callcenteren_15k_candidate_summary.json
+```
+
+Then run resumable Gemini pseudo-labeling. The script appends to the existing
+`pseudo_labels_gemini.csv`, skips already labeled `text_hash` values, and stops
+when the CSV reaches 15,000 rows:
+
+```powershell
+$env:GEMINI_API_KEY="YOUR_KEY_HERE"
+python .\research_callcenteren_baseline\batch_pseudo_label_call_codes.py `
+  --input .\research_callcenteren_baseline\output\callcenteren_15k_candidate.csv `
+  --target-total 15000 `
+  --batch-size 5 `
+  --sleep 4.2 `
+  --max-transcript-chars 1600 `
+  --model gemma-4-31b-it
+```
+
+Or use the wrapper:
+
+```powershell
+$env:GEMINI_API_KEY="YOUR_KEY_HERE"
+powershell -ExecutionPolicy Bypass -File .\research_callcenteren_baseline\run_callcenteren_15k_pseudo_labels.ps1
+```
+
+Prepare only, without calling Gemini:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\research_callcenteren_baseline\run_callcenteren_15k_pseudo_labels.ps1 -PrepareOnly
+```
+
+At 15 RPM and `--batch-size 5`, reaching 15k labels takes roughly 3.5-5 hours
+from scratch depending on API latency. Since the current pilot already has 300
+rows, the remaining run labels about 14,700 new rows.
+
 Run the BoW auxiliary experiment after pseudo-labeling:
 
 ```powershell
 python .\research_callcenteren_baseline\train_auxiliary_bow_experiment.py
+```
+
+## Step 3: Prepare CallCenterEN as a Main Dataset Branch
+
+After stopping or completing pseudo-label generation, inspect quality:
+
+```powershell
+python .\research_callcenteren_baseline\inspect_pseudo_label_quality.py
+```
+
+Create deterministic train/valid/test splits:
+
+```powershell
+python .\research_callcenteren_baseline\prepare_callcenteren_splits.py
+```
+
+Outputs:
+
+```text
+research_callcenteren_baseline/output/callcenteren_labeled.csv
+research_callcenteren_baseline/output/callcenteren_train.csv
+research_callcenteren_baseline/output/callcenteren_valid.csv
+research_callcenteren_baseline/output/callcenteren_test.csv
+research_callcenteren_baseline/output/callcenteren_split_summary.json
+research_callcenteren_baseline/output/callcenteren_split_label_distribution.csv
+```
+
+Smoke test without overwriting full outputs:
+
+```powershell
+python .\research_callcenteren_baseline\prepare_callcenteren_splits.py `
+  --limit 300 `
+  --output-dir .\research_callcenteren_baseline\output\smoke
+```
+
+## Step 4: Multi-Source BoW Experiments
+
+Run a lightweight smoke test:
+
+```powershell
+python .\research_callcenteren_baseline\run_multisource_bow_experiments.py `
+  --split-dir .\research_callcenteren_baseline\output\smoke `
+  --output-dir .\research_callcenteren_baseline\output\smoke\multisource_bow `
+  --limit-train 80 `
+  --limit-eval 40 `
+  --max-features 5000
+```
+
+Run the full experiment after pseudo-labeling is frozen:
+
+```powershell
+python .\research_callcenteren_baseline\run_multisource_bow_experiments.py `
+  --split-dir .\research_callcenteren_baseline\output `
+  --output-dir .\research_callcenteren_baseline\output\multisource_bow `
+  --save-models
+```
+
+The experiment reports:
+
+```text
+M0: primary -> primary
+M1: primary -> CallCenterEN
+M2: CallCenterEN -> CallCenterEN
+M3: CallCenterEN -> primary
+M4: primary + CallCenterEN -> each test set
+```
+
+## Step 4b: Fine-Tune a Separate CallCenterEN Model
+
+The final direction keeps the primary AGI Telesales model and CallCenterEN model
+separate. Do not use the combined model as the serving model. Fine-tune and
+apply a CallCenterEN-specific classifier with:
+
+```powershell
+python .\research_callcenteren_baseline\finetune_callcenteren_bow.py `
+  --output-dir .\research_callcenteren_baseline\output\callcenteren_finetuned_max4 `
+  --max-labels 4
+```
+
+Outputs:
+
+```text
+research_callcenteren_baseline/output/callcenteren_finetuned_max4/callcenteren_finetune_report.md
+research_callcenteren_baseline/output/callcenteren_finetuned_max4/callcenteren_best_finetuned_model.pkl
+research_callcenteren_baseline/output/callcenteren_finetuned_max4/callcenteren_15k_with_model_callcodes.csv
+research_callcenteren_baseline/output/callcenteren_finetuned_max4/callcenteren_15k_model_callcode_summary.json
+```
+
+The 15k schema CSV is the full CallCenterEN branch input for Lakehouse. It keeps
+existing Gemini pseudo-labels when present and adds `model_call_code` for every
+candidate row.
+
+## Step 5: Lakehouse Integration
+
+The Docker Compose stack mounts `research_callcenteren_baseline/output` into
+Spark/Airflow at:
+
+```text
+/opt/spark/work-dir/callcenteren-output
+```
+
+After `callcenteren_finetuned_max4/callcenteren_15k_with_model_callcodes.csv` exists,
+the Airflow DAG can run the `callcenteren_external_branch` task to create:
+
+```text
+lakehouse.bronze_external.callcenteren_raw
+lakehouse.silver_external.callcenteren_clean
+lakehouse.silver_external.callcenteren_labeled
+lakehouse.gold_external.callcenteren_call_analytics
+lakehouse.gold.dataset_profile_comparison
+lakehouse.gold.call_code_distribution_comparison
+lakehouse.gold.model_experiment_comparison
 ```
 
 ## Academic Positioning
@@ -108,12 +269,13 @@ python .\research_callcenteren_baseline\train_auxiliary_bow_experiment.py
 Use this wording consistently:
 
 ```text
-CallCenterEN is used as an external real-world reference baseline and auxiliary
-training corpus. The proposed telesales dataset remains the primary dataset
-because it contains task-specific business entities and call_code labels.
+The project is extended into a multi-source Hybrid Data Lakehouse. The AGI
+Telesales dataset and CallCenterEN are modeled as two main dataset branches;
+the Gold comparison layer evaluates transcript structure, call duration, PII
+signals, call_code distribution, and NLP model behavior across both sources.
 ```
 
-Do not call Gemini-generated labels ground truth. Use one of:
+Do not call Gemini-generated labels original human ground truth. Use one of:
 
 ```text
 weak labels

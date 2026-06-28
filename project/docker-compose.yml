@@ -273,6 +273,10 @@ services:
     environment:
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
       AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
+      AIRFLOW__CORE__PARALLELISM: "1"
+      AIRFLOW__CORE__MAX_ACTIVE_TASKS_PER_DAG: "1"
+      AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG: "1"
+      AIRFLOW__SCHEDULER__MAX_TIS_PER_QUERY: "1"
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://admin:admin@postgres_metadata:5432/metadata_db
       # New DAGs start unpaused so the pipeline runs on schedule immediately
       AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "False"

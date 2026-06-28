@@ -1,0 +1,3276 @@
+{
+  "generated_at": "2026-06-27T07:59:20",
+  "report": "docs/reports/Report KLTN - 22133056 - Nguyen Quoc Thinh - 26-06 - v7 callcenteren star schema bq verification.docx",
+  "summary": {
+    "nodes": 251,
+    "edges": 250,
+    "heading_1": 14,
+    "heading_2": 51,
+    "heading_3": 133,
+    "figures": 22,
+    "tables": 24,
+    "docx_tables": 73,
+    "inline_shapes": 0
+  },
+  "nodes": [
+    {
+      "id": "report:v7",
+      "type": "report",
+      "level": 0,
+      "title": "Report KLTN - 22133056 - Nguyen Quoc Thinh - 26-06 - v7 callcenteren star schema bq verification.docx",
+      "source": "docs/reports/Report KLTN - 22133056 - Nguyen Quoc Thinh - 26-06 - v7 callcenteren star schema bq verification.docx"
+    },
+    {
+      "id": "h1:95:m-c-l-c",
+      "type": "heading",
+      "level": 1,
+      "title": "MỤC LỤC",
+      "paragraph_index": 95,
+      "style": "Heading 1"
+    },
+    {
+      "id": "h1:149:danh-m-c-h-nh-nh",
+      "type": "heading",
+      "level": 1,
+      "title": "DANH MỤC HÌNH ẢNH",
+      "paragraph_index": 149,
+      "style": "Heading 1"
+    },
+    {
+      "id": "h1:176:danh-m-c-b-ng",
+      "type": "heading",
+      "level": 1,
+      "title": "DANH MỤC BẢNG",
+      "paragraph_index": 176,
+      "style": "Heading 1"
+    },
+    {
+      "id": "h1:203:danh-m-c-k-hi-u-v-c-c-ch-vi-t-t-t",
+      "type": "heading",
+      "level": 1,
+      "title": "DANH MỤC KÝ HIỆU VÀ CÁC CHỮ VIẾT TẮT",
+      "paragraph_index": 203,
+      "style": "Heading 1"
+    },
+    {
+      "id": "h1:205:ph-n-m-u",
+      "type": "heading",
+      "level": 1,
+      "title": "PHẦN MỞ ĐẦU",
+      "paragraph_index": 205,
+      "style": "Heading 1"
+    },
+    {
+      "id": "h2:206:1-1-t-nh-c-p-thi-t-c-a-t-i",
+      "type": "heading",
+      "level": 2,
+      "title": "1.1. TÍNH CẤP THIẾT CỦA ĐỀ TÀI",
+      "paragraph_index": 206,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h2:212:1-2-m-c-ch-c-a-t-i",
+      "type": "heading",
+      "level": 2,
+      "title": "1.2. MỤC ĐÍCH CỦA ĐỀ TÀI",
+      "paragraph_index": 212,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h2:221:1-3-c-ch-ti-p-c-n-v-ph-ng-ph-p-nghi-n-c-u",
+      "type": "heading",
+      "level": 2,
+      "title": "1.3. CÁCH TIẾP CẬN VÀ PHƯƠNG PHÁP NGHIÊN CỨU",
+      "paragraph_index": 221,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:222:1-3-1-i-t-ng-nghi-n-c-u",
+      "type": "heading",
+      "level": 3,
+      "title": "1.3.1. Đối tượng nghiên cứu",
+      "paragraph_index": 222,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:224:1-3-2-ph-m-vi-nghi-n-c-u",
+      "type": "heading",
+      "level": 3,
+      "title": "1.3.2. Phạm vi nghiên cứu",
+      "paragraph_index": 224,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:226:1-3-3-ph-ng-ph-p-nghi-n-c-u",
+      "type": "heading",
+      "level": 3,
+      "title": "1.3.3. Phương pháp nghiên cứu",
+      "paragraph_index": 226,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:228:1-4-m-t-s-c-ng-tr-nh-nghi-n-c-u-trong-v-ngo-i-n-c",
+      "type": "heading",
+      "level": 2,
+      "title": "1.4. MỘT SỐ CÔNG TRÌNH NGHIÊN CỨU TRONG VÀ NGOÀI NƯỚC",
+      "paragraph_index": 228,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h2:232:1-5-k-t-qu-t-c",
+      "type": "heading",
+      "level": 2,
+      "title": "1.5. KẾT QUẢ ĐẠT ĐƯỢC",
+      "paragraph_index": 232,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h1:234:ph-n-n-i-dung",
+      "type": "heading",
+      "level": 1,
+      "title": "PHẦN NỘI DUNG",
+      "paragraph_index": 234,
+      "style": "Heading 1"
+    },
+    {
+      "id": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "type": "heading",
+      "level": 1,
+      "title": "Chương 1: CƠ SỞ LÝ THUYẾT",
+      "paragraph_index": 235,
+      "style": "Heading 1"
+    },
+    {
+      "id": "h2:237:1-1-t-ng-quan-v-ki-n-tr-c-d-li-u-hi-n-i",
+      "type": "heading",
+      "level": 2,
+      "title": "1.1. Tổng quan về kiến trúc dữ liệu hiện đại",
+      "paragraph_index": 237,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:244:1-1-1-data-warehouse",
+      "type": "heading",
+      "level": 3,
+      "title": "1.1.1. Data Warehouse",
+      "paragraph_index": 244,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:247:1-1-2-data-lake",
+      "type": "heading",
+      "level": 3,
+      "title": "1.1.2. Data Lake",
+      "paragraph_index": 247,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:250:1-1-3-data-lakehouse",
+      "type": "heading",
+      "level": 3,
+      "title": "1.1.3. Data Lakehouse",
+      "paragraph_index": 250,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:253:1-1-4-hybrid-data-lakehouse",
+      "type": "heading",
+      "level": 3,
+      "title": "1.1.4. Hybrid Data Lakehouse",
+      "paragraph_index": 253,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:257:1-2-ki-n-tr-c-medallion",
+      "type": "heading",
+      "level": 2,
+      "title": "1.2. Kiến trúc Medallion",
+      "paragraph_index": 257,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h2:262:1-3-thu-th-p-d-li-u-thay-i-theo-th-i-gian-th-c",
+      "type": "heading",
+      "level": 2,
+      "title": "1.3. Thu thập dữ liệu thay đổi theo thời gian thực",
+      "paragraph_index": 262,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:263:1-3-1-change-data-capture-v-mongodb-change-streams",
+      "type": "heading",
+      "level": 3,
+      "title": "1.3.1. Change Data Capture và MongoDB Change Streams",
+      "paragraph_index": 263,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:269:1-3-2-debezium",
+      "type": "heading",
+      "level": 3,
+      "title": "1.3.2. Debezium",
+      "paragraph_index": 269,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:274:1-3-3-apache-kafka",
+      "type": "heading",
+      "level": 3,
+      "title": "1.3.3. Apache Kafka",
+      "paragraph_index": 274,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:281:1-4-c-ng-ngh-x-l-v-l-u-tr-d-li-u-l-n",
+      "type": "heading",
+      "level": 2,
+      "title": "1.4. Công nghệ xử lý và lưu trữ dữ liệu lớn",
+      "paragraph_index": 281,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:282:1-4-1-apache-spark",
+      "type": "heading",
+      "level": 3,
+      "title": "1.4.1. Apache Spark",
+      "paragraph_index": 282,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:287:1-4-2-apache-iceberg",
+      "type": "heading",
+      "level": 3,
+      "title": "1.4.2. Apache Iceberg",
+      "paragraph_index": 287,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:294:1-4-3-object-storage-v-minio",
+      "type": "heading",
+      "level": 3,
+      "title": "1.4.3. Object Storage và MinIO",
+      "paragraph_index": 294,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:299:1-5-b-o-m-t-d-li-u-c-nh-n-v-khai-ph-d-li-u-h-i-tho-i",
+      "type": "heading",
+      "level": 2,
+      "title": "1.5. Bảo mật dữ liệu cá nhân và khai phá dữ liệu hội thoại",
+      "paragraph_index": 299,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:300:1-5-1-d-li-u-c-nh-n-v-y-u-c-u-tu-n-th",
+      "type": "heading",
+      "level": 3,
+      "title": "1.5.1. Dữ liệu cá nhân và yêu cầu tuân thủ",
+      "paragraph_index": 300,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:302:1-5-2-pii-masking-trong-pipeline-d-li-u",
+      "type": "heading",
+      "level": 3,
+      "title": "1.5.2. PII Masking trong pipeline dữ liệu",
+      "paragraph_index": 302,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:306:1-5-3-nlp-cho-d-li-u-call-transcript",
+      "type": "heading",
+      "level": 3,
+      "title": "1.5.3. NLP cho dữ liệu call transcript",
+      "paragraph_index": 306,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:308:1-6-i-u-ph-i-pipeline-v-ph-c-v-ph-n-t-ch",
+      "type": "heading",
+      "level": 2,
+      "title": "1.6. Điều phối pipeline và phục vụ phân tích",
+      "paragraph_index": 308,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:309:1-6-1-apache-airflow",
+      "type": "heading",
+      "level": 3,
+      "title": "1.6.1. Apache Airflow",
+      "paragraph_index": 309,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:314:1-6-2-superset-v-dashboard-ph-n-t-ch",
+      "type": "heading",
+      "level": 3,
+      "title": "1.6.2. Superset và dashboard phân tích",
+      "paragraph_index": 314,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:320:1-6-3-bigquery-v-looker-studio-trong-l-p-ph-c-v-bi",
+      "type": "heading",
+      "level": 3,
+      "title": "1.6.3. BigQuery và Looker Studio trong lớp phục vụ BI",
+      "paragraph_index": 320,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:327:1-7-l-a-ch-n-ki-n-tr-c-theo-y-u-c-u-d-li-u-telesales",
+      "type": "heading",
+      "level": 2,
+      "title": "1.7. Lựa chọn kiến trúc theo yêu cầu dữ liệu Telesales",
+      "paragraph_index": 327,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:328:1-7-1-y-u-c-u-d-li-u-ph-t-sinh-li-n-t-c",
+      "type": "heading",
+      "level": 3,
+      "title": "1.7.1. Yêu cầu dữ liệu phát sinh liên tục",
+      "paragraph_index": 328,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:330:1-7-2-y-u-c-u-k-t-h-p-d-li-u-c-c-u-tr-c-v-transcript",
+      "type": "heading",
+      "level": 3,
+      "title": "1.7.2. Yêu cầu kết hợp dữ liệu có cấu trúc và transcript",
+      "paragraph_index": 330,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:332:1-7-3-l-do-ch-n-hybrid-data-lakehouse",
+      "type": "heading",
+      "level": 3,
+      "title": "1.7.3. Lý do chọn Hybrid Data Lakehouse",
+      "paragraph_index": 332,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:361:1-8-c-i-m-d-li-u-cu-c-g-i-v-transcript",
+      "type": "heading",
+      "level": 2,
+      "title": "1.8. Đặc điểm dữ liệu cuộc gọi và transcript",
+      "paragraph_index": 361,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:362:1-8-1-d-li-u-kh-ch-h-ng",
+      "type": "heading",
+      "level": 3,
+      "title": "1.8.1. Dữ liệu khách hàng",
+      "paragraph_index": 362,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:364:1-8-2-d-li-u-offer-v-chi-n-d-ch",
+      "type": "heading",
+      "level": 3,
+      "title": "1.8.2. Dữ liệu offer và chiến dịch",
+      "paragraph_index": 364,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:366:1-8-3-transcript-v-nh-n-h-i-tho-i",
+      "type": "heading",
+      "level": 3,
+      "title": "1.8.3. Transcript và nhãn hội thoại",
+      "paragraph_index": 366,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:388:1-9-v-n-t-ch-t-i-oltp-v-olap",
+      "type": "heading",
+      "level": 2,
+      "title": "1.9. Vấn đề tách tải OLTP và OLAP",
+      "paragraph_index": 388,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:389:1-9-1-t-i-v-n-h-nh-tr-n-mongodb",
+      "type": "heading",
+      "level": 3,
+      "title": "1.9.1. Tải vận hành trên MongoDB",
+      "paragraph_index": 389,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:391:1-9-2-t-i-ph-n-t-ch-tr-n-lakehouse-v-bi",
+      "type": "heading",
+      "level": 3,
+      "title": "1.9.2. Tải phân tích trên Lakehouse và BI",
+      "paragraph_index": 391,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:410:1-10-vai-tr-c-a-schema-evolution-trong-lakehouse",
+      "type": "heading",
+      "level": 2,
+      "title": "1.10. Vai trò của schema evolution trong Lakehouse",
+      "paragraph_index": 410,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:411:1-10-1-schema-thay-i-qua-c-c-t-ng-d-li-u",
+      "type": "heading",
+      "level": 3,
+      "title": "1.10.1. Schema thay đổi qua các tầng dữ liệu",
+      "paragraph_index": 411,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:413:1-10-2-ngh-a-c-a-iceberg-i-v-i-schema-evolution",
+      "type": "heading",
+      "level": 3,
+      "title": "1.10.2. Ý nghĩa của Iceberg đối với schema evolution",
+      "paragraph_index": 413,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:442:1-11-vai-tr-c-a-metadata-trong-truy-v-t-d-li-u",
+      "type": "heading",
+      "level": 2,
+      "title": "1.11. Vai trò của metadata trong truy vết dữ liệu",
+      "paragraph_index": 442,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:443:1-11-1-metadata-cdc",
+      "type": "heading",
+      "level": 3,
+      "title": "1.11.1. Metadata CDC",
+      "paragraph_index": 443,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:445:1-11-2-lineage-t-ngu-n-n-dashboard",
+      "type": "heading",
+      "level": 3,
+      "title": "1.11.2. Lineage từ nguồn đến dashboard",
+      "paragraph_index": 445,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:474:1-12-data-quality-trong-ki-n-tr-c-medallion",
+      "type": "heading",
+      "level": 2,
+      "title": "1.12. Data quality trong kiến trúc Medallion",
+      "paragraph_index": 474,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:475:1-12-1-bronze-b-o-to-n-d-li-u-g-c",
+      "type": "heading",
+      "level": 3,
+      "title": "1.12.1. Bronze: bảo toàn dữ liệu gốc",
+      "paragraph_index": 475,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:477:1-12-2-silver-chu-n-h-a-v-ki-m-so-t-ch-t-l-ng",
+      "type": "heading",
+      "level": 3,
+      "title": "1.12.2. Silver: chuẩn hóa và kiểm soát chất lượng",
+      "paragraph_index": 477,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:479:1-12-3-gold-r-ng-bu-c-nghi-p-v-cho-bi",
+      "type": "heading",
+      "level": 3,
+      "title": "1.12.3. Gold: ràng buộc nghiệp vụ cho BI",
+      "paragraph_index": 479,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:494:1-13-b-o-m-t-pii-trong-pipeline-ph-n-t-ch",
+      "type": "heading",
+      "level": 2,
+      "title": "1.13. Bảo mật PII trong pipeline phân tích",
+      "paragraph_index": 494,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:495:1-13-1-nh-n-di-n-pii-trong-d-li-u-telesales",
+      "type": "heading",
+      "level": 3,
+      "title": "1.13.1. Nhận diện PII trong dữ liệu telesales",
+      "paragraph_index": 495,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:497:1-13-2-masking-t-ng-silver",
+      "type": "heading",
+      "level": 3,
+      "title": "1.13.2. Masking ở tầng Silver",
+      "paragraph_index": 497,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:499:1-13-3-gi-i-h-n-c-a-masking-trong-prototype",
+      "type": "heading",
+      "level": 3,
+      "title": "1.13.3. Giới hạn của masking trong prototype",
+      "paragraph_index": 499,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:516:1-14-machine-learning-trong-pipeline-d-li-u",
+      "type": "heading",
+      "level": 2,
+      "title": "1.14. Machine Learning trong pipeline dữ liệu",
+      "paragraph_index": 516,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:517:1-14-1-vai-tr-c-a-m-h-nh-nlp",
+      "type": "heading",
+      "level": 3,
+      "title": "1.14.1. Vai trò của mô hình NLP",
+      "paragraph_index": 517,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:521:1-14-2-m-h-nh-ch-nh-bow-logistic-regression",
+      "type": "heading",
+      "level": 3,
+      "title": "1.14.2. Mô hình chính BoW + Logistic Regression",
+      "paragraph_index": 521,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:538:1-14-3-roberta-nh-baseline-h-c-s-u",
+      "type": "heading",
+      "level": 3,
+      "title": "1.14.3. RoBERTa như baseline học sâu",
+      "paragraph_index": 538,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:548:1-14-4-ti-u-ch-nh-gi-v-quy-t-nh-m-h-nh",
+      "type": "heading",
+      "level": 3,
+      "title": "1.14.4. Tiêu chí đánh giá và quyết định mô hình",
+      "paragraph_index": 548,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:555:1-14-5-h-c-th-ch-nghi-mi-n-weak-supervision-v-pseudo-labeling",
+      "type": "heading",
+      "level": 3,
+      "title": "1.14.5. Học thích nghi miền, weak supervision và pseudo-labeling",
+      "paragraph_index": 555,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:560:1-15-m-h-nh-star-schema-cho-dashboard-v-n-h-nh",
+      "type": "heading",
+      "level": 2,
+      "title": "1.15. Mô hình Star Schema cho dashboard vận hành",
+      "paragraph_index": 560,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:561:1-15-1-fact-v-dimension",
+      "type": "heading",
+      "level": 3,
+      "title": "1.15.1. Fact và dimension",
+      "paragraph_index": 561,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:563:1-15-2-ch-s-nghi-p-v",
+      "type": "heading",
+      "level": 3,
+      "title": "1.15.2. Chỉ số nghiệp vụ",
+      "paragraph_index": 563,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:583:1-16-l-p-serving-v-semantic-layer-cho-bi",
+      "type": "heading",
+      "level": 2,
+      "title": "1.16. Lớp serving và semantic layer cho BI",
+      "paragraph_index": 583,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:584:1-16-1-bigquery-serving-view",
+      "type": "heading",
+      "level": 3,
+      "title": "1.16.1. BigQuery serving view",
+      "paragraph_index": 584,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:586:1-16-2-semantic-layer-cho-dashboard",
+      "type": "heading",
+      "level": 3,
+      "title": "1.16.2. Semantic layer cho dashboard",
+      "paragraph_index": 586,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:604:1-17-t-ng-h-p-ti-u-ch-l-a-ch-n-c-ng-ngh",
+      "type": "heading",
+      "level": 2,
+      "title": "1.17. Tổng hợp tiêu chí lựa chọn công nghệ",
+      "paragraph_index": 604,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:605:1-17-1-ti-u-ch-k-thu-t",
+      "type": "heading",
+      "level": 3,
+      "title": "1.17.1. Tiêu chí kỹ thuật",
+      "paragraph_index": 605,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:610:1-17-2-ph-m-vi-v-nh-i",
+      "type": "heading",
+      "level": 3,
+      "title": "1.17.2. Phạm vi và đánh đổi",
+      "paragraph_index": 610,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:625:1-18-k-t-lu-n-ch-ng",
+      "type": "heading",
+      "level": 2,
+      "title": "1.18. Kết luận chương",
+      "paragraph_index": 625,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h1:628:ch-ng-2-b-d-li-u-m-h-nh-sinh-d-li-u-v-m-h-nh-nlp",
+      "type": "heading",
+      "level": 1,
+      "title": "Chương 2: BỘ DỮ LIỆU, MÔ HÌNH SINH DỮ LIỆU VÀ MÔ HÌNH NLP",
+      "paragraph_index": 628,
+      "style": "Heading 1"
+    },
+    {
+      "id": "table:632:b-ng-2-1-c-c-artifact-d-li-u-ch-nh-trong-t-i",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 2.1. Các artifact dữ liệu chính trong đề tài",
+      "paragraph_index": 632,
+      "style": "Report Caption"
+    },
+    {
+      "id": "figure:634:h-nh-2-1-quy-tr-nh-sinh-d-li-u-t-ng-h-p-b-ng-google-generative-ai",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 2.1. Quy trình sinh dữ liệu tổng hợp bằng Google Generative AI",
+      "paragraph_index": 634,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h2:635:2-1-vai-tr-c-a-d-li-u-trong-t-i",
+      "type": "heading",
+      "level": 2,
+      "title": "2.1. Vai trò của dữ liệu trong đề tài",
+      "paragraph_index": 635,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:636:2-1-1-v-sao-c-n-m-t-dataset-ri-ng",
+      "type": "heading",
+      "level": 3,
+      "title": "2.1.1. Vì sao cần mô tả dataset riêng",
+      "paragraph_index": 636,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:639:2-1-2-dataset-c-d-ng-trong-b-o-c-o",
+      "type": "heading",
+      "level": 3,
+      "title": "2.1.2. Dataset được dùng trong báo cáo",
+      "paragraph_index": 639,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:642:2-1-3-ranh-gi-i-gi-a-d-li-u-ngu-n-d-li-u-hu-n-luy-n-v-d-li-u-ph-n-t-ch",
+      "type": "heading",
+      "level": 3,
+      "title": "2.1.3. Ranh giới giữa dữ liệu nguồn, dữ liệu huấn luyện và dữ liệu phân tích",
+      "paragraph_index": 642,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:645:2-1-4-vai-tr-c-a-callcenteren-trong-nghi-n-c-u",
+      "type": "heading",
+      "level": 3,
+      "title": "2.1.4. Vai trò của CallCenterEN trong nghiên cứu",
+      "paragraph_index": 645,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h4:649:2-1-4-1-ngu-n-g-c-c-ch-c-ng-b-v-ph-m-vi-s-d-ng-callcenteren",
+      "type": "heading",
+      "level": 4,
+      "title": "2.1.4.1. Nguồn gốc, cách công bố và phạm vi sử dụng CallCenterEN",
+      "paragraph_index": 649,
+      "style": "Heading 4"
+    },
+    {
+      "id": "h4:655:2-1-4-2-c-ch-a-callcenteren-v-o-workspace-v-ph-m-vi-d-li-u-c-ch-n",
+      "type": "heading",
+      "level": 4,
+      "title": "2.1.4.2. Cách đưa CallCenterEN vào workspace và phạm vi dữ liệu được chọn",
+      "paragraph_index": 655,
+      "style": "Heading 4"
+    },
+    {
+      "id": "h4:661:2-1-4-3-c-c-c-tr-ng-c-r-t-ra-t-callcenteren",
+      "type": "heading",
+      "level": 4,
+      "title": "2.1.4.3. Các đặc trưng được rút ra từ CallCenterEN",
+      "paragraph_index": 661,
+      "style": "Heading 4"
+    },
+    {
+      "id": "h3:665:2-1-5-t-callcenteren-n-prompt-sinh-dataset-ch-nh",
+      "type": "heading",
+      "level": 3,
+      "title": "2.1.5. Từ CallCenterEN đến prompt sinh dataset chính",
+      "paragraph_index": 665,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:674:2-2-ngu-n-g-c-v-quy-tr-nh-sinh-d-li-u",
+      "type": "heading",
+      "level": 2,
+      "title": "2.2. Nguồn gốc và quy trình sinh dữ liệu",
+      "paragraph_index": 674,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:675:2-2-1-notebook-generate-data-ipynb",
+      "type": "heading",
+      "level": 3,
+      "title": "2.2.1. Notebook generate_data.ipynb",
+      "paragraph_index": 675,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:679:b-ng-2-2-tham-s-ch-nh-trong-generate-data-ipynb",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 2.2. Tham số chính trong generate_data.ipynb",
+      "paragraph_index": 679,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:681:2-2-2-m-h-nh-sinh-d-li-u-ch-nh-models-gemma-3-27b-it",
+      "type": "heading",
+      "level": 3,
+      "title": "2.2.2. Mô hình sinh dữ liệu chính: models/gemma-3-27b-it",
+      "paragraph_index": 681,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h4:684:2-2-2-1-c-ch-prompt-ki-m-so-t-t-nh-th-c-t-c-a-transcript",
+      "type": "heading",
+      "level": 4,
+      "title": "2.2.2.1. Cách prompt kiểm soát tính thực tế của transcript",
+      "paragraph_index": 684,
+      "style": "Heading 4"
+    },
+    {
+      "id": "h4:687:2-2-2-2-c-ch-l-u-d-li-u-theo-batch",
+      "type": "heading",
+      "level": 4,
+      "title": "2.2.2.2. Cách lưu dữ liệu theo batch",
+      "paragraph_index": 687,
+      "style": "Heading 4"
+    },
+    {
+      "id": "h3:690:2-2-3-m-h-nh-th-nghi-m-models-gemini-2-5-flash",
+      "type": "heading",
+      "level": 3,
+      "title": "2.2.3. Mô hình thử nghiệm: models/gemini-2.5-flash",
+      "paragraph_index": 690,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:693:2-3-thi-t-k-schema-v-t-nh-ch-t-d-li-u",
+      "type": "heading",
+      "level": 2,
+      "title": "2.3. Thiết kế schema và tính chất dữ liệu",
+      "paragraph_index": 693,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:694:2-3-1-schema-master-data-ph-ng-tr-c-chu-n-h-a",
+      "type": "heading",
+      "level": 3,
+      "title": "2.3.1. Schema master data phẳng trước chuẩn hóa",
+      "paragraph_index": 694,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:697:b-ng-2-3-nh-m-tr-ng-trong-schema-master-data-sinh-t-ng-h-p",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 2.3. Nhóm trường trong schema master data sinh tổng hợp",
+      "paragraph_index": 697,
+      "style": "Report Caption"
+    },
+    {
+      "id": "figure:699:h-nh-2-2-schema-master-data-c-a-m-t-b-n-ghi-telesales-tr-c-chu-n-h-a",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 2.2. Schema master data của một bản ghi telesales trước chuẩn hóa",
+      "paragraph_index": 699,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h4:700:2-3-1-1-data-dictionary-c-a-c-c-th-c-th-ngu-n",
+      "type": "heading",
+      "level": 4,
+      "title": "2.3.1.1. Data dictionary của các thực thể nguồn",
+      "paragraph_index": 700,
+      "style": "Heading 4"
+    },
+    {
+      "id": "table:703:b-ng-2-7-data-dictionary-r-t-g-n-cho-customers-csv",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 2.7. Data dictionary rút gọn cho customers.csv",
+      "paragraph_index": 703,
+      "style": "Report Caption"
+    },
+    {
+      "id": "table:705:b-ng-2-8-data-dictionary-r-t-g-n-cho-offers-csv",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 2.8. Data dictionary rút gọn cho offers.csv",
+      "paragraph_index": 705,
+      "style": "Report Caption"
+    },
+    {
+      "id": "table:707:b-ng-2-9-data-dictionary-r-t-g-n-cho-calls-csv",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 2.9. Data dictionary rút gọn cho calls.csv",
+      "paragraph_index": 707,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:709:2-3-2-taxonomy-call-code",
+      "type": "heading",
+      "level": 3,
+      "title": "2.3.2. Taxonomy call_code",
+      "paragraph_index": 709,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:712:b-ng-2-5-taxonomy-call-code-trong-prompt-sinh-d-li-u",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 2.5. Taxonomy call_code trong prompt sinh dữ liệu",
+      "paragraph_index": 712,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:714:2-3-3-th-ng-k-d-li-u-sau-chu-n-h-a",
+      "type": "heading",
+      "level": 3,
+      "title": "2.3.3. Thống kê dữ liệu sau chuẩn hóa",
+      "paragraph_index": 714,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:717:b-ng-2-4-m-t-s-t-nh-ch-t-th-ng-k-c-a-d-li-u-sau-chu-n-h-a",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 2.4. Một số tính chất thống kê của dữ liệu sau chuẩn hóa",
+      "paragraph_index": 717,
+      "style": "Report Caption"
+    },
+    {
+      "id": "figure:719:h-nh-2-4-ph-n-b-nh-n-call-code-trong-b-d-li-u",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 2.4. Phân bố nhãn call_code trong bộ dữ liệu",
+      "paragraph_index": 719,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:720:2-3-4-ngh-a-c-a-transcript-trong-b-i-to-n-lakehouse",
+      "type": "heading",
+      "level": 3,
+      "title": "2.3.4. Ý nghĩa của transcript trong bài toán Lakehouse",
+      "paragraph_index": 720,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:723:2-3-5-i-chi-u-dataset-ch-nh-v-i-callcenteren",
+      "type": "heading",
+      "level": 3,
+      "title": "2.3.5. Đối chiếu dataset chính với CallCenterEN",
+      "paragraph_index": 723,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:729:2-4-chu-n-h-a-d-li-u-th-nh-c-c-th-c-th-ngu-n",
+      "type": "heading",
+      "level": 2,
+      "title": "2.4. Chuẩn hóa dữ liệu thành các thực thể nguồn",
+      "paragraph_index": 729,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:730:2-4-1-script-split-to-entities-py",
+      "type": "heading",
+      "level": 3,
+      "title": "2.4.1. Script split_to_entities.py",
+      "paragraph_index": 730,
+      "style": "Heading 3"
+    },
+    {
+      "id": "figure:733:h-nh-2-3-lu-ng-chu-n-h-a-json-th-nh-customers-offers-v-calls",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 2.3. Luồng chuẩn hóa JSON thành customers, offers và calls",
+      "paragraph_index": 733,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:734:2-4-2-quan-h-customers-offers-v-calls",
+      "type": "heading",
+      "level": 3,
+      "title": "2.4.2. Quan hệ customers, offers và calls",
+      "paragraph_index": 734,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:737:2-4-3-n-p-d-li-u-v-o-mongodb",
+      "type": "heading",
+      "level": 3,
+      "title": "2.4.3. Nạp dữ liệu vào MongoDB",
+      "paragraph_index": 737,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:740:2-5-chu-n-b-d-li-u-hu-n-luy-n-nlp",
+      "type": "heading",
+      "level": 2,
+      "title": "2.5. Chuẩn bị dữ liệu huấn luyện NLP",
+      "paragraph_index": 740,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:741:2-5-1-g-p-transcript-v-nh-n",
+      "type": "heading",
+      "level": 3,
+      "title": "2.5.1. Gộp transcript và nhãn",
+      "paragraph_index": 741,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:744:2-5-2-chia-train-validation-v-test",
+      "type": "heading",
+      "level": 3,
+      "title": "2.5.2. Chia train, validation và test",
+      "paragraph_index": 744,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:747:2-5-3-l-c-callcenteren-subset-v-t-o-pseudo-label",
+      "type": "heading",
+      "level": 3,
+      "title": "2.5.3. Lọc CallCenterEN subset và tạo pseudo-label",
+      "paragraph_index": 747,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:750:b-ng-2-11-k-t-qu-chu-n-b-split-callcenteren-sau-pseudo-label",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 2.11. Kết quả chuẩn bị split CallCenterEN sau pseudo-label",
+      "paragraph_index": 750,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h2:753:2-6-m-h-nh-nlp-ph-n-lo-i-call-code",
+      "type": "heading",
+      "level": 2,
+      "title": "2.6. Mô hình NLP phân loại call_code",
+      "paragraph_index": 753,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:754:2-6-1-m-c-ti-u-m-h-nh",
+      "type": "heading",
+      "level": 3,
+      "title": "2.6.1. Mục tiêu mô hình",
+      "paragraph_index": 754,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:757:2-6-2-m-h-nh-ch-nh-bow-logistic-regression",
+      "type": "heading",
+      "level": 3,
+      "title": "2.6.2. Mô hình chính BoW + Logistic Regression",
+      "paragraph_index": 757,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:767:2-6-3-roberta-baseline",
+      "type": "heading",
+      "level": 3,
+      "title": "2.6.3. RoBERTa baseline",
+      "paragraph_index": 767,
+      "style": "Heading 3"
+    },
+    {
+      "id": "figure:774:h-nh-2-6-so-s-nh-bow-production-model-v-roberta-baseline-trong-b-i-to-n-multi-la",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 2.6. So sánh BoW production model và RoBERTa baseline trong bài toán multi-label call_code",
+      "paragraph_index": 774,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:775:2-6-4-k-t-qu-notebook-v-quy-t-nh-ban-u",
+      "type": "heading",
+      "level": 3,
+      "title": "2.6.4. Kết quả notebook và quyết định ban đầu",
+      "paragraph_index": 775,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:778:2-6-5-t-ch-h-p-bow-v-o-silver-job",
+      "type": "heading",
+      "level": 3,
+      "title": "2.6.5. Tích hợp BoW vào Silver job",
+      "paragraph_index": 778,
+      "style": "Heading 3"
+    },
+    {
+      "id": "figure:785:h-nh-2-7-lu-ng-bow-inference-ghi-call-code-v-o-silver",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 2.7. Luồng BoW inference ghi call_code vào Silver",
+      "paragraph_index": 785,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:786:2-6-6-ranh-gi-i-d-li-u-sau-inference",
+      "type": "heading",
+      "level": 3,
+      "title": "2.6.6. Ranh giới dữ liệu sau inference",
+      "paragraph_index": 786,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:788:2-6-7-m-h-nh-ri-ng-cho-nh-nh-callcenteren",
+      "type": "heading",
+      "level": 3,
+      "title": "2.6.7. Mô hình riêng cho nhánh CallCenterEN",
+      "paragraph_index": 788,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:791:2-7-data-quality-o-c-d-li-u-v-gi-i-h-n-c-a-d-li-u-t-ng-h-p",
+      "type": "heading",
+      "level": 2,
+      "title": "2.7. Data quality, đạo đức dữ liệu và giới hạn của dữ liệu tổng hợp",
+      "paragraph_index": 791,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:792:2-7-1-i-m-m-nh-c-a-d-li-u-t-ng-h-p",
+      "type": "heading",
+      "level": 3,
+      "title": "2.7.1. Điểm mạnh của dữ liệu tổng hợp",
+      "paragraph_index": 792,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:795:2-7-2-gi-i-h-n-c-n-ghi-r",
+      "type": "heading",
+      "level": 3,
+      "title": "2.7.2. Giới hạn cần ghi rõ",
+      "paragraph_index": 795,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:798:2-7-3-xu-t-ki-m-so-t-ch-t-l-ng-d-li-u",
+      "type": "heading",
+      "level": 3,
+      "title": "2.7.3. Đề xuất kiểm soát chất lượng dữ liệu",
+      "paragraph_index": 798,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:801:b-ng-2-10-xu-t-rule-ki-m-so-t-ch-t-l-ng-d-li-u-sau-generation",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 2.10. Đề xuất rule kiểm soát chất lượng dữ liệu sau generation",
+      "paragraph_index": 801,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h1:804:ch-ng-3-ph-n-t-ch-v-thi-t-k-ki-n-tr-c-hybrid-data-lakehouse",
+      "type": "heading",
+      "level": 1,
+      "title": "Chương 3: PHÂN TÍCH VÀ THIẾT KẾ KIẾN TRÚC HYBRID DATA LAKEHOUSE",
+      "paragraph_index": 804,
+      "style": "Heading 1"
+    },
+    {
+      "id": "table:807:b-ng-3-1-th-nh-ph-n-c-ng-ngh-trong-ki-n-tr-c-t-i",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 3.1. Thành phần công nghệ trong kiến trúc đề tài",
+      "paragraph_index": 807,
+      "style": "Report Caption"
+    },
+    {
+      "id": "figure:809:h-nh-3-1-ki-n-tr-c-t-ng-th-hybrid-data-lakehouse-cho-agi-telesales",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 3.1. Kiến trúc tổng thể Hybrid Data Lakehouse cho AGI Telesales",
+      "paragraph_index": 809,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h2:810:3-1-y-u-c-u-h-th-ng-agi-telesales",
+      "type": "heading",
+      "level": 2,
+      "title": "3.1. Yêu cầu hệ thống AGI Telesales",
+      "paragraph_index": 810,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:811:3-1-1-y-u-c-u-nghi-p-v",
+      "type": "heading",
+      "level": 3,
+      "title": "3.1.1. Yêu cầu nghiệp vụ",
+      "paragraph_index": 811,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:814:3-1-2-y-u-c-u-k-thu-t",
+      "type": "heading",
+      "level": 3,
+      "title": "3.1.2. Yêu cầu kỹ thuật",
+      "paragraph_index": 814,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:817:3-1-3-y-u-c-u-b-o-m-t-v-qu-n-tr-d-li-u",
+      "type": "heading",
+      "level": 3,
+      "title": "3.1.3. Yêu cầu bảo mật và quản trị dữ liệu",
+      "paragraph_index": 817,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:820:3-2-ki-n-tr-c-t-ng-th",
+      "type": "heading",
+      "level": 2,
+      "title": "3.2. Kiến trúc tổng thể",
+      "paragraph_index": 820,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:821:3-2-1-lu-ng-d-li-u-end-to-end",
+      "type": "heading",
+      "level": 3,
+      "title": "3.2.1. Luồng dữ liệu end-to-end",
+      "paragraph_index": 821,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:824:3-2-2-l-do-ch-n-docker-compose",
+      "type": "heading",
+      "level": 3,
+      "title": "3.2.2. Lý do chọn Docker Compose",
+      "paragraph_index": 824,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:827:3-2-3-t-ng-hybrid-local-v-cloud-serving",
+      "type": "heading",
+      "level": 3,
+      "title": "3.2.3. Tầng hybrid local và cloud serving",
+      "paragraph_index": 827,
+      "style": "Heading 3"
+    },
+    {
+      "id": "figure:828:h-nh-3-7-data-lineage-t-mongodb-n-bigquery-serving-view",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 3.7. Data lineage từ MongoDB đến BigQuery serving view",
+      "paragraph_index": 828,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:830:3-2-4-c-c-quy-t-nh-ki-n-tr-c-ch-nh",
+      "type": "heading",
+      "level": 3,
+      "title": "3.2.4. Các quyết định kiến trúc chính",
+      "paragraph_index": 830,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:832:b-ng-3-2-c-c-quy-t-nh-ki-n-tr-c-ch-nh-v-l-do-l-a-ch-n",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 3.2. Các quyết định kiến trúc chính và lý do lựa chọn",
+      "paragraph_index": 832,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h2:835:3-3-thi-t-k-ngu-n-d-li-u-v-cdc",
+      "type": "heading",
+      "level": 2,
+      "title": "3.3. Thiết kế nguồn dữ liệu và CDC",
+      "paragraph_index": 835,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:836:3-3-1-mongodb-source-database",
+      "type": "heading",
+      "level": 3,
+      "title": "3.3.1. MongoDB source database",
+      "paragraph_index": 836,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:839:3-3-2-debezium-connector",
+      "type": "heading",
+      "level": 3,
+      "title": "3.3.2. Debezium connector",
+      "paragraph_index": 839,
+      "style": "Heading 3"
+    },
+    {
+      "id": "figure:842:h-nh-3-2-lu-ng-cdc-t-mongodb-qua-debezium-v-kafka-v-o-bronze",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 3.2. Luồng CDC từ MongoDB qua Debezium và Kafka vào Bronze",
+      "paragraph_index": 842,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:843:3-3-3-kafka-topics-v-debezium-envelope",
+      "type": "heading",
+      "level": 3,
+      "title": "3.3.3. Kafka topics và Debezium envelope",
+      "paragraph_index": 843,
+      "style": "Heading 3"
+    },
+    {
+      "id": "figure:844:h-nh-3-8-sequence-diagram-cdc-v-batch-etl-trong-pipeline",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 3.8. Sequence diagram CDC và batch ETL trong pipeline",
+      "paragraph_index": 844,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h2:847:3-4-thi-t-k-c-c-t-ng-medallion",
+      "type": "heading",
+      "level": 2,
+      "title": "3.4. Thiết kế các tầng Medallion",
+      "paragraph_index": 847,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:848:3-4-1-t-ng-bronze",
+      "type": "heading",
+      "level": 3,
+      "title": "3.4.1. Tầng Bronze",
+      "paragraph_index": 848,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:851:3-4-2-t-ng-silver",
+      "type": "heading",
+      "level": 3,
+      "title": "3.4.2. Tầng Silver",
+      "paragraph_index": 851,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:854:3-4-3-t-ng-gold",
+      "type": "heading",
+      "level": 3,
+      "title": "3.4.3. Tầng Gold",
+      "paragraph_index": 854,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:857:b-ng-3-3-tr-ch-nhi-m-c-a-t-ng-t-ng-medallion",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 3.3. Trách nhiệm của từng tầng Medallion",
+      "paragraph_index": 857,
+      "style": "Report Caption"
+    },
+    {
+      "id": "figure:859:h-nh-3-3-medallion-architecture-v-tr-ch-nhi-m-c-a-t-ng-t-ng-d-li-u",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 3.3. Medallion Architecture và trách nhiệm của từng tầng dữ liệu",
+      "paragraph_index": 859,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:860:3-4-4-iceberg-v-merge-into",
+      "type": "heading",
+      "level": 3,
+      "title": "3.4.4. Iceberg và MERGE INTO",
+      "paragraph_index": 860,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:863:b-ng-3-4-thi-t-k-star-schema-t-ng-gold",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 3.4. Thiết kế Star Schema ở tầng Gold",
+      "paragraph_index": 863,
+      "style": "Report Caption"
+    },
+    {
+      "id": "figure:865:h-nh-3-4-star-schema-c-a-l-p-gold-ph-c-v-bi",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 3.4. Star Schema của lớp Gold phục vụ BI",
+      "paragraph_index": 865,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h2:866:3-5-thi-t-k-i-u-ph-i-serving-v-bi",
+      "type": "heading",
+      "level": 2,
+      "title": "3.5. Thiết kế điều phối, serving và BI",
+      "paragraph_index": 866,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:867:3-5-1-airflow-orchestration",
+      "type": "heading",
+      "level": 3,
+      "title": "3.5.1. Airflow orchestration",
+      "paragraph_index": 867,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:870:b-ng-3-5-airflow-dag-v-dependency-ch-nh",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 3.5. Airflow DAG và dependency chính",
+      "paragraph_index": 870,
+      "style": "Report Caption"
+    },
+    {
+      "id": "figure:872:h-nh-3-5-airflow-dag-i-u-ph-i-bronze-silver-gold-v-bigquery-sync",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 3.5. Airflow DAG điều phối Bronze, Silver, Gold và BigQuery sync",
+      "paragraph_index": 872,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:873:3-5-2-bigquery-serving-layer",
+      "type": "heading",
+      "level": 3,
+      "title": "3.5.2. BigQuery serving layer",
+      "paragraph_index": 873,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:877:3-5-3-superset-v-dashboard",
+      "type": "heading",
+      "level": 3,
+      "title": "3.5.3. Superset và dashboard",
+      "paragraph_index": 877,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:880:3-6-thi-t-k-b-o-m-t-v-kh-n-ng-v-n-h-nh",
+      "type": "heading",
+      "level": 2,
+      "title": "3.6. Thiết kế bảo mật và khả năng vận hành",
+      "paragraph_index": 880,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:881:3-6-1-pii-masking",
+      "type": "heading",
+      "level": 3,
+      "title": "3.6.1. PII masking",
+      "paragraph_index": 881,
+      "style": "Heading 3"
+    },
+    {
+      "id": "figure:882:h-nh-4-6-ki-m-th-pii-masking-trong-b-ng-silver-cust",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 4.6. Kiểm thử PII masking trong bảng silver.cust",
+      "paragraph_index": 882,
+      "style": "Report Caption"
+    },
+    {
+      "id": "table:884:b-ng-4-3-quy-t-c-che-gi-u-d-li-u-c-nh-n-trong-silver",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 4.3. Quy tắc che giấu dữ liệu cá nhân trong Silver",
+      "paragraph_index": 884,
+      "style": "Report Caption"
+    },
+    {
+      "id": "figure:886:h-nh-3-6-lu-ng-ki-m-so-t-pii-t-ngu-n-n-serving-layer",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 3.6. Luồng kiểm soát PII từ nguồn đến serving layer",
+      "paragraph_index": 886,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:887:3-6-2-checkpoint-v-replay",
+      "type": "heading",
+      "level": 3,
+      "title": "3.6.2. Checkpoint và replay",
+      "paragraph_index": 887,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:890:3-6-3-idempotency",
+      "type": "heading",
+      "level": 3,
+      "title": "3.6.3. Idempotency",
+      "paragraph_index": 890,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h1:894:ch-ng-4-tri-n-khai-th-c-nghi-m-v-ki-m-th-h-th-ng",
+      "type": "heading",
+      "level": 1,
+      "title": "Chương 4: TRIỂN KHAI, THỰC NGHIỆM VÀ KIỂM THỬ HỆ THỐNG",
+      "paragraph_index": 894,
+      "style": "Heading 1"
+    },
+    {
+      "id": "figure:897:h-nh-4-1-b-n-container-docker-compose-c-a-h-th-ng-th-c-nghi-m",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 4.1. Bản đồ container Docker Compose của hệ thống thực nghiệm",
+      "paragraph_index": 897,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h2:898:4-1-m-i-tr-ng-tri-n-khai",
+      "type": "heading",
+      "level": 2,
+      "title": "4.1. Môi trường triển khai",
+      "paragraph_index": 898,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:899:4-1-1-c-u-h-nh-docker-compose",
+      "type": "heading",
+      "level": 3,
+      "title": "4.1.1. Cấu hình Docker Compose",
+      "paragraph_index": 899,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:902:4-1-2-runtime-python-v-dependency",
+      "type": "heading",
+      "level": 3,
+      "title": "4.1.2. Runtime Python và dependency",
+      "paragraph_index": 902,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:905:4-2-bootstrap-d-li-u-v-cdc",
+      "type": "heading",
+      "level": 2,
+      "title": "4.2. Bootstrap dữ liệu và CDC",
+      "paragraph_index": 905,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:906:4-2-1-n-p-d-li-u-v-o-mongodb",
+      "type": "heading",
+      "level": 3,
+      "title": "4.2.1. Nạp dữ liệu vào MongoDB",
+      "paragraph_index": 906,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:909:4-2-2-ng-k-debezium-connector",
+      "type": "heading",
+      "level": 3,
+      "title": "4.2.2. Đăng ký Debezium connector",
+      "paragraph_index": 909,
+      "style": "Heading 3"
+    },
+    {
+      "id": "figure:912:h-nh-4-2-m-n-h-nh-ki-m-tra-debezium-connector-v-kafka-topics",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 4.2. Màn hình kiểm tra Debezium connector và Kafka topics",
+      "paragraph_index": 912,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h2:913:4-3-ki-m-th-bronze-silver-gold",
+      "type": "heading",
+      "level": 2,
+      "title": "4.3. Kiểm thử Bronze, Silver, Gold",
+      "paragraph_index": 913,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:914:4-3-1-ki-m-th-bronze",
+      "type": "heading",
+      "level": 3,
+      "title": "4.3.1. Kiểm thử Bronze",
+      "paragraph_index": 914,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:917:4-3-2-ki-m-th-silver",
+      "type": "heading",
+      "level": 3,
+      "title": "4.3.2. Kiểm thử Silver",
+      "paragraph_index": 917,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:920:4-3-3-ki-m-th-gold",
+      "type": "heading",
+      "level": 3,
+      "title": "4.3.3. Kiểm thử Gold",
+      "paragraph_index": 920,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:923:b-ng-4-1-k-t-qu-ki-m-th-d-li-u-v-pipeline-ch-nh",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 4.1. Kết quả kiểm thử dữ liệu và pipeline chính",
+      "paragraph_index": 923,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:925:4-3-4-checklist-nghi-m-thu-k-thu-t",
+      "type": "heading",
+      "level": 3,
+      "title": "4.3.4. Checklist nghiệm thu kỹ thuật",
+      "paragraph_index": 925,
+      "style": "Heading 3"
+    },
+    {
+      "id": "figure:926:h-nh-4-5-ki-m-ch-ng-row-count-gi-a-mongodb-iceberg-gold-v-bigquery",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 4.5. Kiểm chứng row count giữa MongoDB, Iceberg Gold và BigQuery",
+      "paragraph_index": 926,
+      "style": "Report Caption"
+    },
+    {
+      "id": "table:928:b-ng-4-2-checklist-nghi-m-thu-k-thu-t-cho-pipeline",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 4.2. Checklist nghiệm thu kỹ thuật cho pipeline",
+      "paragraph_index": 928,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h2:930:4-4-ki-m-th-bigquery-superset-v-dashboard",
+      "type": "heading",
+      "level": 2,
+      "title": "4.4. Kiểm thử BigQuery, Superset và dashboard",
+      "paragraph_index": 930,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:931:4-4-1-bigquery-sync",
+      "type": "heading",
+      "level": 3,
+      "title": "4.4.1. BigQuery sync",
+      "paragraph_index": 931,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:934:4-4-2-serving-view",
+      "type": "heading",
+      "level": 3,
+      "title": "4.4.2. Serving view",
+      "paragraph_index": 934,
+      "style": "Heading 3"
+    },
+    {
+      "id": "figure:937:h-nh-4-4-lu-ng-ph-c-v-d-li-u-t-gold-iceberg-sang-bigquery-serving-view",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 4.4. Luồng phục vụ dữ liệu từ Gold Iceberg sang BigQuery serving view",
+      "paragraph_index": 937,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:938:4-4-3-superset-dashboard",
+      "type": "heading",
+      "level": 3,
+      "title": "4.4.3. Superset/dashboard",
+      "paragraph_index": 938,
+      "style": "Heading 3"
+    },
+    {
+      "id": "figure:939:h-nh-4-8-dashboard-ph-n-t-ch-outcome-lead-source-v-product-performance",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 4.8. Dashboard phân tích outcome, lead source và product performance",
+      "paragraph_index": 939,
+      "style": "Report Caption"
+    },
+    {
+      "id": "figure:942:h-nh-4-3-dashboard-superset-bi-cho-ph-n-t-ch-hi-u-su-t-telesales",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 4.3. Dashboard Superset/BI cho phân tích hiệu suất telesales",
+      "paragraph_index": 942,
+      "style": "Report Caption"
+    },
+    {
+      "id": "table:943:b-ng-4-4-nh-ngh-a-kpi-v-bi-u-dashboard",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 4.4. Định nghĩa KPI và biểu đồ dashboard",
+      "paragraph_index": 943,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h2:945:4-5-nh-gi-nlp-trong-pipeline",
+      "type": "heading",
+      "level": 2,
+      "title": "4.5. Đánh giá NLP trong pipeline",
+      "paragraph_index": 945,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:946:4-5-1-k-t-qu-m-h-nh-trong-notebook",
+      "type": "heading",
+      "level": 3,
+      "title": "4.5.1. Kết quả mô hình trong notebook",
+      "paragraph_index": 946,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:949:4-5-2-th-c-nghi-m-roberta-trong-full-rebuild",
+      "type": "heading",
+      "level": 3,
+      "title": "4.5.2. Thực nghiệm RoBERTa trong full rebuild",
+      "paragraph_index": 949,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:956:4-5-3-th-c-nghi-m-bow-sau-khi-thay-m-h-nh",
+      "type": "heading",
+      "level": 3,
+      "title": "4.5.3. Thực nghiệm BoW sau khi thay mô hình",
+      "paragraph_index": 956,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:962:4-5-4-ki-m-tra-schema-sau-khi-i-m-h-nh",
+      "type": "heading",
+      "level": 3,
+      "title": "4.5.4. Kiểm tra schema sau khi đổi mô hình",
+      "paragraph_index": 962,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:966:4-5-5-th-c-nghi-m-callcenteren-nh-nh-nh-dataset-ch-nh",
+      "type": "heading",
+      "level": 3,
+      "title": "4.5.5. Thực nghiệm CallCenterEN như nhánh dataset chính",
+      "paragraph_index": 966,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:969:b-ng-4-5-k-t-qu-hu-n-luy-n-v-tinh-ch-nh-model-ri-ng-cho-callcenteren",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 4.5. Kết quả huấn luyện và tinh chỉnh model riêng cho CallCenterEN",
+      "paragraph_index": 969,
+      "style": "Report Caption"
+    },
+    {
+      "id": "table:973:b-ng-4-6-so-s-nh-tr-c-quan-hai-m-h-nh-theo-ngu-n-d-li-u",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 4.6. So sánh trực quan hai mô hình theo nguồn dữ liệu",
+      "paragraph_index": 973,
+      "style": "Report Caption"
+    },
+    {
+      "id": "table:977:b-ng-4-7-k-t-qu-ghi-b-ng-lakehouse-cho-nh-nh-callcenteren",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 4.7. Kết quả ghi bảng Lakehouse cho nhánh CallCenterEN",
+      "paragraph_index": 977,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h2:979:4-6-ki-m-th-kh-n-ng-ch-y-l-i-v-ph-c-h-i-l-i",
+      "type": "heading",
+      "level": 2,
+      "title": "4.6. Kiểm thử khả năng chạy lại và phục hồi lỗi",
+      "paragraph_index": 979,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:980:4-6-1-ch-y-l-i-pipeline",
+      "type": "heading",
+      "level": 3,
+      "title": "4.6.1. Chạy lại pipeline",
+      "paragraph_index": 980,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:983:4-6-2-c-c-l-i-th-c-nghi-m-ghi-nh-n",
+      "type": "heading",
+      "level": 3,
+      "title": "4.6.2. Các lỗi thực nghiệm đã ghi nhận",
+      "paragraph_index": 983,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:986:4-6-3-ki-m-th-lu-ng-airflow-t-ch-stage-theo-dataset",
+      "type": "heading",
+      "level": 3,
+      "title": "4.6.3. Kiểm thử luồng Airflow tách stage theo dataset",
+      "paragraph_index": 986,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:995:4-6-4-ki-m-th-full-pipeline-tu-n-t-ng-y-26-06-2026",
+      "type": "heading",
+      "level": 3,
+      "title": "4.6.4. Kiểm thử full pipeline tuần tự ngày 26/06/2026",
+      "paragraph_index": 995,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:1000:b-ng-4-8-k-t-qu-ki-m-th-full-pipeline-tu-n-t-ng-y-26-06-2026",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 4.8. Kết quả kiểm thử full pipeline tuần tự ngày 26/06/2026",
+      "paragraph_index": 1000,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h1:1001:ch-ng-5-nh-gi-t-ng-h-p-h-n-ch-v-h-ng-ph-t-tri-n",
+      "type": "heading",
+      "level": 1,
+      "title": "Chương 5: ĐÁNH GIÁ TỔNG HỢP, HẠN CHẾ VÀ HƯỚNG PHÁT TRIỂN",
+      "paragraph_index": 1001,
+      "style": "Heading 1"
+    },
+    {
+      "id": "h2:1003:5-1-m-c-p-ng-m-c-ti-u-t-i",
+      "type": "heading",
+      "level": 2,
+      "title": "5.1. Mức độ đáp ứng mục tiêu đề tài",
+      "paragraph_index": 1003,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:1004:5-1-1-t-ch-t-i-oltp-v-olap",
+      "type": "heading",
+      "level": 3,
+      "title": "5.1.1. Tách tải OLTP và OLAP",
+      "paragraph_index": 1004,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:1007:5-1-2-x-l-d-li-u-c-c-u-tr-c-v-phi-c-u-tr-c",
+      "type": "heading",
+      "level": 3,
+      "title": "5.1.2. Xử lý dữ liệu có cấu trúc và phi cấu trúc",
+      "paragraph_index": 1007,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:1010:5-1-3-b-o-v-d-li-u-c-nh-n",
+      "type": "heading",
+      "level": 3,
+      "title": "5.1.3. Bảo vệ dữ liệu cá nhân",
+      "paragraph_index": 1010,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:1013:5-2-nh-gi-ng-g-p-k-thu-t",
+      "type": "heading",
+      "level": 2,
+      "title": "5.2. Đánh giá đóng góp kỹ thuật",
+      "paragraph_index": 1013,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:1014:5-2-1-ng-g-p-v-d-li-u",
+      "type": "heading",
+      "level": 3,
+      "title": "5.2.1. Đóng góp về dữ liệu",
+      "paragraph_index": 1014,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:1017:5-2-2-ng-g-p-v-ki-n-tr-c-d-li-u",
+      "type": "heading",
+      "level": 3,
+      "title": "5.2.2. Đóng góp về kiến trúc dữ liệu",
+      "paragraph_index": 1017,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:1020:5-2-3-ng-g-p-v-v-n-h-nh",
+      "type": "heading",
+      "level": 3,
+      "title": "5.2.3. Đóng góp về vận hành",
+      "paragraph_index": 1020,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:1023:5-2-4-ng-g-p-t-nh-nh-callcenteren-trong-ki-n-tr-c-multi-source",
+      "type": "heading",
+      "level": 3,
+      "title": "5.2.4. Đóng góp từ nhánh CallCenterEN trong kiến trúc multi-source",
+      "paragraph_index": 1023,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:1026:5-3-h-n-ch",
+      "type": "heading",
+      "level": 2,
+      "title": "5.3. Hạn chế",
+      "paragraph_index": 1026,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:1027:5-3-1-h-n-ch-dataset",
+      "type": "heading",
+      "level": 3,
+      "title": "5.3.1. Hạn chế dataset",
+      "paragraph_index": 1027,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:1029:5-3-2-h-n-ch-m-h-nh-nlp",
+      "type": "heading",
+      "level": 3,
+      "title": "5.3.2. Hạn chế mô hình NLP",
+      "paragraph_index": 1029,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:1031:5-3-3-h-n-ch-h-t-ng",
+      "type": "heading",
+      "level": 3,
+      "title": "5.3.3. Hạn chế hạ tầng",
+      "paragraph_index": 1031,
+      "style": "Heading 3"
+    },
+    {
+      "id": "table:1033:b-ng-5-1-h-n-ch-v-h-ng-x-l-xu-t",
+      "type": "table",
+      "level": null,
+      "title": "Bảng 5.1. Hạn chế và hướng xử lý đề xuất",
+      "paragraph_index": 1033,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:1035:5-3-4-h-n-ch-khi-s-d-ng-callcenteren-v-pseudo-label",
+      "type": "heading",
+      "level": 3,
+      "title": "5.3.4. Hạn chế khi sử dụng CallCenterEN và pseudo-label",
+      "paragraph_index": 1035,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h2:1039:5-4-h-ng-ph-t-tri-n",
+      "type": "heading",
+      "level": 2,
+      "title": "5.4. Hướng phát triển",
+      "paragraph_index": 1039,
+      "style": "Heading 2"
+    },
+    {
+      "id": "figure:1040:h-nh-5-1-roadmap-n-ng-c-p-production-cho-hybrid-lakehouse",
+      "type": "figure",
+      "level": null,
+      "title": "Hình 5.1. Roadmap nâng cấp production cho Hybrid Lakehouse",
+      "paragraph_index": 1040,
+      "style": "Report Caption"
+    },
+    {
+      "id": "h3:1041:5-4-1-ho-n-thi-n-data-quality",
+      "type": "heading",
+      "level": 3,
+      "title": "5.4.1. Hoàn thiện data quality",
+      "paragraph_index": 1041,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:1043:5-4-2-n-ng-c-p-nlp-v-model-serving",
+      "type": "heading",
+      "level": 3,
+      "title": "5.4.2. Nâng cấp NLP và model serving",
+      "paragraph_index": 1043,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:1045:5-4-3-n-ng-c-p-b-o-m-t",
+      "type": "heading",
+      "level": 3,
+      "title": "5.4.3. Nâng cấp bảo mật",
+      "paragraph_index": 1045,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h3:1047:5-4-4-n-ng-c-p-v-n-h-nh",
+      "type": "heading",
+      "level": 3,
+      "title": "5.4.4. Nâng cấp vận hành",
+      "paragraph_index": 1047,
+      "style": "Heading 3"
+    },
+    {
+      "id": "h1:1050:ph-n-k-t-lu-n",
+      "type": "heading",
+      "level": 1,
+      "title": "PHẦN KẾT LUẬN",
+      "paragraph_index": 1050,
+      "style": "Heading 1"
+    },
+    {
+      "id": "h2:1054:ghi-ch-phi-n-b-n-v7",
+      "type": "heading",
+      "level": 2,
+      "title": "Ghi chú phiên bản v7",
+      "paragraph_index": 1054,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h1:1056:t-i-li-u-tham-kh-o",
+      "type": "heading",
+      "level": 1,
+      "title": "TÀI LIỆU THAM KHẢO",
+      "paragraph_index": 1056,
+      "style": "Heading 1"
+    },
+    {
+      "id": "h1:1095:ph-l-c",
+      "type": "heading",
+      "level": 1,
+      "title": "PHỤ LỤC",
+      "paragraph_index": 1095,
+      "style": "Heading 1"
+    },
+    {
+      "id": "h2:1096:ph-l-c-a-l-nh-v-n-h-nh-ch-nh",
+      "type": "heading",
+      "level": 2,
+      "title": "Phụ lục A. Lệnh vận hành chính",
+      "paragraph_index": 1096,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h2:1098:ph-l-c-b-danh-s-ch-s-v-h-nh-minh-h-a",
+      "type": "heading",
+      "level": 2,
+      "title": "Phụ lục B. Danh sách sơ đồ và hình minh họa",
+      "paragraph_index": 1098,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h2:1100:ph-l-c-c-ghi-ch-b-o-m-t",
+      "type": "heading",
+      "level": 2,
+      "title": "Phụ lục C. Ghi chú bảo mật",
+      "paragraph_index": 1100,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h2:1103:ph-l-c-d-b-ng-i-chi-u-code-v-n-i-dung-b-o-c-o",
+      "type": "heading",
+      "level": 2,
+      "title": "Phụ lục D. Bảng đối chiếu code và nội dung báo cáo",
+      "paragraph_index": 1103,
+      "style": "Heading 2"
+    },
+    {
+      "id": "h3:1105:nh-n-x-t-i-chi-u",
+      "type": "heading",
+      "level": 3,
+      "title": "Nhận xét đối chiếu",
+      "paragraph_index": 1105,
+      "style": "Heading 3"
+    }
+  ],
+  "edges": [
+    {
+      "source": "report:v7",
+      "target": "h1:95:m-c-l-c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:149:danh-m-c-h-nh-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:176:danh-m-c-b-ng",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:203:danh-m-c-k-hi-u-v-c-c-ch-vi-t-t-t",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:205:ph-n-m-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:205:ph-n-m-u",
+      "target": "h2:206:1-1-t-nh-c-p-thi-t-c-a-t-i",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:205:ph-n-m-u",
+      "target": "h2:212:1-2-m-c-ch-c-a-t-i",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:205:ph-n-m-u",
+      "target": "h2:221:1-3-c-ch-ti-p-c-n-v-ph-ng-ph-p-nghi-n-c-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:221:1-3-c-ch-ti-p-c-n-v-ph-ng-ph-p-nghi-n-c-u",
+      "target": "h3:222:1-3-1-i-t-ng-nghi-n-c-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:221:1-3-c-ch-ti-p-c-n-v-ph-ng-ph-p-nghi-n-c-u",
+      "target": "h3:224:1-3-2-ph-m-vi-nghi-n-c-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:221:1-3-c-ch-ti-p-c-n-v-ph-ng-ph-p-nghi-n-c-u",
+      "target": "h3:226:1-3-3-ph-ng-ph-p-nghi-n-c-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:205:ph-n-m-u",
+      "target": "h2:228:1-4-m-t-s-c-ng-tr-nh-nghi-n-c-u-trong-v-ngo-i-n-c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:205:ph-n-m-u",
+      "target": "h2:232:1-5-k-t-qu-t-c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:234:ph-n-n-i-dung",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:237:1-1-t-ng-quan-v-ki-n-tr-c-d-li-u-hi-n-i",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:237:1-1-t-ng-quan-v-ki-n-tr-c-d-li-u-hi-n-i",
+      "target": "h3:244:1-1-1-data-warehouse",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:237:1-1-t-ng-quan-v-ki-n-tr-c-d-li-u-hi-n-i",
+      "target": "h3:247:1-1-2-data-lake",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:237:1-1-t-ng-quan-v-ki-n-tr-c-d-li-u-hi-n-i",
+      "target": "h3:250:1-1-3-data-lakehouse",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:237:1-1-t-ng-quan-v-ki-n-tr-c-d-li-u-hi-n-i",
+      "target": "h3:253:1-1-4-hybrid-data-lakehouse",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:257:1-2-ki-n-tr-c-medallion",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:262:1-3-thu-th-p-d-li-u-thay-i-theo-th-i-gian-th-c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:262:1-3-thu-th-p-d-li-u-thay-i-theo-th-i-gian-th-c",
+      "target": "h3:263:1-3-1-change-data-capture-v-mongodb-change-streams",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:262:1-3-thu-th-p-d-li-u-thay-i-theo-th-i-gian-th-c",
+      "target": "h3:269:1-3-2-debezium",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:262:1-3-thu-th-p-d-li-u-thay-i-theo-th-i-gian-th-c",
+      "target": "h3:274:1-3-3-apache-kafka",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:281:1-4-c-ng-ngh-x-l-v-l-u-tr-d-li-u-l-n",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:281:1-4-c-ng-ngh-x-l-v-l-u-tr-d-li-u-l-n",
+      "target": "h3:282:1-4-1-apache-spark",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:281:1-4-c-ng-ngh-x-l-v-l-u-tr-d-li-u-l-n",
+      "target": "h3:287:1-4-2-apache-iceberg",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:281:1-4-c-ng-ngh-x-l-v-l-u-tr-d-li-u-l-n",
+      "target": "h3:294:1-4-3-object-storage-v-minio",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:299:1-5-b-o-m-t-d-li-u-c-nh-n-v-khai-ph-d-li-u-h-i-tho-i",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:299:1-5-b-o-m-t-d-li-u-c-nh-n-v-khai-ph-d-li-u-h-i-tho-i",
+      "target": "h3:300:1-5-1-d-li-u-c-nh-n-v-y-u-c-u-tu-n-th",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:299:1-5-b-o-m-t-d-li-u-c-nh-n-v-khai-ph-d-li-u-h-i-tho-i",
+      "target": "h3:302:1-5-2-pii-masking-trong-pipeline-d-li-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:299:1-5-b-o-m-t-d-li-u-c-nh-n-v-khai-ph-d-li-u-h-i-tho-i",
+      "target": "h3:306:1-5-3-nlp-cho-d-li-u-call-transcript",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:308:1-6-i-u-ph-i-pipeline-v-ph-c-v-ph-n-t-ch",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:308:1-6-i-u-ph-i-pipeline-v-ph-c-v-ph-n-t-ch",
+      "target": "h3:309:1-6-1-apache-airflow",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:308:1-6-i-u-ph-i-pipeline-v-ph-c-v-ph-n-t-ch",
+      "target": "h3:314:1-6-2-superset-v-dashboard-ph-n-t-ch",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:308:1-6-i-u-ph-i-pipeline-v-ph-c-v-ph-n-t-ch",
+      "target": "h3:320:1-6-3-bigquery-v-looker-studio-trong-l-p-ph-c-v-bi",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:327:1-7-l-a-ch-n-ki-n-tr-c-theo-y-u-c-u-d-li-u-telesales",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:327:1-7-l-a-ch-n-ki-n-tr-c-theo-y-u-c-u-d-li-u-telesales",
+      "target": "h3:328:1-7-1-y-u-c-u-d-li-u-ph-t-sinh-li-n-t-c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:327:1-7-l-a-ch-n-ki-n-tr-c-theo-y-u-c-u-d-li-u-telesales",
+      "target": "h3:330:1-7-2-y-u-c-u-k-t-h-p-d-li-u-c-c-u-tr-c-v-transcript",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:327:1-7-l-a-ch-n-ki-n-tr-c-theo-y-u-c-u-d-li-u-telesales",
+      "target": "h3:332:1-7-3-l-do-ch-n-hybrid-data-lakehouse",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:361:1-8-c-i-m-d-li-u-cu-c-g-i-v-transcript",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:361:1-8-c-i-m-d-li-u-cu-c-g-i-v-transcript",
+      "target": "h3:362:1-8-1-d-li-u-kh-ch-h-ng",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:361:1-8-c-i-m-d-li-u-cu-c-g-i-v-transcript",
+      "target": "h3:364:1-8-2-d-li-u-offer-v-chi-n-d-ch",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:361:1-8-c-i-m-d-li-u-cu-c-g-i-v-transcript",
+      "target": "h3:366:1-8-3-transcript-v-nh-n-h-i-tho-i",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:388:1-9-v-n-t-ch-t-i-oltp-v-olap",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:388:1-9-v-n-t-ch-t-i-oltp-v-olap",
+      "target": "h3:389:1-9-1-t-i-v-n-h-nh-tr-n-mongodb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:388:1-9-v-n-t-ch-t-i-oltp-v-olap",
+      "target": "h3:391:1-9-2-t-i-ph-n-t-ch-tr-n-lakehouse-v-bi",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:410:1-10-vai-tr-c-a-schema-evolution-trong-lakehouse",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:410:1-10-vai-tr-c-a-schema-evolution-trong-lakehouse",
+      "target": "h3:411:1-10-1-schema-thay-i-qua-c-c-t-ng-d-li-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:410:1-10-vai-tr-c-a-schema-evolution-trong-lakehouse",
+      "target": "h3:413:1-10-2-ngh-a-c-a-iceberg-i-v-i-schema-evolution",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:442:1-11-vai-tr-c-a-metadata-trong-truy-v-t-d-li-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:442:1-11-vai-tr-c-a-metadata-trong-truy-v-t-d-li-u",
+      "target": "h3:443:1-11-1-metadata-cdc",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:442:1-11-vai-tr-c-a-metadata-trong-truy-v-t-d-li-u",
+      "target": "h3:445:1-11-2-lineage-t-ngu-n-n-dashboard",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:474:1-12-data-quality-trong-ki-n-tr-c-medallion",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:474:1-12-data-quality-trong-ki-n-tr-c-medallion",
+      "target": "h3:475:1-12-1-bronze-b-o-to-n-d-li-u-g-c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:474:1-12-data-quality-trong-ki-n-tr-c-medallion",
+      "target": "h3:477:1-12-2-silver-chu-n-h-a-v-ki-m-so-t-ch-t-l-ng",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:474:1-12-data-quality-trong-ki-n-tr-c-medallion",
+      "target": "h3:479:1-12-3-gold-r-ng-bu-c-nghi-p-v-cho-bi",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:494:1-13-b-o-m-t-pii-trong-pipeline-ph-n-t-ch",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:494:1-13-b-o-m-t-pii-trong-pipeline-ph-n-t-ch",
+      "target": "h3:495:1-13-1-nh-n-di-n-pii-trong-d-li-u-telesales",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:494:1-13-b-o-m-t-pii-trong-pipeline-ph-n-t-ch",
+      "target": "h3:497:1-13-2-masking-t-ng-silver",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:494:1-13-b-o-m-t-pii-trong-pipeline-ph-n-t-ch",
+      "target": "h3:499:1-13-3-gi-i-h-n-c-a-masking-trong-prototype",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:516:1-14-machine-learning-trong-pipeline-d-li-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:516:1-14-machine-learning-trong-pipeline-d-li-u",
+      "target": "h3:517:1-14-1-vai-tr-c-a-m-h-nh-nlp",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:516:1-14-machine-learning-trong-pipeline-d-li-u",
+      "target": "h3:521:1-14-2-m-h-nh-ch-nh-bow-logistic-regression",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:516:1-14-machine-learning-trong-pipeline-d-li-u",
+      "target": "h3:538:1-14-3-roberta-nh-baseline-h-c-s-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:516:1-14-machine-learning-trong-pipeline-d-li-u",
+      "target": "h3:548:1-14-4-ti-u-ch-nh-gi-v-quy-t-nh-m-h-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:516:1-14-machine-learning-trong-pipeline-d-li-u",
+      "target": "h3:555:1-14-5-h-c-th-ch-nghi-mi-n-weak-supervision-v-pseudo-labeling",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:560:1-15-m-h-nh-star-schema-cho-dashboard-v-n-h-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:560:1-15-m-h-nh-star-schema-cho-dashboard-v-n-h-nh",
+      "target": "h3:561:1-15-1-fact-v-dimension",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:560:1-15-m-h-nh-star-schema-cho-dashboard-v-n-h-nh",
+      "target": "h3:563:1-15-2-ch-s-nghi-p-v",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:583:1-16-l-p-serving-v-semantic-layer-cho-bi",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:583:1-16-l-p-serving-v-semantic-layer-cho-bi",
+      "target": "h3:584:1-16-1-bigquery-serving-view",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:583:1-16-l-p-serving-v-semantic-layer-cho-bi",
+      "target": "h3:586:1-16-2-semantic-layer-cho-dashboard",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:604:1-17-t-ng-h-p-ti-u-ch-l-a-ch-n-c-ng-ngh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:604:1-17-t-ng-h-p-ti-u-ch-l-a-ch-n-c-ng-ngh",
+      "target": "h3:605:1-17-1-ti-u-ch-k-thu-t",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:604:1-17-t-ng-h-p-ti-u-ch-l-a-ch-n-c-ng-ngh",
+      "target": "h3:610:1-17-2-ph-m-vi-v-nh-i",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:235:ch-ng-1-c-s-l-thuy-t",
+      "target": "h2:625:1-18-k-t-lu-n-ch-ng",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:628:ch-ng-2-b-d-li-u-m-h-nh-sinh-d-li-u-v-m-h-nh-nlp",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:628:ch-ng-2-b-d-li-u-m-h-nh-sinh-d-li-u-v-m-h-nh-nlp",
+      "target": "table:632:b-ng-2-1-c-c-artifact-d-li-u-ch-nh-trong-t-i",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:628:ch-ng-2-b-d-li-u-m-h-nh-sinh-d-li-u-v-m-h-nh-nlp",
+      "target": "figure:634:h-nh-2-1-quy-tr-nh-sinh-d-li-u-t-ng-h-p-b-ng-google-generative-ai",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:628:ch-ng-2-b-d-li-u-m-h-nh-sinh-d-li-u-v-m-h-nh-nlp",
+      "target": "h2:635:2-1-vai-tr-c-a-d-li-u-trong-t-i",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:635:2-1-vai-tr-c-a-d-li-u-trong-t-i",
+      "target": "h3:636:2-1-1-v-sao-c-n-m-t-dataset-ri-ng",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:635:2-1-vai-tr-c-a-d-li-u-trong-t-i",
+      "target": "h3:639:2-1-2-dataset-c-d-ng-trong-b-o-c-o",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:635:2-1-vai-tr-c-a-d-li-u-trong-t-i",
+      "target": "h3:642:2-1-3-ranh-gi-i-gi-a-d-li-u-ngu-n-d-li-u-hu-n-luy-n-v-d-li-u-ph-n-t-ch",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:635:2-1-vai-tr-c-a-d-li-u-trong-t-i",
+      "target": "h3:645:2-1-4-vai-tr-c-a-callcenteren-trong-nghi-n-c-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:645:2-1-4-vai-tr-c-a-callcenteren-trong-nghi-n-c-u",
+      "target": "h4:649:2-1-4-1-ngu-n-g-c-c-ch-c-ng-b-v-ph-m-vi-s-d-ng-callcenteren",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:645:2-1-4-vai-tr-c-a-callcenteren-trong-nghi-n-c-u",
+      "target": "h4:655:2-1-4-2-c-ch-a-callcenteren-v-o-workspace-v-ph-m-vi-d-li-u-c-ch-n",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:645:2-1-4-vai-tr-c-a-callcenteren-trong-nghi-n-c-u",
+      "target": "h4:661:2-1-4-3-c-c-c-tr-ng-c-r-t-ra-t-callcenteren",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:635:2-1-vai-tr-c-a-d-li-u-trong-t-i",
+      "target": "h3:665:2-1-5-t-callcenteren-n-prompt-sinh-dataset-ch-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:628:ch-ng-2-b-d-li-u-m-h-nh-sinh-d-li-u-v-m-h-nh-nlp",
+      "target": "h2:674:2-2-ngu-n-g-c-v-quy-tr-nh-sinh-d-li-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:674:2-2-ngu-n-g-c-v-quy-tr-nh-sinh-d-li-u",
+      "target": "h3:675:2-2-1-notebook-generate-data-ipynb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:675:2-2-1-notebook-generate-data-ipynb",
+      "target": "table:679:b-ng-2-2-tham-s-ch-nh-trong-generate-data-ipynb",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:674:2-2-ngu-n-g-c-v-quy-tr-nh-sinh-d-li-u",
+      "target": "h3:681:2-2-2-m-h-nh-sinh-d-li-u-ch-nh-models-gemma-3-27b-it",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:681:2-2-2-m-h-nh-sinh-d-li-u-ch-nh-models-gemma-3-27b-it",
+      "target": "h4:684:2-2-2-1-c-ch-prompt-ki-m-so-t-t-nh-th-c-t-c-a-transcript",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:681:2-2-2-m-h-nh-sinh-d-li-u-ch-nh-models-gemma-3-27b-it",
+      "target": "h4:687:2-2-2-2-c-ch-l-u-d-li-u-theo-batch",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:674:2-2-ngu-n-g-c-v-quy-tr-nh-sinh-d-li-u",
+      "target": "h3:690:2-2-3-m-h-nh-th-nghi-m-models-gemini-2-5-flash",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:628:ch-ng-2-b-d-li-u-m-h-nh-sinh-d-li-u-v-m-h-nh-nlp",
+      "target": "h2:693:2-3-thi-t-k-schema-v-t-nh-ch-t-d-li-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:693:2-3-thi-t-k-schema-v-t-nh-ch-t-d-li-u",
+      "target": "h3:694:2-3-1-schema-master-data-ph-ng-tr-c-chu-n-h-a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:694:2-3-1-schema-master-data-ph-ng-tr-c-chu-n-h-a",
+      "target": "table:697:b-ng-2-3-nh-m-tr-ng-trong-schema-master-data-sinh-t-ng-h-p",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:694:2-3-1-schema-master-data-ph-ng-tr-c-chu-n-h-a",
+      "target": "figure:699:h-nh-2-2-schema-master-data-c-a-m-t-b-n-ghi-telesales-tr-c-chu-n-h-a",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:694:2-3-1-schema-master-data-ph-ng-tr-c-chu-n-h-a",
+      "target": "h4:700:2-3-1-1-data-dictionary-c-a-c-c-th-c-th-ngu-n",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h4:700:2-3-1-1-data-dictionary-c-a-c-c-th-c-th-ngu-n",
+      "target": "table:703:b-ng-2-7-data-dictionary-r-t-g-n-cho-customers-csv",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h4:700:2-3-1-1-data-dictionary-c-a-c-c-th-c-th-ngu-n",
+      "target": "table:705:b-ng-2-8-data-dictionary-r-t-g-n-cho-offers-csv",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h4:700:2-3-1-1-data-dictionary-c-a-c-c-th-c-th-ngu-n",
+      "target": "table:707:b-ng-2-9-data-dictionary-r-t-g-n-cho-calls-csv",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:693:2-3-thi-t-k-schema-v-t-nh-ch-t-d-li-u",
+      "target": "h3:709:2-3-2-taxonomy-call-code",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:709:2-3-2-taxonomy-call-code",
+      "target": "table:712:b-ng-2-5-taxonomy-call-code-trong-prompt-sinh-d-li-u",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:693:2-3-thi-t-k-schema-v-t-nh-ch-t-d-li-u",
+      "target": "h3:714:2-3-3-th-ng-k-d-li-u-sau-chu-n-h-a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:714:2-3-3-th-ng-k-d-li-u-sau-chu-n-h-a",
+      "target": "table:717:b-ng-2-4-m-t-s-t-nh-ch-t-th-ng-k-c-a-d-li-u-sau-chu-n-h-a",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:714:2-3-3-th-ng-k-d-li-u-sau-chu-n-h-a",
+      "target": "figure:719:h-nh-2-4-ph-n-b-nh-n-call-code-trong-b-d-li-u",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:693:2-3-thi-t-k-schema-v-t-nh-ch-t-d-li-u",
+      "target": "h3:720:2-3-4-ngh-a-c-a-transcript-trong-b-i-to-n-lakehouse",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:693:2-3-thi-t-k-schema-v-t-nh-ch-t-d-li-u",
+      "target": "h3:723:2-3-5-i-chi-u-dataset-ch-nh-v-i-callcenteren",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:628:ch-ng-2-b-d-li-u-m-h-nh-sinh-d-li-u-v-m-h-nh-nlp",
+      "target": "h2:729:2-4-chu-n-h-a-d-li-u-th-nh-c-c-th-c-th-ngu-n",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:729:2-4-chu-n-h-a-d-li-u-th-nh-c-c-th-c-th-ngu-n",
+      "target": "h3:730:2-4-1-script-split-to-entities-py",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:730:2-4-1-script-split-to-entities-py",
+      "target": "figure:733:h-nh-2-3-lu-ng-chu-n-h-a-json-th-nh-customers-offers-v-calls",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:729:2-4-chu-n-h-a-d-li-u-th-nh-c-c-th-c-th-ngu-n",
+      "target": "h3:734:2-4-2-quan-h-customers-offers-v-calls",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:729:2-4-chu-n-h-a-d-li-u-th-nh-c-c-th-c-th-ngu-n",
+      "target": "h3:737:2-4-3-n-p-d-li-u-v-o-mongodb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:628:ch-ng-2-b-d-li-u-m-h-nh-sinh-d-li-u-v-m-h-nh-nlp",
+      "target": "h2:740:2-5-chu-n-b-d-li-u-hu-n-luy-n-nlp",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:740:2-5-chu-n-b-d-li-u-hu-n-luy-n-nlp",
+      "target": "h3:741:2-5-1-g-p-transcript-v-nh-n",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:740:2-5-chu-n-b-d-li-u-hu-n-luy-n-nlp",
+      "target": "h3:744:2-5-2-chia-train-validation-v-test",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:740:2-5-chu-n-b-d-li-u-hu-n-luy-n-nlp",
+      "target": "h3:747:2-5-3-l-c-callcenteren-subset-v-t-o-pseudo-label",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:747:2-5-3-l-c-callcenteren-subset-v-t-o-pseudo-label",
+      "target": "table:750:b-ng-2-11-k-t-qu-chu-n-b-split-callcenteren-sau-pseudo-label",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:628:ch-ng-2-b-d-li-u-m-h-nh-sinh-d-li-u-v-m-h-nh-nlp",
+      "target": "h2:753:2-6-m-h-nh-nlp-ph-n-lo-i-call-code",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:753:2-6-m-h-nh-nlp-ph-n-lo-i-call-code",
+      "target": "h3:754:2-6-1-m-c-ti-u-m-h-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:753:2-6-m-h-nh-nlp-ph-n-lo-i-call-code",
+      "target": "h3:757:2-6-2-m-h-nh-ch-nh-bow-logistic-regression",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:753:2-6-m-h-nh-nlp-ph-n-lo-i-call-code",
+      "target": "h3:767:2-6-3-roberta-baseline",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:767:2-6-3-roberta-baseline",
+      "target": "figure:774:h-nh-2-6-so-s-nh-bow-production-model-v-roberta-baseline-trong-b-i-to-n-multi-la",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:753:2-6-m-h-nh-nlp-ph-n-lo-i-call-code",
+      "target": "h3:775:2-6-4-k-t-qu-notebook-v-quy-t-nh-ban-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:753:2-6-m-h-nh-nlp-ph-n-lo-i-call-code",
+      "target": "h3:778:2-6-5-t-ch-h-p-bow-v-o-silver-job",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:778:2-6-5-t-ch-h-p-bow-v-o-silver-job",
+      "target": "figure:785:h-nh-2-7-lu-ng-bow-inference-ghi-call-code-v-o-silver",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:753:2-6-m-h-nh-nlp-ph-n-lo-i-call-code",
+      "target": "h3:786:2-6-6-ranh-gi-i-d-li-u-sau-inference",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:753:2-6-m-h-nh-nlp-ph-n-lo-i-call-code",
+      "target": "h3:788:2-6-7-m-h-nh-ri-ng-cho-nh-nh-callcenteren",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:628:ch-ng-2-b-d-li-u-m-h-nh-sinh-d-li-u-v-m-h-nh-nlp",
+      "target": "h2:791:2-7-data-quality-o-c-d-li-u-v-gi-i-h-n-c-a-d-li-u-t-ng-h-p",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:791:2-7-data-quality-o-c-d-li-u-v-gi-i-h-n-c-a-d-li-u-t-ng-h-p",
+      "target": "h3:792:2-7-1-i-m-m-nh-c-a-d-li-u-t-ng-h-p",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:791:2-7-data-quality-o-c-d-li-u-v-gi-i-h-n-c-a-d-li-u-t-ng-h-p",
+      "target": "h3:795:2-7-2-gi-i-h-n-c-n-ghi-r",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:791:2-7-data-quality-o-c-d-li-u-v-gi-i-h-n-c-a-d-li-u-t-ng-h-p",
+      "target": "h3:798:2-7-3-xu-t-ki-m-so-t-ch-t-l-ng-d-li-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:798:2-7-3-xu-t-ki-m-so-t-ch-t-l-ng-d-li-u",
+      "target": "table:801:b-ng-2-10-xu-t-rule-ki-m-so-t-ch-t-l-ng-d-li-u-sau-generation",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:804:ch-ng-3-ph-n-t-ch-v-thi-t-k-ki-n-tr-c-hybrid-data-lakehouse",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:804:ch-ng-3-ph-n-t-ch-v-thi-t-k-ki-n-tr-c-hybrid-data-lakehouse",
+      "target": "table:807:b-ng-3-1-th-nh-ph-n-c-ng-ngh-trong-ki-n-tr-c-t-i",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:804:ch-ng-3-ph-n-t-ch-v-thi-t-k-ki-n-tr-c-hybrid-data-lakehouse",
+      "target": "figure:809:h-nh-3-1-ki-n-tr-c-t-ng-th-hybrid-data-lakehouse-cho-agi-telesales",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:804:ch-ng-3-ph-n-t-ch-v-thi-t-k-ki-n-tr-c-hybrid-data-lakehouse",
+      "target": "h2:810:3-1-y-u-c-u-h-th-ng-agi-telesales",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:810:3-1-y-u-c-u-h-th-ng-agi-telesales",
+      "target": "h3:811:3-1-1-y-u-c-u-nghi-p-v",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:810:3-1-y-u-c-u-h-th-ng-agi-telesales",
+      "target": "h3:814:3-1-2-y-u-c-u-k-thu-t",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:810:3-1-y-u-c-u-h-th-ng-agi-telesales",
+      "target": "h3:817:3-1-3-y-u-c-u-b-o-m-t-v-qu-n-tr-d-li-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:804:ch-ng-3-ph-n-t-ch-v-thi-t-k-ki-n-tr-c-hybrid-data-lakehouse",
+      "target": "h2:820:3-2-ki-n-tr-c-t-ng-th",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:820:3-2-ki-n-tr-c-t-ng-th",
+      "target": "h3:821:3-2-1-lu-ng-d-li-u-end-to-end",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:820:3-2-ki-n-tr-c-t-ng-th",
+      "target": "h3:824:3-2-2-l-do-ch-n-docker-compose",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:820:3-2-ki-n-tr-c-t-ng-th",
+      "target": "h3:827:3-2-3-t-ng-hybrid-local-v-cloud-serving",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:827:3-2-3-t-ng-hybrid-local-v-cloud-serving",
+      "target": "figure:828:h-nh-3-7-data-lineage-t-mongodb-n-bigquery-serving-view",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:820:3-2-ki-n-tr-c-t-ng-th",
+      "target": "h3:830:3-2-4-c-c-quy-t-nh-ki-n-tr-c-ch-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:830:3-2-4-c-c-quy-t-nh-ki-n-tr-c-ch-nh",
+      "target": "table:832:b-ng-3-2-c-c-quy-t-nh-ki-n-tr-c-ch-nh-v-l-do-l-a-ch-n",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:804:ch-ng-3-ph-n-t-ch-v-thi-t-k-ki-n-tr-c-hybrid-data-lakehouse",
+      "target": "h2:835:3-3-thi-t-k-ngu-n-d-li-u-v-cdc",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:835:3-3-thi-t-k-ngu-n-d-li-u-v-cdc",
+      "target": "h3:836:3-3-1-mongodb-source-database",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:835:3-3-thi-t-k-ngu-n-d-li-u-v-cdc",
+      "target": "h3:839:3-3-2-debezium-connector",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:839:3-3-2-debezium-connector",
+      "target": "figure:842:h-nh-3-2-lu-ng-cdc-t-mongodb-qua-debezium-v-kafka-v-o-bronze",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:835:3-3-thi-t-k-ngu-n-d-li-u-v-cdc",
+      "target": "h3:843:3-3-3-kafka-topics-v-debezium-envelope",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:843:3-3-3-kafka-topics-v-debezium-envelope",
+      "target": "figure:844:h-nh-3-8-sequence-diagram-cdc-v-batch-etl-trong-pipeline",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:804:ch-ng-3-ph-n-t-ch-v-thi-t-k-ki-n-tr-c-hybrid-data-lakehouse",
+      "target": "h2:847:3-4-thi-t-k-c-c-t-ng-medallion",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:847:3-4-thi-t-k-c-c-t-ng-medallion",
+      "target": "h3:848:3-4-1-t-ng-bronze",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:847:3-4-thi-t-k-c-c-t-ng-medallion",
+      "target": "h3:851:3-4-2-t-ng-silver",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:847:3-4-thi-t-k-c-c-t-ng-medallion",
+      "target": "h3:854:3-4-3-t-ng-gold",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:854:3-4-3-t-ng-gold",
+      "target": "table:857:b-ng-3-3-tr-ch-nhi-m-c-a-t-ng-t-ng-medallion",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:854:3-4-3-t-ng-gold",
+      "target": "figure:859:h-nh-3-3-medallion-architecture-v-tr-ch-nhi-m-c-a-t-ng-t-ng-d-li-u",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:847:3-4-thi-t-k-c-c-t-ng-medallion",
+      "target": "h3:860:3-4-4-iceberg-v-merge-into",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:860:3-4-4-iceberg-v-merge-into",
+      "target": "table:863:b-ng-3-4-thi-t-k-star-schema-t-ng-gold",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:860:3-4-4-iceberg-v-merge-into",
+      "target": "figure:865:h-nh-3-4-star-schema-c-a-l-p-gold-ph-c-v-bi",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:804:ch-ng-3-ph-n-t-ch-v-thi-t-k-ki-n-tr-c-hybrid-data-lakehouse",
+      "target": "h2:866:3-5-thi-t-k-i-u-ph-i-serving-v-bi",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:866:3-5-thi-t-k-i-u-ph-i-serving-v-bi",
+      "target": "h3:867:3-5-1-airflow-orchestration",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:867:3-5-1-airflow-orchestration",
+      "target": "table:870:b-ng-3-5-airflow-dag-v-dependency-ch-nh",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:867:3-5-1-airflow-orchestration",
+      "target": "figure:872:h-nh-3-5-airflow-dag-i-u-ph-i-bronze-silver-gold-v-bigquery-sync",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:866:3-5-thi-t-k-i-u-ph-i-serving-v-bi",
+      "target": "h3:873:3-5-2-bigquery-serving-layer",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:866:3-5-thi-t-k-i-u-ph-i-serving-v-bi",
+      "target": "h3:877:3-5-3-superset-v-dashboard",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:804:ch-ng-3-ph-n-t-ch-v-thi-t-k-ki-n-tr-c-hybrid-data-lakehouse",
+      "target": "h2:880:3-6-thi-t-k-b-o-m-t-v-kh-n-ng-v-n-h-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:880:3-6-thi-t-k-b-o-m-t-v-kh-n-ng-v-n-h-nh",
+      "target": "h3:881:3-6-1-pii-masking",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:881:3-6-1-pii-masking",
+      "target": "figure:882:h-nh-4-6-ki-m-th-pii-masking-trong-b-ng-silver-cust",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:881:3-6-1-pii-masking",
+      "target": "table:884:b-ng-4-3-quy-t-c-che-gi-u-d-li-u-c-nh-n-trong-silver",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:881:3-6-1-pii-masking",
+      "target": "figure:886:h-nh-3-6-lu-ng-ki-m-so-t-pii-t-ngu-n-n-serving-layer",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:880:3-6-thi-t-k-b-o-m-t-v-kh-n-ng-v-n-h-nh",
+      "target": "h3:887:3-6-2-checkpoint-v-replay",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:880:3-6-thi-t-k-b-o-m-t-v-kh-n-ng-v-n-h-nh",
+      "target": "h3:890:3-6-3-idempotency",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:894:ch-ng-4-tri-n-khai-th-c-nghi-m-v-ki-m-th-h-th-ng",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:894:ch-ng-4-tri-n-khai-th-c-nghi-m-v-ki-m-th-h-th-ng",
+      "target": "figure:897:h-nh-4-1-b-n-container-docker-compose-c-a-h-th-ng-th-c-nghi-m",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:894:ch-ng-4-tri-n-khai-th-c-nghi-m-v-ki-m-th-h-th-ng",
+      "target": "h2:898:4-1-m-i-tr-ng-tri-n-khai",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:898:4-1-m-i-tr-ng-tri-n-khai",
+      "target": "h3:899:4-1-1-c-u-h-nh-docker-compose",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:898:4-1-m-i-tr-ng-tri-n-khai",
+      "target": "h3:902:4-1-2-runtime-python-v-dependency",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:894:ch-ng-4-tri-n-khai-th-c-nghi-m-v-ki-m-th-h-th-ng",
+      "target": "h2:905:4-2-bootstrap-d-li-u-v-cdc",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:905:4-2-bootstrap-d-li-u-v-cdc",
+      "target": "h3:906:4-2-1-n-p-d-li-u-v-o-mongodb",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:905:4-2-bootstrap-d-li-u-v-cdc",
+      "target": "h3:909:4-2-2-ng-k-debezium-connector",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:909:4-2-2-ng-k-debezium-connector",
+      "target": "figure:912:h-nh-4-2-m-n-h-nh-ki-m-tra-debezium-connector-v-kafka-topics",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:894:ch-ng-4-tri-n-khai-th-c-nghi-m-v-ki-m-th-h-th-ng",
+      "target": "h2:913:4-3-ki-m-th-bronze-silver-gold",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:913:4-3-ki-m-th-bronze-silver-gold",
+      "target": "h3:914:4-3-1-ki-m-th-bronze",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:913:4-3-ki-m-th-bronze-silver-gold",
+      "target": "h3:917:4-3-2-ki-m-th-silver",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:913:4-3-ki-m-th-bronze-silver-gold",
+      "target": "h3:920:4-3-3-ki-m-th-gold",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:920:4-3-3-ki-m-th-gold",
+      "target": "table:923:b-ng-4-1-k-t-qu-ki-m-th-d-li-u-v-pipeline-ch-nh",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:913:4-3-ki-m-th-bronze-silver-gold",
+      "target": "h3:925:4-3-4-checklist-nghi-m-thu-k-thu-t",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:925:4-3-4-checklist-nghi-m-thu-k-thu-t",
+      "target": "figure:926:h-nh-4-5-ki-m-ch-ng-row-count-gi-a-mongodb-iceberg-gold-v-bigquery",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:925:4-3-4-checklist-nghi-m-thu-k-thu-t",
+      "target": "table:928:b-ng-4-2-checklist-nghi-m-thu-k-thu-t-cho-pipeline",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:894:ch-ng-4-tri-n-khai-th-c-nghi-m-v-ki-m-th-h-th-ng",
+      "target": "h2:930:4-4-ki-m-th-bigquery-superset-v-dashboard",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:930:4-4-ki-m-th-bigquery-superset-v-dashboard",
+      "target": "h3:931:4-4-1-bigquery-sync",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:930:4-4-ki-m-th-bigquery-superset-v-dashboard",
+      "target": "h3:934:4-4-2-serving-view",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:934:4-4-2-serving-view",
+      "target": "figure:937:h-nh-4-4-lu-ng-ph-c-v-d-li-u-t-gold-iceberg-sang-bigquery-serving-view",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:930:4-4-ki-m-th-bigquery-superset-v-dashboard",
+      "target": "h3:938:4-4-3-superset-dashboard",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:938:4-4-3-superset-dashboard",
+      "target": "figure:939:h-nh-4-8-dashboard-ph-n-t-ch-outcome-lead-source-v-product-performance",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:938:4-4-3-superset-dashboard",
+      "target": "figure:942:h-nh-4-3-dashboard-superset-bi-cho-ph-n-t-ch-hi-u-su-t-telesales",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:938:4-4-3-superset-dashboard",
+      "target": "table:943:b-ng-4-4-nh-ngh-a-kpi-v-bi-u-dashboard",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:894:ch-ng-4-tri-n-khai-th-c-nghi-m-v-ki-m-th-h-th-ng",
+      "target": "h2:945:4-5-nh-gi-nlp-trong-pipeline",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:945:4-5-nh-gi-nlp-trong-pipeline",
+      "target": "h3:946:4-5-1-k-t-qu-m-h-nh-trong-notebook",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:945:4-5-nh-gi-nlp-trong-pipeline",
+      "target": "h3:949:4-5-2-th-c-nghi-m-roberta-trong-full-rebuild",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:945:4-5-nh-gi-nlp-trong-pipeline",
+      "target": "h3:956:4-5-3-th-c-nghi-m-bow-sau-khi-thay-m-h-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:945:4-5-nh-gi-nlp-trong-pipeline",
+      "target": "h3:962:4-5-4-ki-m-tra-schema-sau-khi-i-m-h-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:945:4-5-nh-gi-nlp-trong-pipeline",
+      "target": "h3:966:4-5-5-th-c-nghi-m-callcenteren-nh-nh-nh-dataset-ch-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:966:4-5-5-th-c-nghi-m-callcenteren-nh-nh-nh-dataset-ch-nh",
+      "target": "table:969:b-ng-4-5-k-t-qu-hu-n-luy-n-v-tinh-ch-nh-model-ri-ng-cho-callcenteren",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:966:4-5-5-th-c-nghi-m-callcenteren-nh-nh-nh-dataset-ch-nh",
+      "target": "table:973:b-ng-4-6-so-s-nh-tr-c-quan-hai-m-h-nh-theo-ngu-n-d-li-u",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h3:966:4-5-5-th-c-nghi-m-callcenteren-nh-nh-nh-dataset-ch-nh",
+      "target": "table:977:b-ng-4-7-k-t-qu-ghi-b-ng-lakehouse-cho-nh-nh-callcenteren",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h1:894:ch-ng-4-tri-n-khai-th-c-nghi-m-v-ki-m-th-h-th-ng",
+      "target": "h2:979:4-6-ki-m-th-kh-n-ng-ch-y-l-i-v-ph-c-h-i-l-i",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:979:4-6-ki-m-th-kh-n-ng-ch-y-l-i-v-ph-c-h-i-l-i",
+      "target": "h3:980:4-6-1-ch-y-l-i-pipeline",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:979:4-6-ki-m-th-kh-n-ng-ch-y-l-i-v-ph-c-h-i-l-i",
+      "target": "h3:983:4-6-2-c-c-l-i-th-c-nghi-m-ghi-nh-n",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:979:4-6-ki-m-th-kh-n-ng-ch-y-l-i-v-ph-c-h-i-l-i",
+      "target": "h3:986:4-6-3-ki-m-th-lu-ng-airflow-t-ch-stage-theo-dataset",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:979:4-6-ki-m-th-kh-n-ng-ch-y-l-i-v-ph-c-h-i-l-i",
+      "target": "h3:995:4-6-4-ki-m-th-full-pipeline-tu-n-t-ng-y-26-06-2026",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:995:4-6-4-ki-m-th-full-pipeline-tu-n-t-ng-y-26-06-2026",
+      "target": "table:1000:b-ng-4-8-k-t-qu-ki-m-th-full-pipeline-tu-n-t-ng-y-26-06-2026",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:1001:ch-ng-5-nh-gi-t-ng-h-p-h-n-ch-v-h-ng-ph-t-tri-n",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:1001:ch-ng-5-nh-gi-t-ng-h-p-h-n-ch-v-h-ng-ph-t-tri-n",
+      "target": "h2:1003:5-1-m-c-p-ng-m-c-ti-u-t-i",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1003:5-1-m-c-p-ng-m-c-ti-u-t-i",
+      "target": "h3:1004:5-1-1-t-ch-t-i-oltp-v-olap",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1003:5-1-m-c-p-ng-m-c-ti-u-t-i",
+      "target": "h3:1007:5-1-2-x-l-d-li-u-c-c-u-tr-c-v-phi-c-u-tr-c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1003:5-1-m-c-p-ng-m-c-ti-u-t-i",
+      "target": "h3:1010:5-1-3-b-o-v-d-li-u-c-nh-n",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:1001:ch-ng-5-nh-gi-t-ng-h-p-h-n-ch-v-h-ng-ph-t-tri-n",
+      "target": "h2:1013:5-2-nh-gi-ng-g-p-k-thu-t",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1013:5-2-nh-gi-ng-g-p-k-thu-t",
+      "target": "h3:1014:5-2-1-ng-g-p-v-d-li-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1013:5-2-nh-gi-ng-g-p-k-thu-t",
+      "target": "h3:1017:5-2-2-ng-g-p-v-ki-n-tr-c-d-li-u",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1013:5-2-nh-gi-ng-g-p-k-thu-t",
+      "target": "h3:1020:5-2-3-ng-g-p-v-v-n-h-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1013:5-2-nh-gi-ng-g-p-k-thu-t",
+      "target": "h3:1023:5-2-4-ng-g-p-t-nh-nh-callcenteren-trong-ki-n-tr-c-multi-source",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:1001:ch-ng-5-nh-gi-t-ng-h-p-h-n-ch-v-h-ng-ph-t-tri-n",
+      "target": "h2:1026:5-3-h-n-ch",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1026:5-3-h-n-ch",
+      "target": "h3:1027:5-3-1-h-n-ch-dataset",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1026:5-3-h-n-ch",
+      "target": "h3:1029:5-3-2-h-n-ch-m-h-nh-nlp",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1026:5-3-h-n-ch",
+      "target": "h3:1031:5-3-3-h-n-ch-h-t-ng",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h3:1031:5-3-3-h-n-ch-h-t-ng",
+      "target": "table:1033:b-ng-5-1-h-n-ch-v-h-ng-x-l-xu-t",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:1026:5-3-h-n-ch",
+      "target": "h3:1035:5-3-4-h-n-ch-khi-s-d-ng-callcenteren-v-pseudo-label",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:1001:ch-ng-5-nh-gi-t-ng-h-p-h-n-ch-v-h-ng-ph-t-tri-n",
+      "target": "h2:1039:5-4-h-ng-ph-t-tri-n",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1039:5-4-h-ng-ph-t-tri-n",
+      "target": "figure:1040:h-nh-5-1-roadmap-n-ng-c-p-production-cho-hybrid-lakehouse",
+      "type": "HAS_CAPTION"
+    },
+    {
+      "source": "h2:1039:5-4-h-ng-ph-t-tri-n",
+      "target": "h3:1041:5-4-1-ho-n-thi-n-data-quality",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1039:5-4-h-ng-ph-t-tri-n",
+      "target": "h3:1043:5-4-2-n-ng-c-p-nlp-v-model-serving",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1039:5-4-h-ng-ph-t-tri-n",
+      "target": "h3:1045:5-4-3-n-ng-c-p-b-o-m-t",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1039:5-4-h-ng-ph-t-tri-n",
+      "target": "h3:1047:5-4-4-n-ng-c-p-v-n-h-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:1050:ph-n-k-t-lu-n",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:1050:ph-n-k-t-lu-n",
+      "target": "h2:1054:ghi-ch-phi-n-b-n-v7",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:1056:t-i-li-u-tham-kh-o",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "report:v7",
+      "target": "h1:1095:ph-l-c",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:1095:ph-l-c",
+      "target": "h2:1096:ph-l-c-a-l-nh-v-n-h-nh-ch-nh",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:1095:ph-l-c",
+      "target": "h2:1098:ph-l-c-b-danh-s-ch-s-v-h-nh-minh-h-a",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:1095:ph-l-c",
+      "target": "h2:1100:ph-l-c-c-ghi-ch-b-o-m-t",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h1:1095:ph-l-c",
+      "target": "h2:1103:ph-l-c-d-b-ng-i-chi-u-code-v-n-i-dung-b-o-c-o",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "h2:1103:ph-l-c-d-b-ng-i-chi-u-code-v-n-i-dung-b-o-c-o",
+      "target": "h3:1105:nh-n-x-t-i-chi-u",
+      "type": "CONTAINS"
+    }
+  ]
+}

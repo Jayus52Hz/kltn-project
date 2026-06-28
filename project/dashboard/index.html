@@ -3,15 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Telesales Lakehouse Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Multi-source Lakehouse Insights</title>
+  <link rel="stylesheet" href="styles.css?v=20260626-insights">
 </head>
 <body>
   <main class="shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">Hybrid Lakehouse</p>
-        <h1>Telesales Performance</h1>
+        <p class="eyebrow">Hybrid Data Lakehouse</p>
+        <h1>Multi-source Telesales Insights</h1>
+        <p class="subtitle">Primary AGI Telesales and CallCenterEN are compared from Gold/serving artifacts.</p>
       </div>
       <div class="status">
         <span id="status-dot" class="dot"></span>
@@ -26,117 +27,127 @@
 
     <section class="kpi-grid">
       <article class="kpi">
-        <span>Total calls</span>
-        <strong id="kpi-total-calls">-</strong>
+        <span>Primary calls</span>
+        <strong id="kpi-primary-calls">-</strong>
+        <small>Gold fact_telesales_calls</small>
       </article>
       <article class="kpi">
-        <span>Success rate</span>
+        <span>CallCenterEN calls</span>
+        <strong id="kpi-callcenter-calls">-</strong>
+        <small>Gold external fact</small>
+      </article>
+      <article class="kpi">
+        <span>Serving rows</span>
+        <strong id="kpi-serving-rows">-</strong>
+        <small>BigQuery views verified</small>
+      </article>
+      <article class="kpi">
+        <span>Primary success</span>
         <strong id="kpi-success-rate">-</strong>
+        <small>Successful sale outcome</small>
       </article>
       <article class="kpi">
-        <span>Successful sales</span>
-        <strong id="kpi-sales">-</strong>
+        <span>Duration gap</span>
+        <strong id="kpi-duration-gap">-</strong>
+        <small>CallCenterEN vs primary</small>
       </article>
       <article class="kpi">
-        <span>Avg talk time</span>
-        <strong id="kpi-talk-time">-</strong>
-      </article>
-      <article class="kpi">
-        <span>Customers</span>
-        <strong id="kpi-customers">-</strong>
-      </article>
-      <article class="kpi">
-        <span>Offers</span>
-        <strong id="kpi-offers">-</strong>
+        <span>Code links</span>
+        <strong id="kpi-code-links">-</strong>
+        <small>Bridge call-code rows</small>
       </article>
     </section>
+
+    <section id="insight-strip" class="insight-strip"></section>
 
     <section class="dashboard-grid">
       <article class="panel wide">
         <div class="panel-title">
-          <h2>Daily call volume</h2>
-          <span>Gold fact by date</span>
+          <h2>Dataset profile comparison</h2>
+          <span>Rows, duration, words, PII signal</span>
         </div>
-        <div id="daily-calls" class="bars horizontal"></div>
+        <div id="dataset-profile" class="metric-compare"></div>
       </article>
 
       <article class="panel">
         <div class="panel-title">
-          <h2>Outcome category</h2>
-          <span>Call classification</span>
+          <h2>Primary outcome mix</h2>
+          <span>Business result</span>
         </div>
         <div id="outcome-category" class="bars"></div>
       </article>
 
       <article class="panel">
         <div class="panel-title">
-          <h2>Call status</h2>
-          <span>Operational result</span>
-        </div>
-        <div id="call-status" class="bars"></div>
-      </article>
-
-      <article class="panel">
-        <div class="panel-title">
-          <h2>Product category</h2>
-          <span>Offer portfolio</span>
+          <h2>Product portfolio</h2>
+          <span>Primary offer demand</span>
         </div>
         <div id="product-category" class="bars"></div>
       </article>
 
       <article class="panel">
         <div class="panel-title">
-          <h2>Talk time band</h2>
-          <span>Conversation length</span>
+          <h2>CallCenterEN domains</h2>
+          <span>External corpus mix</span>
         </div>
-        <div id="talk-time-band" class="bars"></div>
+        <div id="callcenter-domains" class="bars"></div>
       </article>
 
       <article class="panel">
         <div class="panel-title">
-          <h2>Credit tier</h2>
-          <span>Customer profile</span>
+          <h2>Call direction</h2>
+          <span>CallCenterEN operations</span>
         </div>
-        <div id="credit-tier" class="bars"></div>
+        <div id="callcenter-direction" class="bars"></div>
+      </article>
+
+      <article class="panel wide">
+        <div class="panel-title">
+          <h2>Call-code distribution shift</h2>
+          <span>Top labels by dataset</span>
+        </div>
+        <div id="call-code-shift" class="split-list"></div>
       </article>
 
       <article class="panel table-panel">
         <div class="panel-title">
-          <h2>Top campaigns</h2>
-          <span>By call volume</span>
+          <h2>Model evidence</h2>
+          <span>Micro-F1 and exact match</span>
         </div>
         <table>
           <thead>
             <tr>
-              <th>Campaign</th>
-              <th>Calls</th>
-              <th>Sales</th>
-              <th>Avg seconds</th>
+              <th>Model</th>
+              <th>Eval set</th>
+              <th>Rows</th>
+              <th>Micro-F1</th>
+              <th>Exact</th>
             </tr>
           </thead>
-          <tbody id="top-campaigns"></tbody>
+          <tbody id="model-evidence"></tbody>
         </table>
       </article>
 
-      <article class="panel table-panel wide">
+      <article class="panel table-panel">
         <div class="panel-title">
-          <h2>Top products</h2>
-          <span>By call volume</span>
+          <h2>Pipeline evidence</h2>
+          <span>Report-ready verification</span>
         </div>
         <table>
           <thead>
             <tr>
-              <th>Product</th>
-              <th>Calls</th>
-              <th>Sales</th>
+              <th>Layer</th>
+              <th>Object</th>
+              <th>Rows</th>
+              <th>Status</th>
             </tr>
           </thead>
-          <tbody id="top-products"></tbody>
+          <tbody id="pipeline-evidence"></tbody>
         </table>
       </article>
     </section>
   </main>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=20260626-insights"></script>
 </body>
 </html>

@@ -1,0 +1,2822 @@
+{
+  "labels": [
+    "ACTIVE_LISTENING",
+    "ANGRY_OUTBURST",
+    "ANNOYED_SIGHING",
+    "APATHETIC_RESPONSE",
+    "CLOSING_NEGOTIATION",
+    "COMPETITOR_COMPARISON",
+    "CURIOUS_EXPLORATION",
+    "DEFENSIVE_POSTURE",
+    "DEMANDING_MANAGER",
+    "DO_NOT_CALL_REQUEST",
+    "ENTHUSIASTIC_AGREEMENT",
+    "FEE_DISCUSSION",
+    "FOLLOW_UP_EMAIL_REQUESTED",
+    "FREQUENT_INTERRUPTIONS",
+    "HARD_REJECTION",
+    "INDECISIVE_FLIPPING",
+    "MISUNDERSTANDING",
+    "NEEDS_ANALYSIS",
+    "OBJECTION_HANDLING",
+    "OPENING",
+    "OVERWHELMED_CONFUSION",
+    "PASSIVE_AGREEMENT",
+    "PRODUCT_PITCH",
+    "RUSHING_THE_CALL",
+    "SARCASTIC_MOCKERY",
+    "SOFT_REJECTION",
+    "STALLING_FOR_TIME",
+    "SUCCESSFUL_SALE",
+    "SUDDEN_HANG_UP",
+    "SUSPICIOUS_PROBING",
+    "THREATENING_COMPLAINT",
+    "WARM_LEAD"
+  ],
+  "results": [
+    {
+      "model": "M0_primary_bow",
+      "train_dataset": "primary_telesales",
+      "eval_dataset": "primary_valid",
+      "train_rows": 13857,
+      "eval_rows": 1732,
+      "subset_accuracy": 0.2632794457274827,
+      "exact_match_rate": 0.263279,
+      "avg_jaccard": 0.62309,
+      "micro_f1": 0.7308913825958078,
+      "macro_f1": 0.6501259796011633,
+      "weighted_f1": 0.7326225149173362,
+      "hamming_loss": 0.06879691108545034,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.47474747474747475,
+          "recall": 0.5595238095238095,
+          "f1-score": 0.5136612021857924,
+          "support": 84.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.7272727272727273,
+          "recall": 0.75,
+          "f1-score": 0.7384615384615385,
+          "support": 288.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.7309644670050761,
+          "recall": 0.7578947368421053,
+          "f1-score": 0.7441860465116279,
+          "support": 190.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.6774193548387096,
+          "recall": 0.7777777777777778,
+          "f1-score": 0.7241379310344828,
+          "support": 108.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.6,
+          "recall": 0.3,
+          "f1-score": 0.4,
+          "support": 10.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.7155172413793104,
+          "recall": 0.8058252427184466,
+          "f1-score": 0.7579908675799086,
+          "support": 103.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.6733067729083665,
+          "recall": 0.7191489361702128,
+          "f1-score": 0.6954732510288066,
+          "support": 235.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.5612648221343873,
+          "recall": 0.6454545454545455,
+          "f1-score": 0.6004228329809725,
+          "support": 220.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.9,
+          "recall": 0.9574468085106383,
+          "f1-score": 0.9278350515463918,
+          "support": 47.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.5267857142857143,
+          "recall": 0.686046511627907,
+          "f1-score": 0.5959595959595959,
+          "support": 86.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.5757575757575758,
+          "recall": 0.5757575757575758,
+          "f1-score": 0.5757575757575758,
+          "support": 33.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.7580174927113703,
+          "recall": 0.8201892744479495,
+          "f1-score": 0.7878787878787878,
+          "support": 317.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.7840909090909091,
+          "recall": 0.8518518518518519,
+          "f1-score": 0.8165680473372781,
+          "support": 243.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.6082474226804123,
+          "recall": 0.7023809523809523,
+          "f1-score": 0.6519337016574586,
+          "support": 84.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.7441441441441441,
+          "recall": 0.7648148148148148,
+          "f1-score": 0.754337899543379,
+          "support": 540.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.5283018867924528,
+          "recall": 0.6086956521739131,
+          "f1-score": 0.5656565656565656,
+          "support": 46.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.741304347826087,
+          "recall": 0.7893518518518519,
+          "f1-score": 0.7645739910313901,
+          "support": 432.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.25882352941176473,
+          "recall": 0.28205128205128205,
+          "f1-score": 0.26993865030674846,
+          "support": 78.0
+        },
+        "OPENING": {
+          "precision": 0.888235294117647,
+          "recall": 0.8628571428571429,
+          "f1-score": 0.8753623188405797,
+          "support": 1225.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.8076923076923077,
+          "recall": 0.8076923076923077,
+          "f1-score": 0.8076923076923077,
+          "support": 182.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.5927051671732523,
+          "recall": 0.625,
+          "f1-score": 0.608424336973479,
+          "support": 312.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.7209302325581395,
+          "recall": 0.7117346938775511,
+          "f1-score": 0.7163029525032092,
+          "support": 784.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.6888888888888889,
+          "recall": 0.7126436781609196,
+          "f1-score": 0.7005649717514124,
+          "support": 87.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.6,
+          "recall": 0.7058823529411765,
+          "f1-score": 0.6486486486486487,
+          "support": 119.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.5970149253731343,
+          "recall": 0.6349206349206349,
+          "f1-score": 0.6153846153846154,
+          "support": 315.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.5157894736842106,
+          "recall": 0.5833333333333334,
+          "f1-score": 0.547486033519553,
+          "support": 84.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.5454545454545454,
+          "recall": 0.8,
+          "f1-score": 0.6486486486486487,
+          "support": 15.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.7572815533980582,
+          "recall": 0.8167539267015707,
+          "f1-score": 0.7858942065491183,
+          "support": 191.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.6828193832599119,
+          "recall": 0.670995670995671,
+          "f1-score": 0.6768558951965066,
+          "support": 231.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.6056338028169014,
+          "recall": 0.6417910447761194,
+          "f1-score": 0.6231884057971014,
+          "support": 67.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.6363636363636364,
+          "recall": 0.695906432748538,
+          "f1-score": 0.664804469273743,
+          "support": 171.0
+        },
+        "micro avg": {
+          "precision": 0.7149958574979287,
+          "recall": 0.747509744478129,
+          "f1-score": 0.7308913825958078,
+          "support": 6927.0
+        },
+        "macro avg": {
+          "precision": 0.6320242216802223,
+          "recall": 0.6757413388425187,
+          "f1-score": 0.6501259796011633,
+          "support": 6927.0
+        },
+        "weighted avg": {
+          "precision": 0.7197582430176811,
+          "recall": 0.747509744478129,
+          "f1-score": 0.7326225149173362,
+          "support": 6927.0
+        },
+        "samples avg": {
+          "precision": 0.7298808149125702,
+          "recall": 0.7475461893764435,
+          "f1-score": 0.7295245010314295,
+          "support": 6927.0
+        }
+      }
+    },
+    {
+      "model": "M0_primary_bow",
+      "train_dataset": "primary_telesales",
+      "eval_dataset": "primary_test",
+      "train_rows": 13857,
+      "eval_rows": 1733,
+      "subset_accuracy": 0.2527409117137911,
+      "exact_match_rate": 0.252741,
+      "avg_jaccard": 0.616301,
+      "micro_f1": 0.726078666760822,
+      "macro_f1": 0.6407348432110035,
+      "weighted_f1": 0.7267252492220148,
+      "hamming_loss": 0.06994734564339296,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.47191011235955055,
+          "recall": 0.525,
+          "f1-score": 0.4970414201183432,
+          "support": 80.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.7147239263803681,
+          "recall": 0.7491961414790996,
+          "f1-score": 0.7315541601255887,
+          "support": 311.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.63125,
+          "recall": 0.6870748299319728,
+          "f1-score": 0.6579804560260586,
+          "support": 147.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.6440677966101694,
+          "recall": 0.6495726495726496,
+          "f1-score": 0.6468085106382979,
+          "support": 117.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.5,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.4,
+          "support": 9.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.7172413793103448,
+          "recall": 0.8062015503875969,
+          "f1-score": 0.7591240875912408,
+          "support": 129.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.6448979591836734,
+          "recall": 0.6960352422907489,
+          "f1-score": 0.6694915254237288,
+          "support": 227.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.6138211382113821,
+          "recall": 0.6452991452991453,
+          "f1-score": 0.6291666666666667,
+          "support": 234.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.7916666666666666,
+          "recall": 0.9743589743589743,
+          "f1-score": 0.8735632183908046,
+          "support": 39.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.6082474226804123,
+          "recall": 0.5959595959595959,
+          "f1-score": 0.6020408163265306,
+          "support": 99.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.6666666666666666,
+          "recall": 0.6111111111111112,
+          "f1-score": 0.6376811594202898,
+          "support": 36.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.7302052785923754,
+          "recall": 0.7432835820895523,
+          "f1-score": 0.7366863905325444,
+          "support": 335.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.7870722433460076,
+          "recall": 0.8380566801619433,
+          "f1-score": 0.8117647058823529,
+          "support": 247.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.5573770491803278,
+          "recall": 0.68,
+          "f1-score": 0.6126126126126126,
+          "support": 100.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.7435064935064936,
+          "recall": 0.7855917667238422,
+          "f1-score": 0.7639699749791493,
+          "support": 583.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.5686274509803921,
+          "recall": 0.5471698113207547,
+          "f1-score": 0.5576923076923077,
+          "support": 53.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.7506112469437652,
+          "recall": 0.763681592039801,
+          "f1-score": 0.7570900123304563,
+          "support": 402.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.21333333333333335,
+          "recall": 0.17777777777777778,
+          "f1-score": 0.19393939393939394,
+          "support": 90.0
+        },
+        "OPENING": {
+          "precision": 0.8752066115702479,
+          "recall": 0.872322899505766,
+          "f1-score": 0.8737623762376238,
+          "support": 1214.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.8125,
+          "recall": 0.8362573099415205,
+          "f1-score": 0.8242074927953891,
+          "support": 171.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.5580645161290323,
+          "recall": 0.6360294117647058,
+          "f1-score": 0.5945017182130584,
+          "support": 272.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.729936305732484,
+          "recall": 0.7327365728900256,
+          "f1-score": 0.7313337587747287,
+          "support": 782.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.5949367088607594,
+          "recall": 0.5802469135802469,
+          "f1-score": 0.5875,
+          "support": 81.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.6217948717948718,
+          "recall": 0.6928571428571428,
+          "f1-score": 0.6554054054054054,
+          "support": 140.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.5993975903614458,
+          "recall": 0.6982456140350877,
+          "f1-score": 0.6450567260940032,
+          "support": 285.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.4536082474226804,
+          "recall": 0.55,
+          "f1-score": 0.4971751412429379,
+          "support": 80.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.7368421052631579,
+          "recall": 0.8235294117647058,
+          "f1-score": 0.7777777777777778,
+          "support": 17.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.7918781725888325,
+          "recall": 0.8125,
+          "f1-score": 0.8020565552699229,
+          "support": 192.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.7235772357723578,
+          "recall": 0.7295081967213115,
+          "f1-score": 0.726530612244898,
+          "support": 244.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.6885245901639344,
+          "recall": 0.6268656716417911,
+          "f1-score": 0.65625,
+          "support": 67.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.5523255813953488,
+          "recall": 0.6418918918918919,
+          "f1-score": 0.59375,
+          "support": 148.0
+        },
+        "micro avg": {
+          "precision": 0.7110650069156293,
+          "recall": 0.7417400086567595,
+          "f1-score": 0.726078666760822,
+          "support": 6931.0
+        },
+        "macro avg": {
+          "precision": 0.6279318344064713,
+          "recall": 0.6575529631385029,
+          "f1-score": 0.6407348432110035,
+          "support": 6931.0
+        },
+        "weighted avg": {
+          "precision": 0.7134654632613007,
+          "recall": 0.7417400086567595,
+          "f1-score": 0.7267252492220148,
+          "support": 6931.0
+        },
+        "samples avg": {
+          "precision": 0.7251999010798781,
+          "recall": 0.7417291786882093,
+          "f1-score": 0.7238945384934998,
+          "support": 6931.0
+        }
+      }
+    },
+    {
+      "model": "M1_primary_to_callcenteren",
+      "train_dataset": "primary_telesales",
+      "eval_dataset": "callcenteren_valid",
+      "train_rows": 13857,
+      "eval_rows": 315,
+      "subset_accuracy": 0.006349206349206349,
+      "exact_match_rate": 0.006349,
+      "avg_jaccard": 0.360819,
+      "micro_f1": 0.506553911205074,
+      "macro_f1": 0.09321802485284207,
+      "weighted_f1": 0.5217244412660416,
+      "hamming_loss": 0.11577380952380953,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.17073170731707318,
+          "recall": 0.175,
+          "f1-score": 0.1728395061728395,
+          "support": 40.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 1.0,
+          "recall": 0.014084507042253521,
+          "f1-score": 0.027777777777777776,
+          "support": 71.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 7.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 9.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.6,
+          "recall": 0.024390243902439025,
+          "f1-score": 0.046875,
+          "support": 123.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.1388888888888889,
+          "recall": 0.45454545454545453,
+          "f1-score": 0.2127659574468085,
+          "support": 11.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 13.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.926923076923077,
+          "recall": 0.8426573426573427,
+          "f1-score": 0.8827838827838828,
+          "support": 286.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 17.0
+        },
+        "OPENING": {
+          "precision": 0.9968253968253968,
+          "recall": 1.0,
+          "f1-score": 0.9984101748807631,
+          "support": 314.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.023529411764705882,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.045454545454545456,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.15,
+          "recall": 0.09375,
+          "f1-score": 0.11538461538461539,
+          "support": 32.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 125.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.06790123456790123,
+          "recall": 0.5789473684210527,
+          "f1-score": 0.12154696132596685,
+          "support": 19.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.14285714285714285,
+          "recall": 0.08,
+          "f1-score": 0.10256410256410256,
+          "support": 25.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.02702702702702703,
+          "recall": 0.2,
+          "f1-score": 0.047619047619047616,
+          "support": 5.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.1794871794871795,
+          "recall": 0.25,
+          "f1-score": 0.208955223880597,
+          "support": 28.0
+        },
+        "micro avg": {
+          "precision": 0.4913863822805578,
+          "recall": 0.5226876090750436,
+          "f1-score": 0.506553911205074,
+          "support": 1146.0
+        },
+        "macro avg": {
+          "precision": 0.13825534580182477,
+          "recall": 0.13687629947610028,
+          "f1-score": 0.09321802485284207,
+          "support": 1146.0
+        },
+        "weighted avg": {
+          "precision": 0.6511550831877997,
+          "recall": 0.5226876090750436,
+          "f1-score": 0.5217244412660416,
+          "support": 1146.0
+        },
+        "samples avg": {
+          "precision": 0.5377198286722096,
+          "recall": 0.5405291005291005,
+          "f1-score": 0.5161783366545271,
+          "support": 1146.0
+        }
+      }
+    },
+    {
+      "model": "M1_primary_to_callcenteren",
+      "train_dataset": "primary_telesales",
+      "eval_dataset": "callcenteren_test",
+      "train_rows": 13857,
+      "eval_rows": 347,
+      "subset_accuracy": 0.005763688760806916,
+      "exact_match_rate": 0.005764,
+      "avg_jaccard": 0.351444,
+      "micro_f1": 0.4952755905511811,
+      "macro_f1": 0.09307026640974608,
+      "weighted_f1": 0.5140185940304648,
+      "hamming_loss": 0.11545389048991354,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.14893617021276595,
+          "recall": 0.14893617021276595,
+          "f1-score": 0.14893617021276595,
+          "support": 47.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 80.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.5,
+          "recall": 0.14285714285714285,
+          "f1-score": 0.2222222222222222,
+          "support": 7.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.4,
+          "recall": 0.015267175572519083,
+          "f1-score": 0.029411764705882353,
+          "support": 131.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.12,
+          "recall": 1.0,
+          "f1-score": 0.21428571428571427,
+          "support": 3.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.8848920863309353,
+          "recall": 0.82,
+          "f1-score": 0.8512110726643599,
+          "support": 300.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 10.0
+        },
+        "OPENING": {
+          "precision": 0.9971014492753624,
+          "recall": 0.9942196531791907,
+          "f1-score": 0.9956584659913169,
+          "support": 346.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.02030456852791878,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.03940886699507389,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.11764705882352941,
+          "recall": 0.05,
+          "f1-score": 0.07017543859649122,
+          "support": 40.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.4,
+          "recall": 0.013422818791946308,
+          "f1-score": 0.025974025974025976,
+          "support": 149.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.05056179775280899,
+          "recall": 0.6,
+          "f1-score": 0.09326424870466321,
+          "support": 15.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.018867924528301886,
+          "recall": 0.5,
+          "f1-score": 0.03636363636363636,
+          "support": 2.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.0625,
+          "recall": 0.03571428571428571,
+          "f1-score": 0.045454545454545456,
+          "support": 28.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.19444444444444445,
+          "recall": 0.21875,
+          "f1-score": 0.20588235294117646,
+          "support": 32.0
+        },
+        "micro avg": {
+          "precision": 0.47796352583586627,
+          "recall": 0.5138888888888888,
+          "f1-score": 0.4952755905511811,
+          "support": 1224.0
+        },
+        "macro avg": {
+          "precision": 0.12235173437175209,
+          "recall": 0.16268230978107867,
+          "f1-score": 0.09307026640974608,
+          "support": 1224.0
+        },
+        "weighted avg": {
+          "precision": 0.6102294298613036,
+          "recall": 0.5138888888888888,
+          "f1-score": 0.5140185940304648,
+          "support": 1224.0
+        },
+        "samples avg": {
+          "precision": 0.5179429120351311,
+          "recall": 0.5300192122958693,
+          "f1-score": 0.5035053963007854,
+          "support": 1224.0
+        }
+      }
+    },
+    {
+      "model": "M2_callcenteren_bow",
+      "train_dataset": "callcenteren",
+      "eval_dataset": "callcenteren_valid",
+      "train_rows": 1598,
+      "eval_rows": 315,
+      "subset_accuracy": 0.12063492063492064,
+      "exact_match_rate": 0.120635,
+      "avg_jaccard": 0.61164,
+      "micro_f1": 0.7401646843549863,
+      "macro_f1": 0.17259615481444052,
+      "weighted_f1": 0.7109958087783272,
+      "hamming_loss": 0.05634920634920635,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.2727272727272727,
+          "recall": 0.225,
+          "f1-score": 0.2465753424657534,
+          "support": 40.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.4931506849315068,
+          "recall": 0.5070422535211268,
+          "f1-score": 0.5,
+          "support": 71.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 7.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 9.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.5811965811965812,
+          "recall": 0.5528455284552846,
+          "f1-score": 0.5666666666666667,
+          "support": 123.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 1.0,
+          "recall": 0.2727272727272727,
+          "f1-score": 0.42857142857142855,
+          "support": 11.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.5,
+          "recall": 0.15384615384615385,
+          "f1-score": 0.23529411764705882,
+          "support": 13.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.9342560553633218,
+          "recall": 0.9440559440559441,
+          "f1-score": 0.9391304347826087,
+          "support": 286.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 17.0
+        },
+        "OPENING": {
+          "precision": 0.9968253968253968,
+          "recall": 1.0,
+          "f1-score": 0.9984101748807631,
+          "support": 314.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.3076923076923077,
+          "recall": 0.25,
+          "f1-score": 0.27586206896551724,
+          "support": 32.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.6854838709677419,
+          "recall": 0.68,
+          "f1-score": 0.6827309236947792,
+          "support": 125.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.2,
+          "recall": 0.10526315789473684,
+          "f1-score": 0.13793103448275862,
+          "support": 19.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.43478260869565216,
+          "recall": 0.4,
+          "f1-score": 0.4166666666666667,
+          "support": 25.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.14285714285714285,
+          "recall": 0.07142857142857142,
+          "f1-score": 0.09523809523809523,
+          "support": 28.0
+        },
+        "micro avg": {
+          "precision": 0.7778846153846154,
+          "recall": 0.705933682373473,
+          "f1-score": 0.7401646843549863,
+          "support": 1146.0
+        },
+        "macro avg": {
+          "precision": 0.20465537253927887,
+          "recall": 0.16131902756028405,
+          "f1-score": 0.17259615481444052,
+          "support": 1146.0
+        },
+        "weighted avg": {
+          "precision": 0.7236575727731283,
+          "recall": 0.705933682373473,
+          "f1-score": 0.7109958087783272,
+          "support": 1146.0
+        },
+        "samples avg": {
+          "precision": 0.8042479213907784,
+          "recall": 0.7173544973544974,
+          "f1-score": 0.7390812890812891,
+          "support": 1146.0
+        }
+      }
+    },
+    {
+      "model": "M2_callcenteren_bow",
+      "train_dataset": "callcenteren",
+      "eval_dataset": "callcenteren_test",
+      "train_rows": 1598,
+      "eval_rows": 347,
+      "subset_accuracy": 0.1239193083573487,
+      "exact_match_rate": 0.123919,
+      "avg_jaccard": 0.592905,
+      "micro_f1": 0.7291399229781772,
+      "macro_f1": 0.1588955060150612,
+      "weighted_f1": 0.7061815699292354,
+      "hamming_loss": 0.05700648414985591,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.28205128205128205,
+          "recall": 0.23404255319148937,
+          "f1-score": 0.2558139534883721,
+          "support": 47.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.3333333333333333,
+          "recall": 0.275,
+          "f1-score": 0.3013698630136986,
+          "support": 80.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.5,
+          "recall": 0.14285714285714285,
+          "f1-score": 0.2222222222222222,
+          "support": 7.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.5984848484848485,
+          "recall": 0.6030534351145038,
+          "f1-score": 0.6007604562737643,
+          "support": 131.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.9169435215946844,
+          "recall": 0.92,
+          "f1-score": 0.9184692179700499,
+          "support": 300.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.6666666666666666,
+          "recall": 0.2,
+          "f1-score": 0.3076923076923077,
+          "support": 10.0
+        },
+        "OPENING": {
+          "precision": 0.9971014492753624,
+          "recall": 0.9942196531791907,
+          "f1-score": 0.9956584659913169,
+          "support": 346.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.21875,
+          "recall": 0.175,
+          "f1-score": 0.19444444444444445,
+          "support": 40.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.7142857142857143,
+          "recall": 0.6375838926174496,
+          "f1-score": 0.6737588652482269,
+          "support": 149.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.09090909090909091,
+          "recall": 0.06666666666666667,
+          "f1-score": 0.07692307692307693,
+          "support": 15.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.44,
+          "recall": 0.39285714285714285,
+          "f1-score": 0.41509433962264153,
+          "support": 28.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.17647058823529413,
+          "recall": 0.09375,
+          "f1-score": 0.12244897959183673,
+          "support": 32.0
+        },
+        "micro avg": {
+          "precision": 0.7654986522911051,
+          "recall": 0.696078431372549,
+          "f1-score": 0.7291399229781772,
+          "support": 1224.0
+        },
+        "macro avg": {
+          "precision": 0.18546864046363365,
+          "recall": 0.14796970270261206,
+          "f1-score": 0.1588955060150612,
+          "support": 1224.0
+        },
+        "weighted avg": {
+          "precision": 0.7214711464744091,
+          "recall": 0.696078431372549,
+          "f1-score": 0.7061815699292354,
+          "support": 1224.0
+        },
+        "samples avg": {
+          "precision": 0.7846781940441884,
+          "recall": 0.6989913544668588,
+          "f1-score": 0.7215131970175198,
+          "support": 1224.0
+        }
+      }
+    },
+    {
+      "model": "M3_callcenteren_to_primary",
+      "train_dataset": "callcenteren",
+      "eval_dataset": "primary_valid",
+      "train_rows": 1598,
+      "eval_rows": 1732,
+      "subset_accuracy": 0.0005773672055427252,
+      "exact_match_rate": 0.000577,
+      "avg_jaccard": 0.218726,
+      "micro_f1": 0.34173393308275307,
+      "macro_f1": 0.14902246864561025,
+      "weighted_f1": 0.32350923741077714,
+      "hamming_loss": 0.19275043302540415,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.3333333333333333,
+          "recall": 0.011904761904761904,
+          "f1-score": 0.022988505747126436,
+          "support": 84.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.41134751773049644,
+          "recall": 0.2013888888888889,
+          "f1-score": 0.2703962703962704,
+          "support": 288.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 190.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 108.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 10.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.25,
+          "recall": 0.02912621359223301,
+          "f1-score": 0.05217391304347826,
+          "support": 103.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.17567567567567569,
+          "recall": 0.11063829787234042,
+          "f1-score": 0.13577023498694518,
+          "support": 235.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.17102966841186737,
+          "recall": 0.44545454545454544,
+          "f1-score": 0.2471626733921816,
+          "support": 220.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.05291005291005291,
+          "recall": 0.2127659574468085,
+          "f1-score": 0.0847457627118644,
+          "support": 47.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 86.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.02531645569620253,
+          "recall": 0.18181818181818182,
+          "f1-score": 0.044444444444444446,
+          "support": 33.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.2027468933943754,
+          "recall": 0.9779179810725552,
+          "f1-score": 0.3358613217768147,
+          "support": 317.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.6857142857142857,
+          "recall": 0.3950617283950617,
+          "f1-score": 0.5013054830287206,
+          "support": 243.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 84.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.6666666666666666,
+          "recall": 0.003703703703703704,
+          "f1-score": 0.007366482504604052,
+          "support": 540.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 46.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.35060975609756095,
+          "recall": 0.2662037037037037,
+          "f1-score": 0.3026315789473684,
+          "support": 432.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.05785123966942149,
+          "recall": 0.6282051282051282,
+          "f1-score": 0.10594594594594595,
+          "support": 78.0
+        },
+        "OPENING": {
+          "precision": 0.7058823529411765,
+          "recall": 0.9795918367346939,
+          "f1-score": 0.8205128205128205,
+          "support": 1225.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.10869565217391304,
+          "recall": 0.13736263736263737,
+          "f1-score": 0.12135922330097088,
+          "support": 182.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.1848341232227488,
+          "recall": 0.125,
+          "f1-score": 0.1491395793499044,
+          "support": 312.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.4704761904761905,
+          "recall": 0.6301020408163265,
+          "f1-score": 0.5387131952017448,
+          "support": 784.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.2328767123287671,
+          "recall": 0.19540229885057472,
+          "f1-score": 0.2125,
+          "support": 87.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 119.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.2108843537414966,
+          "recall": 0.49206349206349204,
+          "f1-score": 0.29523809523809524,
+          "support": 315.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.13157894736842105,
+          "recall": 0.05952380952380952,
+          "f1-score": 0.08196721311475409,
+          "support": 84.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.017241379310344827,
+          "recall": 0.4,
+          "f1-score": 0.03305785123966942,
+          "support": 15.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.7142857142857143,
+          "recall": 0.07853403141361257,
+          "f1-score": 0.14150943396226415,
+          "support": 191.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.14678899082568808,
+          "recall": 0.06926406926406926,
+          "f1-score": 0.09411764705882353,
+          "support": 231.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 67.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.1836734693877551,
+          "recall": 0.15789473684210525,
+          "f1-score": 0.16981132075471697,
+          "support": 171.0
+        },
+        "micro avg": {
+          "precision": 0.29810793377768224,
+          "recall": 0.4003175978056879,
+          "f1-score": 0.34173393308275307,
+          "support": 6927.0
+        },
+        "macro avg": {
+          "precision": 0.20282560723006732,
+          "recall": 0.21215400140403853,
+          "f1-score": 0.14902246864561025,
+          "support": 6927.0
+        },
+        "weighted avg": {
+          "precision": 0.3770868946874963,
+          "recall": 0.4003175978056879,
+          "f1-score": 0.32350923741077714,
+          "support": 6927.0
+        },
+        "samples avg": {
+          "precision": 0.311001990375547,
+          "recall": 0.40035604311008466,
+          "f1-score": 0.34141292374548726,
+          "support": 6927.0
+        }
+      }
+    },
+    {
+      "model": "M3_callcenteren_to_primary",
+      "train_dataset": "callcenteren",
+      "eval_dataset": "primary_test",
+      "train_rows": 1598,
+      "eval_rows": 1733,
+      "subset_accuracy": 0.0,
+      "exact_match_rate": 0.0,
+      "avg_jaccard": 0.217603,
+      "micro_f1": 0.3405481635906555,
+      "macro_f1": 0.14507231173573393,
+      "weighted_f1": 0.3181498604622752,
+      "hamming_loss": 0.19393753606462782,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 80.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.45962732919254656,
+          "recall": 0.2379421221864952,
+          "f1-score": 0.3135593220338983,
+          "support": 311.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 147.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 117.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 9.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.16666666666666666,
+          "recall": 0.015503875968992248,
+          "f1-score": 0.028368794326241134,
+          "support": 129.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.20634920634920634,
+          "recall": 0.1145374449339207,
+          "f1-score": 0.14730878186968838,
+          "support": 227.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.18434782608695652,
+          "recall": 0.452991452991453,
+          "f1-score": 0.2620519159456119,
+          "support": 234.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.038461538461538464,
+          "recall": 0.1794871794871795,
+          "f1-score": 0.06334841628959276,
+          "support": 39.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 99.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.029411764705882353,
+          "recall": 0.19444444444444445,
+          "f1-score": 0.051094890510948905,
+          "support": 36.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.21352785145888595,
+          "recall": 0.9611940298507463,
+          "f1-score": 0.3494302767227347,
+          "support": 335.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.6643356643356644,
+          "recall": 0.38461538461538464,
+          "f1-score": 0.48717948717948717,
+          "support": 247.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 100.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 583.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 53.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.2669039145907473,
+          "recall": 0.1865671641791045,
+          "f1-score": 0.21961932650073207,
+          "support": 402.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.05005688282138794,
+          "recall": 0.4888888888888889,
+          "f1-score": 0.09081527347781218,
+          "support": 90.0
+        },
+        "OPENING": {
+          "precision": 0.7011695906432749,
+          "recall": 0.9876441515650741,
+          "f1-score": 0.820109439124487,
+          "support": 1214.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.0752212389380531,
+          "recall": 0.09941520467836257,
+          "f1-score": 0.08564231738035265,
+          "support": 171.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.17452830188679244,
+          "recall": 0.13602941176470587,
+          "f1-score": 0.15289256198347106,
+          "support": 272.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.4810126582278481,
+          "recall": 0.680306905370844,
+          "f1-score": 0.5635593220338984,
+          "support": 782.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.17333333333333334,
+          "recall": 0.16049382716049382,
+          "f1-score": 0.16666666666666666,
+          "support": 81.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 140.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.20156046814044212,
+          "recall": 0.543859649122807,
+          "f1-score": 0.29411764705882354,
+          "support": 285.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.1568627450980392,
+          "recall": 0.1,
+          "f1-score": 0.12213740458015267,
+          "support": 80.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.018970189701897018,
+          "recall": 0.4117647058823529,
+          "f1-score": 0.03626943005181347,
+          "support": 17.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.68,
+          "recall": 0.08854166666666667,
+          "f1-score": 0.15668202764976957,
+          "support": 192.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.10344827586206896,
+          "recall": 0.04918032786885246,
+          "f1-score": 0.06666666666666667,
+          "support": 244.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 67.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.18487394957983194,
+          "recall": 0.14864864864864866,
+          "f1-score": 0.1647940074906367,
+          "support": 148.0
+        },
+        "micro avg": {
+          "precision": 0.29611857538920877,
+          "recall": 0.4006636848939547,
+          "f1-score": 0.3405481635906555,
+          "support": 6931.0
+        },
+        "macro avg": {
+          "precision": 0.16345841862753324,
+          "recall": 0.20693926519610678,
+          "f1-score": 0.14507231173573393,
+          "support": 6931.0
+        },
+        "weighted avg": {
+          "precision": 0.31158997234895996,
+          "recall": 0.4006636848939547,
+          "f1-score": 0.3181498604622752,
+          "support": 6931.0
+        },
+        "samples avg": {
+          "precision": 0.3084289644445443,
+          "recall": 0.40065397191767643,
+          "f1-score": 0.3393633503125713,
+          "support": 6931.0
+        }
+      }
+    },
+    {
+      "model": "M4_combined_bow",
+      "train_dataset": "primary_telesales+callcenteren",
+      "eval_dataset": "primary_valid",
+      "train_rows": 15455,
+      "eval_rows": 1732,
+      "subset_accuracy": 0.25635103926096997,
+      "exact_match_rate": 0.256351,
+      "avg_jaccard": 0.619885,
+      "micro_f1": 0.7283489535621168,
+      "macro_f1": 0.6428654465903665,
+      "weighted_f1": 0.7303683206996485,
+      "hamming_loss": 0.06955470554272518,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.4631578947368421,
+          "recall": 0.5238095238095238,
+          "f1-score": 0.49162011173184356,
+          "support": 84.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.7166666666666667,
+          "recall": 0.7465277777777778,
+          "f1-score": 0.7312925170068028,
+          "support": 288.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.7178217821782178,
+          "recall": 0.7631578947368421,
+          "f1-score": 0.7397959183673469,
+          "support": 190.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.6511627906976745,
+          "recall": 0.7777777777777778,
+          "f1-score": 0.7088607594936709,
+          "support": 108.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.4,
+          "recall": 0.2,
+          "f1-score": 0.26666666666666666,
+          "support": 10.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.7058823529411765,
+          "recall": 0.8155339805825242,
+          "f1-score": 0.7567567567567568,
+          "support": 103.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.6746987951807228,
+          "recall": 0.7148936170212766,
+          "f1-score": 0.6942148760330579,
+          "support": 235.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.5607843137254902,
+          "recall": 0.65,
+          "f1-score": 0.6021052631578947,
+          "support": 220.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.9,
+          "recall": 0.9574468085106383,
+          "f1-score": 0.9278350515463918,
+          "support": 47.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.5267857142857143,
+          "recall": 0.686046511627907,
+          "f1-score": 0.5959595959595959,
+          "support": 86.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.5588235294117647,
+          "recall": 0.5757575757575758,
+          "f1-score": 0.5671641791044776,
+          "support": 33.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.7645348837209303,
+          "recall": 0.8296529968454258,
+          "f1-score": 0.7957639939485628,
+          "support": 317.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.7765151515151515,
+          "recall": 0.8436213991769548,
+          "f1-score": 0.8086785009861933,
+          "support": 243.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.6041666666666666,
+          "recall": 0.6904761904761905,
+          "f1-score": 0.6444444444444445,
+          "support": 84.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.7325174825174825,
+          "recall": 0.7759259259259259,
+          "f1-score": 0.7535971223021583,
+          "support": 540.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.5283018867924528,
+          "recall": 0.6086956521739131,
+          "f1-score": 0.5656565656565656,
+          "support": 46.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.7516629711751663,
+          "recall": 0.7847222222222222,
+          "f1-score": 0.7678369195922989,
+          "support": 432.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.25,
+          "recall": 0.2948717948717949,
+          "f1-score": 0.27058823529411763,
+          "support": 78.0
+        },
+        "OPENING": {
+          "precision": 0.8903993203058623,
+          "recall": 0.8555102040816327,
+          "f1-score": 0.8726061615320566,
+          "support": 1225.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.8121546961325967,
+          "recall": 0.8076923076923077,
+          "f1-score": 0.8099173553719008,
+          "support": 182.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.5781710914454278,
+          "recall": 0.6282051282051282,
+          "f1-score": 0.6021505376344086,
+          "support": 312.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.7174479166666666,
+          "recall": 0.7028061224489796,
+          "f1-score": 0.7100515463917526,
+          "support": 784.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.6521739130434783,
+          "recall": 0.6896551724137931,
+          "f1-score": 0.6703910614525139,
+          "support": 87.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.6071428571428571,
+          "recall": 0.7142857142857143,
+          "f1-score": 0.6563706563706564,
+          "support": 119.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.6036585365853658,
+          "recall": 0.6285714285714286,
+          "f1-score": 0.6158631415241057,
+          "support": 315.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.5102040816326531,
+          "recall": 0.5952380952380952,
+          "f1-score": 0.5494505494505495,
+          "support": 84.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.5217391304347826,
+          "recall": 0.8,
+          "f1-score": 0.631578947368421,
+          "support": 15.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.7535545023696683,
+          "recall": 0.8324607329842932,
+          "f1-score": 0.7910447761194029,
+          "support": 191.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.6828193832599119,
+          "recall": 0.670995670995671,
+          "f1-score": 0.6768558951965066,
+          "support": 231.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.5972222222222222,
+          "recall": 0.6417910447761194,
+          "f1-score": 0.6187050359712231,
+          "support": 67.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.6505376344086021,
+          "recall": 0.7076023391812866,
+          "f1-score": 0.6778711484593838,
+          "support": 171.0
+        },
+        "micro avg": {
+          "precision": 0.711453744493392,
+          "recall": 0.7460661180886387,
+          "f1-score": 0.7283489535621168,
+          "support": 6927.0
+        },
+        "macro avg": {
+          "precision": 0.6206471302456942,
+          "recall": 0.6723041128177726,
+          "f1-score": 0.6428654465903665,
+          "support": 6927.0
+        },
+        "weighted avg": {
+          "precision": 0.7170110481540729,
+          "recall": 0.7460661180886387,
+          "f1-score": 0.7303683206996485,
+          "support": 6927.0
+        },
+        "samples avg": {
+          "precision": 0.7270613383921699,
+          "recall": 0.7461027713625866,
+          "f1-score": 0.7273498761951417,
+          "support": 6927.0
+        }
+      }
+    },
+    {
+      "model": "M4_combined_bow",
+      "train_dataset": "primary_telesales+callcenteren",
+      "eval_dataset": "primary_test",
+      "train_rows": 15455,
+      "eval_rows": 1733,
+      "subset_accuracy": 0.24985574148874784,
+      "exact_match_rate": 0.249856,
+      "avg_jaccard": 0.613863,
+      "micro_f1": 0.7237666267858399,
+      "macro_f1": 0.6389318500073512,
+      "weighted_f1": 0.7249043474886149,
+      "hamming_loss": 0.0707768320830929,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.43956043956043955,
+          "recall": 0.5,
+          "f1-score": 0.4678362573099415,
+          "support": 80.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.703030303030303,
+          "recall": 0.7459807073954984,
+          "f1-score": 0.7238689547581904,
+          "support": 311.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.6121212121212121,
+          "recall": 0.6870748299319728,
+          "f1-score": 0.6474358974358975,
+          "support": 147.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.6446280991735537,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.6554621848739496,
+          "support": 117.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.6,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.42857142857142855,
+          "support": 9.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.7054794520547946,
+          "recall": 0.7984496124031008,
+          "f1-score": 0.7490909090909091,
+          "support": 129.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.6528925619834711,
+          "recall": 0.6960352422907489,
+          "f1-score": 0.673773987206823,
+          "support": 227.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.59765625,
+          "recall": 0.6538461538461539,
+          "f1-score": 0.6244897959183674,
+          "support": 234.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.7755102040816326,
+          "recall": 0.9743589743589743,
+          "f1-score": 0.8636363636363636,
+          "support": 39.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.6060606060606061,
+          "recall": 0.6060606060606061,
+          "f1-score": 0.6060606060606061,
+          "support": 99.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.6666666666666666,
+          "recall": 0.6111111111111112,
+          "f1-score": 0.6376811594202898,
+          "support": 36.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.7288629737609329,
+          "recall": 0.746268656716418,
+          "f1-score": 0.7374631268436578,
+          "support": 335.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.7870722433460076,
+          "recall": 0.8380566801619433,
+          "f1-score": 0.8117647058823529,
+          "support": 247.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.544,
+          "recall": 0.68,
+          "f1-score": 0.6044444444444445,
+          "support": 100.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.7376,
+          "recall": 0.79073756432247,
+          "f1-score": 0.7632450331125827,
+          "support": 583.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.5370370370370371,
+          "recall": 0.5471698113207547,
+          "f1-score": 0.5420560747663551,
+          "support": 53.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.7418546365914787,
+          "recall": 0.736318407960199,
+          "f1-score": 0.7390761548064919,
+          "support": 402.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.21518987341772153,
+          "recall": 0.18888888888888888,
+          "f1-score": 0.20118343195266272,
+          "support": 90.0
+        },
+        "OPENING": {
+          "precision": 0.8762458471760798,
+          "recall": 0.8690280065897859,
+          "f1-score": 0.8726220016542597,
+          "support": 1214.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.8171428571428572,
+          "recall": 0.8362573099415205,
+          "f1-score": 0.8265895953757225,
+          "support": 171.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.5584415584415584,
+          "recall": 0.6323529411764706,
+          "f1-score": 0.593103448275862,
+          "support": 272.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.729456384323641,
+          "recall": 0.7378516624040921,
+          "f1-score": 0.733630006357279,
+          "support": 782.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.5833333333333334,
+          "recall": 0.6049382716049383,
+          "f1-score": 0.593939393939394,
+          "support": 81.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.6226415094339622,
+          "recall": 0.7071428571428572,
+          "f1-score": 0.6622073578595318,
+          "support": 140.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.5940298507462687,
+          "recall": 0.6982456140350877,
+          "f1-score": 0.6419354838709678,
+          "support": 285.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.4444444444444444,
+          "recall": 0.55,
+          "f1-score": 0.49162011173184356,
+          "support": 80.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.8,
+          "recall": 0.7058823529411765,
+          "f1-score": 0.75,
+          "support": 17.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.7889447236180904,
+          "recall": 0.8177083333333334,
+          "f1-score": 0.80306905370844,
+          "support": 192.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.7047244094488189,
+          "recall": 0.7336065573770492,
+          "f1-score": 0.7188755020080321,
+          "support": 244.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.711864406779661,
+          "recall": 0.6268656716417911,
+          "f1-score": 0.6666666666666666,
+          "support": 67.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.5730994152046783,
+          "recall": 0.6621621621621622,
+          "f1-score": 0.6144200626959248,
+          "support": 148.0
+        },
+        "micro avg": {
+          "precision": 0.7065127782357791,
+          "recall": 0.7418842879815323,
+          "f1-score": 0.7237666267858399,
+          "support": 6931.0
+        },
+        "macro avg": {
+          "precision": 0.6281122280931016,
+          "recall": 0.655699968347472,
+          "f1-score": 0.6389318500073512,
+          "support": 6931.0
+        },
+        "weighted avg": {
+          "precision": 0.7100873426197785,
+          "recall": 0.7418842879815323,
+          "f1-score": 0.7249043474886149,
+          "support": 6931.0
+        },
+        "samples avg": {
+          "precision": 0.7217349490286593,
+          "recall": 0.7418734371994615,
+          "f1-score": 0.7218776254840882,
+          "support": 6931.0
+        }
+      }
+    },
+    {
+      "model": "M4_combined_bow",
+      "train_dataset": "primary_telesales+callcenteren",
+      "eval_dataset": "callcenteren_valid",
+      "train_rows": 15455,
+      "eval_rows": 315,
+      "subset_accuracy": 0.06349206349206349,
+      "exact_match_rate": 0.063492,
+      "avg_jaccard": 0.557725,
+      "micro_f1": 0.6956896551724138,
+      "macro_f1": 0.20111922532798832,
+      "weighted_f1": 0.6997219775273085,
+      "hamming_loss": 0.07003968253968254,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.29545454545454547,
+          "recall": 0.325,
+          "f1-score": 0.30952380952380953,
+          "support": 40.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.3333333333333333,
+          "recall": 0.5,
+          "f1-score": 0.4,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.16666666666666666,
+          "recall": 0.2,
+          "f1-score": 0.18181818181818182,
+          "support": 5.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.44047619047619047,
+          "recall": 0.5211267605633803,
+          "f1-score": 0.4774193548387097,
+          "support": 71.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.2,
+          "recall": 0.14285714285714285,
+          "f1-score": 0.16666666666666666,
+          "support": 7.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 9.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.5447154471544715,
+          "recall": 0.5447154471544715,
+          "f1-score": 0.5447154471544715,
+          "support": 123.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.4444444444444444,
+          "recall": 0.36363636363636365,
+          "f1-score": 0.4,
+          "support": 11.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.3333333333333333,
+          "recall": 0.15384615384615385,
+          "f1-score": 0.21052631578947367,
+          "support": 13.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.9204152249134948,
+          "recall": 0.9300699300699301,
+          "f1-score": 0.9252173913043479,
+          "support": 286.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.125,
+          "recall": 0.17647058823529413,
+          "f1-score": 0.14634146341463414,
+          "support": 17.0
+        },
+        "OPENING": {
+          "precision": 0.9968152866242038,
+          "recall": 0.9968152866242038,
+          "f1-score": 0.9968152866242038,
+          "support": 314.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.14893617021276595,
+          "recall": 0.21875,
+          "f1-score": 0.17721518987341772,
+          "support": 32.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.6065573770491803,
+          "recall": 0.592,
+          "f1-score": 0.5991902834008097,
+          "support": 125.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.07142857142857142,
+          "recall": 0.10526315789473684,
+          "f1-score": 0.0851063829787234,
+          "support": 19.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.46153846153846156,
+          "recall": 0.48,
+          "f1-score": 0.47058823529411764,
+          "support": 25.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.25,
+          "recall": 0.2,
+          "f1-score": 0.2222222222222222,
+          "support": 5.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.14285714285714285,
+          "recall": 0.10714285714285714,
+          "f1-score": 0.12244897959183673,
+          "support": 28.0
+        },
+        "micro avg": {
+          "precision": 0.6873935264054515,
+          "recall": 0.7041884816753927,
+          "f1-score": 0.6956896551724138,
+          "support": 1146.0
+        },
+        "macro avg": {
+          "precision": 0.2025616311089627,
+          "recall": 0.20492792775076668,
+          "f1-score": 0.20111922532798832,
+          "support": 1146.0
+        },
+        "weighted avg": {
+          "precision": 0.6974774885366783,
+          "recall": 0.7041884816753927,
+          "f1-score": 0.6997219775273085,
+          "support": 1146.0
+        },
+        "samples avg": {
+          "precision": 0.7184656084656085,
+          "recall": 0.7177248677248678,
+          "f1-score": 0.6963388991960421,
+          "support": 1146.0
+        }
+      }
+    },
+    {
+      "model": "M4_combined_bow",
+      "train_dataset": "primary_telesales+callcenteren",
+      "eval_dataset": "callcenteren_test",
+      "train_rows": 15455,
+      "eval_rows": 347,
+      "subset_accuracy": 0.08357348703170028,
+      "exact_match_rate": 0.083573,
+      "avg_jaccard": 0.562515,
+      "micro_f1": 0.7032438926712055,
+      "macro_f1": 0.18709407625861574,
+      "weighted_f1": 0.7100827579126499,
+      "hamming_loss": 0.06673270893371758,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.23529411764705882,
+          "recall": 0.2553191489361702,
+          "f1-score": 0.24489795918367346,
+          "support": 47.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "ANNOYED_SIGHING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.3698630136986301,
+          "recall": 0.3375,
+          "f1-score": 0.35294117647058826,
+          "support": 80.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "DO_NOT_CALL_REQUEST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.3333333333333333,
+          "recall": 0.14285714285714285,
+          "f1-score": 0.2,
+          "support": 7.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.5625,
+          "recall": 0.6183206106870229,
+          "f1-score": 0.5890909090909091,
+          "support": 131.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.5,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.5714285714285714,
+          "support": 3.0
+        },
+        "FREQUENT_INTERRUPTIONS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.8903225806451613,
+          "recall": 0.92,
+          "f1-score": 0.9049180327868852,
+          "support": 300.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.125,
+          "recall": 0.3,
+          "f1-score": 0.17647058823529413,
+          "support": 10.0
+        },
+        "OPENING": {
+          "precision": 0.9971014492753624,
+          "recall": 0.9942196531791907,
+          "f1-score": 0.9956584659913169,
+          "support": 346.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.15384615384615385,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.21052631578947367,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.25,
+          "recall": 0.275,
+          "f1-score": 0.2619047619047619,
+          "support": 40.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.676056338028169,
+          "recall": 0.6442953020134228,
+          "f1-score": 0.6597938144329897,
+          "support": 149.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "SARCASTIC_MOCKERY": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.14285714285714285,
+          "recall": 0.26666666666666666,
+          "f1-score": 0.18604651162790697,
+          "support": 15.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.40625,
+          "recall": 0.4642857142857143,
+          "f1-score": 0.43333333333333335,
+          "support": 28.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.21428571428571427,
+          "recall": 0.1875,
+          "f1-score": 0.2,
+          "support": 32.0
+        },
+        "micro avg": {
+          "precision": 0.6897093479968578,
+          "recall": 0.7173202614379085,
+          "f1-score": 0.7032438926712055,
+          "support": 1224.0
+        },
+        "macro avg": {
+          "precision": 0.1830221826130227,
+          "recall": 0.20018638245704157,
+          "f1-score": 0.18709407625861574,
+          "support": 1224.0
+        },
+        "weighted avg": {
+          "precision": 0.7055090236035404,
+          "recall": 0.7173202614379085,
+          "f1-score": 0.7100827579126499,
+          "support": 1224.0
+        },
+        "samples avg": {
+          "precision": 0.7158775902291753,
+          "recall": 0.7200768491834775,
+          "f1-score": 0.6975198672605013,
+          "support": 1224.0
+        }
+      }
+    }
+  ]
+}

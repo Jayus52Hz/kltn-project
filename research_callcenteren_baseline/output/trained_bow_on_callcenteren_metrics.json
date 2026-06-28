@@ -1,0 +1,233 @@
+{
+  "model_path": "D:\\Đồ án tốt nghiệp\\NLP model\\models\\bow_model.pkl",
+  "pseudo_label_csv": "D:\\Đồ án tốt nghiệp\\research_callcenteren_baseline\\output\\pseudo_labels_gemini.csv",
+  "source_csv": "D:\\Đồ án tốt nghiệp\\research_callcenteren_baseline\\output\\callcenteren_15k_candidate.csv",
+  "min_confidence": 0.8,
+  "require_training_flag": true,
+  "eval_rows": 2260,
+  "subset_accuracy_exact_match": 0.0004424778761061947,
+  "exact_match_rate": 0.000442,
+  "avg_jaccard": 0.260568,
+  "micro_f1": 0.3970075270791261,
+  "macro_f1": 0.1017257973112258,
+  "weighted_f1": 0.5107308211864198,
+  "hamming_loss": 0.18166482300884956,
+  "classification_report": {
+    "ACTIVE_LISTENING": {
+      "precision": 0.10363836824696802,
+      "recall": 0.3219178082191781,
+      "f1-score": 0.15679733110925773,
+      "support": 292.0
+    },
+    "ANGRY_OUTBURST": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 14.0
+    },
+    "ANNOYED_SIGHING": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "APATHETIC_RESPONSE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "CLOSING_NEGOTIATION": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 21.0
+    },
+    "COMPETITOR_COMPARISON": {
+      "precision": 0.02702702702702703,
+      "recall": 0.037037037037037035,
+      "f1-score": 0.03125,
+      "support": 27.0
+    },
+    "CURIOUS_EXPLORATION": {
+      "precision": 0.3333333333333333,
+      "recall": 0.0018552875695732839,
+      "f1-score": 0.0036900369003690036,
+      "support": 539.0
+    },
+    "DEFENSIVE_POSTURE": {
+      "precision": 0.032,
+      "recall": 0.11764705882352941,
+      "f1-score": 0.050314465408805034,
+      "support": 34.0
+    },
+    "DEMANDING_MANAGER": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 3.0
+    },
+    "DO_NOT_CALL_REQUEST": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "ENTHUSIASTIC_AGREEMENT": {
+      "precision": 0.02027027027027027,
+      "recall": 0.10344827586206896,
+      "f1-score": 0.03389830508474576,
+      "support": 29.0
+    },
+    "FEE_DISCUSSION": {
+      "precision": 0.41935483870967744,
+      "recall": 0.02885682574916759,
+      "f1-score": 0.05399792315680166,
+      "support": 901.0
+    },
+    "FOLLOW_UP_EMAIL_REQUESTED": {
+      "precision": 0.040342298288508556,
+      "recall": 0.75,
+      "f1-score": 0.0765661252900232,
+      "support": 44.0
+    },
+    "FREQUENT_INTERRUPTIONS": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "HARD_REJECTION": {
+      "precision": 0.028985507246376812,
+      "recall": 0.2857142857142857,
+      "f1-score": 0.05263157894736842,
+      "support": 7.0
+    },
+    "INDECISIVE_FLIPPING": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "MISUNDERSTANDING": {
+      "precision": 0.03636363636363636,
+      "recall": 0.029850746268656716,
+      "f1-score": 0.03278688524590164,
+      "support": 67.0
+    },
+    "NEEDS_ANALYSIS": {
+      "precision": 0.897156684815487,
+      "recall": 0.7415,
+      "f1-score": 0.8119353955652888,
+      "support": 2000.0
+    },
+    "OBJECTION_HANDLING": {
+      "precision": 0.047619047619047616,
+      "recall": 0.04504504504504504,
+      "f1-score": 0.046296296296296294,
+      "support": 111.0
+    },
+    "OPENING": {
+      "precision": 0.9941520467836257,
+      "recall": 0.9835336003560302,
+      "f1-score": 0.9888143176733781,
+      "support": 2247.0
+    },
+    "OVERWHELMED_CONFUSION": {
+      "precision": 0.027210884353741496,
+      "recall": 0.36363636363636365,
+      "f1-score": 0.05063291139240506,
+      "support": 33.0
+    },
+    "PASSIVE_AGREEMENT": {
+      "precision": 0.1235480464625132,
+      "recall": 0.45525291828793774,
+      "f1-score": 0.19435215946843853,
+      "support": 257.0
+    },
+    "PRODUCT_PITCH": {
+      "precision": 0.43956043956043955,
+      "recall": 0.042283298097251586,
+      "f1-score": 0.07714561234329798,
+      "support": 946.0
+    },
+    "RUSHING_THE_CALL": {
+      "precision": 0.004143646408839779,
+      "recall": 0.6,
+      "f1-score": 0.00823045267489712,
+      "support": 5.0
+    },
+    "SARCASTIC_MOCKERY": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "SOFT_REJECTION": {
+      "precision": 0.061855670103092786,
+      "recall": 0.75,
+      "f1-score": 0.11428571428571428,
+      "support": 128.0
+    },
+    "STALLING_FOR_TIME": {
+      "precision": 0.013307984790874524,
+      "recall": 0.4375,
+      "f1-score": 0.025830258302583026,
+      "support": 16.0
+    },
+    "SUCCESSFUL_SALE": {
+      "precision": 0.09673024523160763,
+      "recall": 0.7473684210526316,
+      "f1-score": 0.1712907117008444,
+      "support": 190.0
+    },
+    "SUDDEN_HANG_UP": {
+      "precision": 0.05263157894736842,
+      "recall": 0.08333333333333333,
+      "f1-score": 0.06451612903225806,
+      "support": 12.0
+    },
+    "SUSPICIOUS_PROBING": {
+      "precision": 0.03571428571428571,
+      "recall": 0.35294117647058826,
+      "f1-score": 0.06486486486486487,
+      "support": 17.0
+    },
+    "THREATENING_COMPLAINT": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 4.0
+    },
+    "WARM_LEAD": {
+      "precision": 0.1167192429022082,
+      "recall": 0.19170984455958548,
+      "f1-score": 0.1450980392156863,
+      "support": 193.0
+    },
+    "micro avg": {
+      "precision": 0.3169659215829974,
+      "recall": 0.5311310327888984,
+      "f1-score": 0.3970075270791261,
+      "support": 8143.0
+    },
+    "macro avg": {
+      "precision": 0.12348953384934154,
+      "recall": 0.23345097894007072,
+      "f1-score": 0.1017257973112258,
+      "support": 8143.0
+    },
+    "weighted avg": {
+      "precision": 0.6295979173253468,
+      "recall": 0.5311310327888984,
+      "f1-score": 0.5107308211864198,
+      "support": 8143.0
+    },
+    "samples avg": {
+      "precision": 0.33171258927896097,
+      "recall": 0.5444690265486726,
+      "f1-score": 0.4010024904819283,
+      "support": 8143.0
+    }
+  }
+}

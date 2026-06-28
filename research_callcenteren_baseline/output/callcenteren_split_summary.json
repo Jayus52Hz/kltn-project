@@ -1,0 +1,431 @@
+{
+  "source_csv": "D:\\Đồ án tốt nghiệp\\research_callcenteren_baseline\\output\\callcenteren_15k_candidate.csv",
+  "pseudo_label_csv": "D:\\Đồ án tốt nghiệp\\research_callcenteren_baseline\\output\\pseudo_labels_gemini.csv",
+  "min_confidence": 0.8,
+  "require_training_flag": true,
+  "train_ratio": 0.7,
+  "valid_ratio": 0.15,
+  "test_ratio": 0.15,
+  "seed": "callcenteren-v1",
+  "rows": 2260,
+  "unique_hashes": 2260,
+  "avg_pseudo_label_confidence": 0.8901,
+  "top_labels": [
+    [
+      "OPENING",
+      2247
+    ],
+    [
+      "NEEDS_ANALYSIS",
+      2000
+    ],
+    [
+      "PRODUCT_PITCH",
+      946
+    ],
+    [
+      "FEE_DISCUSSION",
+      901
+    ],
+    [
+      "CURIOUS_EXPLORATION",
+      539
+    ],
+    [
+      "ACTIVE_LISTENING",
+      292
+    ],
+    [
+      "PASSIVE_AGREEMENT",
+      257
+    ],
+    [
+      "WARM_LEAD",
+      193
+    ],
+    [
+      "SUCCESSFUL_SALE",
+      190
+    ],
+    [
+      "SOFT_REJECTION",
+      128
+    ],
+    [
+      "OBJECTION_HANDLING",
+      111
+    ],
+    [
+      "MISUNDERSTANDING",
+      67
+    ],
+    [
+      "FOLLOW_UP_EMAIL_REQUESTED",
+      44
+    ],
+    [
+      "DEFENSIVE_POSTURE",
+      34
+    ],
+    [
+      "OVERWHELMED_CONFUSION",
+      33
+    ],
+    [
+      "ENTHUSIASTIC_AGREEMENT",
+      29
+    ],
+    [
+      "COMPETITOR_COMPARISON",
+      27
+    ],
+    [
+      "CLOSING_NEGOTIATION",
+      21
+    ],
+    [
+      "SUSPICIOUS_PROBING",
+      17
+    ],
+    [
+      "STALLING_FOR_TIME",
+      16
+    ],
+    [
+      "ANGRY_OUTBURST",
+      14
+    ],
+    [
+      "SUDDEN_HANG_UP",
+      12
+    ],
+    [
+      "HARD_REJECTION",
+      7
+    ],
+    [
+      "RUSHING_THE_CALL",
+      5
+    ],
+    [
+      "THREATENING_COMPLAINT",
+      4
+    ],
+    [
+      "DEMANDING_MANAGER",
+      3
+    ],
+    [
+      "DO_NOT_CALL_REQUEST",
+      2
+    ],
+    [
+      "APATHETIC_RESPONSE",
+      2
+    ],
+    [
+      "INDECISIVE_FLIPPING",
+      1
+    ],
+    [
+      "SARCASTIC_MOCKERY",
+      1
+    ]
+  ],
+  "split_summary": {
+    "test": {
+      "rows": 347,
+      "avg_pseudo_label_confidence": 0.8892,
+      "domain_distribution": {
+        "insurance": 109,
+        "medicare": 90,
+        "home_service_telecom": 83,
+        "automotive": 40,
+        "customer_service": 17,
+        "medical_equipment": 8
+      },
+      "direction_distribution": {
+        "inbound": 259,
+        "outbound": 88
+      },
+      "top_labels": [
+        [
+          "OPENING",
+          346
+        ],
+        [
+          "NEEDS_ANALYSIS",
+          300
+        ],
+        [
+          "PRODUCT_PITCH",
+          149
+        ],
+        [
+          "FEE_DISCUSSION",
+          131
+        ],
+        [
+          "CURIOUS_EXPLORATION",
+          80
+        ],
+        [
+          "ACTIVE_LISTENING",
+          47
+        ],
+        [
+          "PASSIVE_AGREEMENT",
+          40
+        ],
+        [
+          "WARM_LEAD",
+          32
+        ],
+        [
+          "SUCCESSFUL_SALE",
+          28
+        ],
+        [
+          "SOFT_REJECTION",
+          15
+        ],
+        [
+          "OBJECTION_HANDLING",
+          10
+        ],
+        [
+          "ENTHUSIASTIC_AGREEMENT",
+          7
+        ],
+        [
+          "OVERWHELMED_CONFUSION",
+          6
+        ],
+        [
+          "DEFENSIVE_POSTURE",
+          5
+        ],
+        [
+          "MISUNDERSTANDING",
+          5
+        ],
+        [
+          "COMPETITOR_COMPARISON",
+          3
+        ],
+        [
+          "FOLLOW_UP_EMAIL_REQUESTED",
+          3
+        ],
+        [
+          "SUDDEN_HANG_UP",
+          3
+        ],
+        [
+          "CLOSING_NEGOTIATION",
+          2
+        ],
+        [
+          "DO_NOT_CALL_REQUEST",
+          2
+        ]
+      ]
+    },
+    "train": {
+      "rows": 1598,
+      "avg_pseudo_label_confidence": 0.8897,
+      "domain_distribution": {
+        "insurance": 467,
+        "medicare": 439,
+        "home_service_telecom": 380,
+        "automotive": 184,
+        "customer_service": 75,
+        "medical_equipment": 53
+      },
+      "direction_distribution": {
+        "inbound": 1187,
+        "outbound": 411
+      },
+      "top_labels": [
+        [
+          "OPENING",
+          1587
+        ],
+        [
+          "NEEDS_ANALYSIS",
+          1414
+        ],
+        [
+          "PRODUCT_PITCH",
+          672
+        ],
+        [
+          "FEE_DISCUSSION",
+          647
+        ],
+        [
+          "CURIOUS_EXPLORATION",
+          388
+        ],
+        [
+          "ACTIVE_LISTENING",
+          205
+        ],
+        [
+          "PASSIVE_AGREEMENT",
+          185
+        ],
+        [
+          "SUCCESSFUL_SALE",
+          137
+        ],
+        [
+          "WARM_LEAD",
+          133
+        ],
+        [
+          "SOFT_REJECTION",
+          94
+        ],
+        [
+          "OBJECTION_HANDLING",
+          84
+        ],
+        [
+          "MISUNDERSTANDING",
+          49
+        ],
+        [
+          "FOLLOW_UP_EMAIL_REQUESTED",
+          30
+        ],
+        [
+          "DEFENSIVE_POSTURE",
+          22
+        ],
+        [
+          "OVERWHELMED_CONFUSION",
+          21
+        ],
+        [
+          "COMPETITOR_COMPARISON",
+          19
+        ],
+        [
+          "CLOSING_NEGOTIATION",
+          17
+        ],
+        [
+          "STALLING_FOR_TIME",
+          13
+        ],
+        [
+          "ENTHUSIASTIC_AGREEMENT",
+          13
+        ],
+        [
+          "SUSPICIOUS_PROBING",
+          11
+        ]
+      ]
+    },
+    "valid": {
+      "rows": 315,
+      "avg_pseudo_label_confidence": 0.8931,
+      "domain_distribution": {
+        "insurance": 93,
+        "medicare": 80,
+        "home_service_telecom": 70,
+        "automotive": 42,
+        "customer_service": 19,
+        "medical_equipment": 11
+      },
+      "direction_distribution": {
+        "inbound": 233,
+        "outbound": 82
+      },
+      "top_labels": [
+        [
+          "OPENING",
+          314
+        ],
+        [
+          "NEEDS_ANALYSIS",
+          286
+        ],
+        [
+          "PRODUCT_PITCH",
+          125
+        ],
+        [
+          "FEE_DISCUSSION",
+          123
+        ],
+        [
+          "CURIOUS_EXPLORATION",
+          71
+        ],
+        [
+          "ACTIVE_LISTENING",
+          40
+        ],
+        [
+          "PASSIVE_AGREEMENT",
+          32
+        ],
+        [
+          "WARM_LEAD",
+          28
+        ],
+        [
+          "SUCCESSFUL_SALE",
+          25
+        ],
+        [
+          "SOFT_REJECTION",
+          19
+        ],
+        [
+          "OBJECTION_HANDLING",
+          17
+        ],
+        [
+          "MISUNDERSTANDING",
+          13
+        ],
+        [
+          "FOLLOW_UP_EMAIL_REQUESTED",
+          11
+        ],
+        [
+          "ENTHUSIASTIC_AGREEMENT",
+          9
+        ],
+        [
+          "DEFENSIVE_POSTURE",
+          7
+        ],
+        [
+          "OVERWHELMED_CONFUSION",
+          6
+        ],
+        [
+          "COMPETITOR_COMPARISON",
+          5
+        ],
+        [
+          "SUSPICIOUS_PROBING",
+          5
+        ],
+        [
+          "CLOSING_NEGOTIATION",
+          2
+        ],
+        [
+          "HARD_REJECTION",
+          2
+        ]
+      ]
+    }
+  }
+}

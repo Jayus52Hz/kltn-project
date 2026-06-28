@@ -42,6 +42,11 @@ ICEBERG_BQ_PACKAGES = ",".join([
 SPARK_CONF = {
     "spark.pyspark.python": "python3.9",
     "spark.executorEnv.PYSPARK_PYTHON": "/usr/bin/python3.9",
+    "spark.cores.max": "1",
+    "spark.executor.cores": "1",
+    "spark.executor.instances": "1",
+    "spark.default.parallelism": "1",
+    "spark.sql.shuffle.partitions": "1",
     "spark.sql.extensions": "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions",
     "spark.sql.catalog.lakehouse": "org.apache.iceberg.spark.SparkCatalog",
     "spark.sql.catalog.lakehouse.type": "hadoop",
@@ -67,12 +72,15 @@ GCP_CREDENTIALS_FILE = "/opt/gcp/application_default_credentials.json"
 CALLCENTEREN_OUTPUT_DIR = "/opt/spark/work-dir/callcenteren-output/callcenteren_finetuned_max4"
 CALLCENTEREN_SCHEMA_CSV = f"{CALLCENTEREN_OUTPUT_DIR}/callcenteren_15k_with_model_callcodes.csv"
 MODEL_METRICS_CSV = f"{CALLCENTEREN_OUTPUT_DIR}/callcenteren_finetune_metrics.csv"
+CALLCENTEREN_MODEL_PATH = f"{CALLCENTEREN_OUTPUT_DIR}/callcenteren_best_finetuned_model.pkl"
 BQ_PROJECT_ID = "project-ef0c6db5-0765-4391-845"
 BQ_DATASET = "kltn0710"
 BQ_SYNC_COMMAND = " ".join([
     "spark-submit",
-    "--master 'local[*]'",
+    "--master 'local[1]'",
     f"--packages {ICEBERG_BQ_PACKAGES}",
+    "--conf spark.default.parallelism=1",
+    "--conf spark.sql.shuffle.partitions=1",
     "--conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions",
     "--conf spark.sql.catalog.lakehouse=org.apache.iceberg.spark.SparkCatalog",
     "--conf spark.sql.catalog.lakehouse.type=hadoop",
@@ -205,6 +213,7 @@ def callcenteren_stage_task(stage: str) -> SparkSubmitOperator:
             "CALLCENTEREN_STAGE": stage,
             "CALLCENTEREN_SCHEMA_CSV": CALLCENTEREN_SCHEMA_CSV,
             "MODEL_METRICS_CSV": MODEL_METRICS_CSV,
+            "CALLCENTEREN_MODEL_PATH": CALLCENTEREN_MODEL_PATH,
         },
         name=f"callcenteren_{stage}",
         execution_timeout=timedelta(hours=1),
@@ -218,6 +227,8 @@ with DAG(
     start_date=datetime(2025, 1, 1),
     schedule_interval="0 2 * * *",
     catchup=False,
+    max_active_tasks=1,
+    max_active_runs=1,
     tags=["lakehouse", "telesales", "iceberg"],
 ) as dag:
     wait_for_debezium = PythonSensor(
@@ -243,7 +254,10 @@ with DAG(
         primary_tasks["cust"]["silver"] >> dim_customer
         primary_tasks["offer"]["silver"] >> dim_offer
         primary_tasks["call_logs"]["silver"] >> dim_date
-        [dim_customer, dim_offer, dim_date] >> fact_telesales_calls
+        dim_customer >> dim_offer >> dim_date >> fact_telesales_calls
+        primary_tasks["cust"]["group"] >> primary_tasks["offer"]["group"]
+        primary_tasks["offer"]["group"] >> primary_tasks["call_logs"]["group"]
+        primary_tasks["call_logs"]["group"] >> primary_gold
 
     with TaskGroup(group_id="callcenteren_external") as callcenteren_external:
         callcenteren_bronze = callcenteren_stage_task("bronze")
@@ -260,7 +274,7 @@ with DAG(
             "GOOGLE_APPLICATION_CREDENTIALS": GCP_CREDENTIALS_FILE,
             "BQ_PROJECT_ID": BQ_PROJECT_ID,
             "BQ_DATASET": BQ_DATASET,
-            "BQ_WRITE_METHOD": "direct",
+            "BQ_WRITE_METHOD": "dataframe",
         },
         append_env=True,
         execution_timeout=timedelta(hours=1),

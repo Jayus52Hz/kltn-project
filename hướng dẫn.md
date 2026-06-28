@@ -76,9 +76,19 @@ All tasks should be `success`:
 
 ```text
 wait_for_debezium_connector
-bronze_cdc_ingestion
-silver_etl
-gold_star_schema
+primary_telesales.cust_dataset.bronze
+primary_telesales.cust_dataset.silver
+primary_telesales.offer_dataset.bronze
+primary_telesales.offer_dataset.silver
+primary_telesales.call_logs_dataset.bronze
+primary_telesales.call_logs_dataset.silver
+primary_telesales.gold.dim_customer
+primary_telesales.gold.dim_offer
+primary_telesales.gold.dim_date
+primary_telesales.gold.fact_telesales_calls
+callcenteren_external.bronze
+callcenteren_external.silver
+callcenteren_external.gold
 bq_sync_gold
 ```
 

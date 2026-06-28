@@ -1,0 +1,1301 @@
+{
+  "labels": [
+    "ACTIVE_LISTENING",
+    "ANGRY_OUTBURST",
+    "APATHETIC_RESPONSE",
+    "CLOSING_NEGOTIATION",
+    "COMPETITOR_COMPARISON",
+    "CURIOUS_EXPLORATION",
+    "DEFENSIVE_POSTURE",
+    "DEMANDING_MANAGER",
+    "ENTHUSIASTIC_AGREEMENT",
+    "FEE_DISCUSSION",
+    "FOLLOW_UP_EMAIL_REQUESTED",
+    "HARD_REJECTION",
+    "INDECISIVE_FLIPPING",
+    "MISUNDERSTANDING",
+    "NEEDS_ANALYSIS",
+    "OBJECTION_HANDLING",
+    "OPENING",
+    "OVERWHELMED_CONFUSION",
+    "PASSIVE_AGREEMENT",
+    "PRODUCT_PITCH",
+    "RUSHING_THE_CALL",
+    "SOFT_REJECTION",
+    "STALLING_FOR_TIME",
+    "SUCCESSFUL_SALE",
+    "SUDDEN_HANG_UP",
+    "SUSPICIOUS_PROBING",
+    "THREATENING_COMPLAINT",
+    "WARM_LEAD"
+  ],
+  "best_model": "count_word_lr_threshold",
+  "best_model_thresholds": {
+    "ACTIVE_LISTENING": 0.1,
+    "ANGRY_OUTBURST": 0.1,
+    "APATHETIC_RESPONSE": 0.5,
+    "CLOSING_NEGOTIATION": 0.1,
+    "COMPETITOR_COMPARISON": 0.15,
+    "CURIOUS_EXPLORATION": 0.5,
+    "DEFENSIVE_POSTURE": 0.1,
+    "DEMANDING_MANAGER": 0.5,
+    "ENTHUSIASTIC_AGREEMENT": 0.1,
+    "FEE_DISCUSSION": 0.15,
+    "FOLLOW_UP_EMAIL_REQUESTED": 0.2,
+    "HARD_REJECTION": 0.1,
+    "INDECISIVE_FLIPPING": 0.5,
+    "MISUNDERSTANDING": 0.6,
+    "NEEDS_ANALYSIS": 0.1,
+    "OBJECTION_HANDLING": 0.1,
+    "OPENING": 0.1,
+    "OVERWHELMED_CONFUSION": 0.1,
+    "PASSIVE_AGREEMENT": 0.2,
+    "PRODUCT_PITCH": 0.75,
+    "RUSHING_THE_CALL": 0.1,
+    "SOFT_REJECTION": 0.25,
+    "STALLING_FOR_TIME": 0.1,
+    "SUCCESSFUL_SALE": 0.15,
+    "SUDDEN_HANG_UP": 0.1,
+    "SUSPICIOUS_PROBING": 0.1,
+    "THREATENING_COMPLAINT": 0.5,
+    "WARM_LEAD": 0.25
+  },
+  "metrics": [
+    {
+      "model": "count_word_lr_threshold",
+      "split": "valid",
+      "eval_rows": 315,
+      "subset_accuracy": 0.13015873015873017,
+      "exact_match_rate": 0.130159,
+      "avg_jaccard": 0.614361,
+      "micro_f1": 0.7411347517730497,
+      "macro_f1": 0.2210392011500894,
+      "weighted_f1": 0.7272769098124533,
+      "hamming_loss": 0.06621315192743764,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.30357142857142855,
+          "recall": 0.425,
+          "f1-score": 0.3541666666666667,
+          "support": 40.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.5151515151515151,
+          "recall": 0.4788732394366197,
+          "f1-score": 0.49635036496350365,
+          "support": 71.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 7.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 9.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.5895522388059702,
+          "recall": 0.6422764227642277,
+          "f1-score": 0.6147859922178989,
+          "support": 123.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 1.0,
+          "recall": 0.36363636363636365,
+          "f1-score": 0.5333333333333333,
+          "support": 11.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 1.0,
+          "recall": 0.15384615384615385,
+          "f1-score": 0.26666666666666666,
+          "support": 13.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.9259259259259259,
+          "recall": 0.9615384615384616,
+          "f1-score": 0.9433962264150944,
+          "support": 286.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 17.0
+        },
+        "OPENING": {
+          "precision": 0.9968051118210862,
+          "recall": 0.9936305732484076,
+          "f1-score": 0.9952153110047847,
+          "support": 314.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.2564102564102564,
+          "recall": 0.3125,
+          "f1-score": 0.28169014084507044,
+          "support": 32.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.7410714285714286,
+          "recall": 0.664,
+          "f1-score": 0.70042194092827,
+          "support": 125.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.15789473684210525,
+          "recall": 0.15789473684210525,
+          "f1-score": 0.15789473684210525,
+          "support": 19.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.43333333333333335,
+          "recall": 0.52,
+          "f1-score": 0.4727272727272727,
+          "support": 25.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.3333333333333333,
+          "recall": 0.2,
+          "f1-score": 0.25,
+          "support": 5.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.14285714285714285,
+          "recall": 0.10714285714285714,
+          "f1-score": 0.12244897959183673,
+          "support": 28.0
+        },
+        "micro avg": {
+          "precision": 0.7524752475247525,
+          "recall": 0.7301310043668122,
+          "f1-score": 0.7411347517730497,
+          "support": 1145.0
+        },
+        "macro avg": {
+          "precision": 0.26413951612941167,
+          "recall": 0.21358352887339987,
+          "f1-score": 0.2210392011500894,
+          "support": 1145.0
+        },
+        "weighted avg": {
+          "precision": 0.7365801020043159,
+          "recall": 0.7301310043668122,
+          "f1-score": 0.7272769098124533,
+          "support": 1145.0
+        },
+        "samples avg": {
+          "precision": 0.762962962962963,
+          "recall": 0.7423280423280424,
+          "f1-score": 0.7403628117913832,
+          "support": 1145.0
+        }
+      }
+    },
+    {
+      "model": "count_word_lr_threshold",
+      "split": "test",
+      "eval_rows": 347,
+      "subset_accuracy": 0.14121037463976946,
+      "exact_match_rate": 0.14121,
+      "avg_jaccard": 0.594257,
+      "micro_f1": 0.7241237113402061,
+      "macro_f1": 0.19330893481830547,
+      "weighted_f1": 0.712763267484222,
+      "hamming_loss": 0.06885549608892548,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.2727272727272727,
+          "recall": 0.3829787234042553,
+          "f1-score": 0.3185840707964602,
+          "support": 47.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.3387096774193548,
+          "recall": 0.2625,
+          "f1-score": 0.29577464788732394,
+          "support": 80.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.5,
+          "recall": 0.14285714285714285,
+          "f1-score": 0.2222222222222222,
+          "support": 7.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.5732484076433121,
+          "recall": 0.6870229007633588,
+          "f1-score": 0.625,
+          "support": 131.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.8892307692307693,
+          "recall": 0.9633333333333334,
+          "f1-score": 0.9248,
+          "support": 300.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.25,
+          "recall": 0.2,
+          "f1-score": 0.2222222222222222,
+          "support": 10.0
+        },
+        "OPENING": {
+          "precision": 0.997093023255814,
+          "recall": 0.9913294797687862,
+          "f1-score": 0.9942028985507246,
+          "support": 346.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 1.0,
+          "recall": 0.16666666666666666,
+          "f1-score": 0.2857142857142857,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.21428571428571427,
+          "recall": 0.225,
+          "f1-score": 0.21951219512195122,
+          "support": 40.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.7522123893805309,
+          "recall": 0.5704697986577181,
+          "f1-score": 0.648854961832061,
+          "support": 149.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.08333333333333333,
+          "recall": 0.06666666666666667,
+          "f1-score": 0.07407407407407407,
+          "support": 15.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.3611111111111111,
+          "recall": 0.4642857142857143,
+          "f1-score": 0.40625,
+          "support": 28.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.2,
+          "recall": 0.15625,
+          "f1-score": 0.17543859649122806,
+          "support": 32.0
+        },
+        "micro avg": {
+          "precision": 0.7298420615128844,
+          "recall": 0.7184942716857611,
+          "f1-score": 0.7241237113402061,
+          "support": 1222.0
+        },
+        "macro avg": {
+          "precision": 0.22971256065668613,
+          "recall": 0.18854858665727292,
+          "f1-score": 0.19330893481830547,
+          "support": 1222.0
+        },
+        "weighted avg": {
+          "precision": 0.7178282323477784,
+          "recall": 0.7184942716857611,
+          "f1-score": 0.712763267484222,
+          "support": 1222.0
+        },
+        "samples avg": {
+          "precision": 0.7444764649375601,
+          "recall": 0.7252161383285304,
+          "f1-score": 0.7216412789899822,
+          "support": 1222.0
+        }
+      }
+    },
+    {
+      "model": "tfidf_word_lr_threshold",
+      "split": "valid",
+      "eval_rows": 315,
+      "subset_accuracy": 0.1111111111111111,
+      "exact_match_rate": 0.111111,
+      "avg_jaccard": 0.60901,
+      "micro_f1": 0.7386172006745363,
+      "macro_f1": 0.1963504548234069,
+      "weighted_f1": 0.7350302933064694,
+      "hamming_loss": 0.07029478458049887,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.27631578947368424,
+          "recall": 0.525,
+          "f1-score": 0.3620689655172414,
+          "support": 40.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.4222222222222222,
+          "recall": 0.8028169014084507,
+          "f1-score": 0.5533980582524272,
+          "support": 71.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 7.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 9.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.6830985915492958,
+          "recall": 0.7886178861788617,
+          "f1-score": 0.7320754716981132,
+          "support": 123.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 1.0,
+          "recall": 0.18181818181818182,
+          "f1-score": 0.3076923076923077,
+          "support": 11.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 13.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.9147540983606557,
+          "recall": 0.9755244755244755,
+          "f1-score": 0.9441624365482234,
+          "support": 286.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 17.0
+        },
+        "OPENING": {
+          "precision": 0.9968152866242038,
+          "recall": 0.9968152866242038,
+          "f1-score": 0.9968152866242038,
+          "support": 314.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.15151515151515152,
+          "recall": 0.15625,
+          "f1-score": 0.15384615384615385,
+          "support": 32.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.7663551401869159,
+          "recall": 0.656,
+          "f1-score": 0.7068965517241379,
+          "support": 125.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.12121212121212122,
+          "recall": 0.21052631578947367,
+          "f1-score": 0.15384615384615385,
+          "support": 19.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.4074074074074074,
+          "recall": 0.44,
+          "f1-score": 0.4230769230769231,
+          "support": 25.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.15151515151515152,
+          "recall": 0.17857142857142858,
+          "f1-score": 0.16393442622950818,
+          "support": 28.0
+        },
+        "micro avg": {
+          "precision": 0.7139364303178484,
+          "recall": 0.7650655021834061,
+          "f1-score": 0.7386172006745363,
+          "support": 1145.0
+        },
+        "macro avg": {
+          "precision": 0.21040039143095748,
+          "recall": 0.21114073128268127,
+          "f1-score": 0.1963504548234069,
+          "support": 1145.0
+        },
+        "weighted avg": {
+          "precision": 0.7231831662453494,
+          "recall": 0.7650655021834061,
+          "f1-score": 0.7350302933064694,
+          "support": 1145.0
+        },
+        "samples avg": {
+          "precision": 0.7156084656084657,
+          "recall": 0.7758730158730159,
+          "f1-score": 0.7358150667674477,
+          "support": 1145.0
+        }
+      }
+    },
+    {
+      "model": "tfidf_word_lr_threshold",
+      "split": "test",
+      "eval_rows": 347,
+      "subset_accuracy": 0.13256484149855907,
+      "exact_match_rate": 0.132565,
+      "avg_jaccard": 0.604906,
+      "micro_f1": 0.735981308411215,
+      "macro_f1": 0.20800362827632848,
+      "weighted_f1": 0.7425628335452267,
+      "hamming_loss": 0.06978180321119802,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.29411764705882354,
+          "recall": 0.5319148936170213,
+          "f1-score": 0.3787878787878788,
+          "support": 47.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.38461538461538464,
+          "recall": 0.6875,
+          "f1-score": 0.49327354260089684,
+          "support": 80.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 7.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.6758620689655173,
+          "recall": 0.7480916030534351,
+          "f1-score": 0.7101449275362319,
+          "support": 131.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.5,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.4,
+          "support": 3.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.879154078549849,
+          "recall": 0.97,
+          "f1-score": 0.9223454833597464,
+          "support": 300.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 1.0,
+          "recall": 0.1,
+          "f1-score": 0.18181818181818182,
+          "support": 10.0
+        },
+        "OPENING": {
+          "precision": 0.9971014492753624,
+          "recall": 0.9942196531791907,
+          "f1-score": 0.9956584659913169,
+          "support": 346.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.21621621621621623,
+          "recall": 0.2,
+          "f1-score": 0.2077922077922078,
+          "support": 40.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.7704918032786885,
+          "recall": 0.6308724832214765,
+          "f1-score": 0.6937269372693727,
+          "support": 149.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.16216216216216217,
+          "recall": 0.4,
+          "f1-score": 0.23076923076923078,
+          "support": 15.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.35555555555555557,
+          "recall": 0.5714285714285714,
+          "f1-score": 0.4383561643835616,
+          "support": 28.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.15789473684210525,
+          "recall": 0.1875,
+          "f1-score": 0.17142857142857143,
+          "support": 32.0
+        },
+        "micro avg": {
+          "precision": 0.7020802377414561,
+          "recall": 0.7733224222585925,
+          "f1-score": 0.735981308411215,
+          "support": 1222.0
+        },
+        "macro avg": {
+          "precision": 0.2283275393757023,
+          "recall": 0.22695930492260816,
+          "f1-score": 0.20800362827632848,
+          "support": 1222.0
+        },
+        "weighted avg": {
+          "precision": 0.731805698145513,
+          "recall": 0.7733224222585925,
+          "f1-score": 0.7425628335452267,
+          "support": 1222.0
+        },
+        "samples avg": {
+          "precision": 0.7041306436119116,
+          "recall": 0.7806916426512968,
+          "f1-score": 0.731476144732629,
+          "support": 1222.0
+        }
+      }
+    },
+    {
+      "model": "tfidf_word_char_lr_threshold",
+      "split": "valid",
+      "eval_rows": 315,
+      "subset_accuracy": 0.13015873015873017,
+      "exact_match_rate": 0.130159,
+      "avg_jaccard": 0.612124,
+      "micro_f1": 0.7402707275803723,
+      "macro_f1": 0.21361963307487966,
+      "weighted_f1": 0.7409525076142763,
+      "hamming_loss": 0.06961451247165533,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.26865671641791045,
+          "recall": 0.45,
+          "f1-score": 0.3364485981308411,
+          "support": 40.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.3925925925925926,
+          "recall": 0.7464788732394366,
+          "f1-score": 0.5145631067961165,
+          "support": 71.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 7.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 9.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.6756756756756757,
+          "recall": 0.8130081300813008,
+          "f1-score": 0.7380073800738007,
+          "support": 123.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 1.0,
+          "recall": 0.18181818181818182,
+          "f1-score": 0.3076923076923077,
+          "support": 11.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 13.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.9124579124579124,
+          "recall": 0.9475524475524476,
+          "f1-score": 0.9296740994854202,
+          "support": 286.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.2222222222222222,
+          "recall": 0.11764705882352941,
+          "f1-score": 0.15384615384615385,
+          "support": 17.0
+        },
+        "OPENING": {
+          "precision": 0.9968152866242038,
+          "recall": 0.9968152866242038,
+          "f1-score": 0.9968152866242038,
+          "support": 314.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.21875,
+          "recall": 0.21875,
+          "f1-score": 0.21875,
+          "support": 32.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.875,
+          "recall": 0.616,
+          "f1-score": 0.7230046948356808,
+          "support": 125.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.2647058823529412,
+          "recall": 0.47368421052631576,
+          "f1-score": 0.33962264150943394,
+          "support": 19.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.41379310344827586,
+          "recall": 0.48,
+          "f1-score": 0.4444444444444444,
+          "support": 25.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.21568627450980393,
+          "recall": 0.39285714285714285,
+          "f1-score": 0.27848101265822783,
+          "support": 28.0
+        },
+        "micro avg": {
+          "precision": 0.7178014766201805,
+          "recall": 0.7641921397379913,
+          "f1-score": 0.7402707275803723,
+          "support": 1145.0
+        },
+        "macro avg": {
+          "precision": 0.23058413093934066,
+          "recall": 0.2298075475543771,
+          "f1-score": 0.21361963307487966,
+          "support": 1145.0
+        },
+        "weighted avg": {
+          "precision": 0.7408363725911149,
+          "recall": 0.7641921397379913,
+          "f1-score": 0.7409525076142763,
+          "support": 1145.0
+        },
+        "samples avg": {
+          "precision": 0.719047619047619,
+          "recall": 0.7731746031746032,
+          "f1-score": 0.7367926429831191,
+          "support": 1145.0
+        }
+      }
+    },
+    {
+      "model": "tfidf_word_char_lr_threshold",
+      "split": "test",
+      "eval_rows": 347,
+      "subset_accuracy": 0.13256484149855907,
+      "exact_match_rate": 0.132565,
+      "avg_jaccard": 0.598319,
+      "micro_f1": 0.7311912225705329,
+      "macro_f1": 0.21472446040671753,
+      "weighted_f1": 0.7395681199581965,
+      "hamming_loss": 0.07060518731988473,
+      "classification_report": {
+        "ACTIVE_LISTENING": {
+          "precision": 0.2916666666666667,
+          "recall": 0.44680851063829785,
+          "f1-score": 0.35294117647058826,
+          "support": 47.0
+        },
+        "ANGRY_OUTBURST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "APATHETIC_RESPONSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "CLOSING_NEGOTIATION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "COMPETITOR_COMPARISON": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "CURIOUS_EXPLORATION": {
+          "precision": 0.41304347826086957,
+          "recall": 0.7125,
+          "f1-score": 0.5229357798165137,
+          "support": 80.0
+        },
+        "DEFENSIVE_POSTURE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "DEMANDING_MANAGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ENTHUSIASTIC_AGREEMENT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 7.0
+        },
+        "FEE_DISCUSSION": {
+          "precision": 0.668918918918919,
+          "recall": 0.7557251908396947,
+          "f1-score": 0.7096774193548387,
+          "support": 131.0
+        },
+        "FOLLOW_UP_EMAIL_REQUESTED": {
+          "precision": 0.5,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.4,
+          "support": 3.0
+        },
+        "HARD_REJECTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "INDECISIVE_FLIPPING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "MISUNDERSTANDING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 5.0
+        },
+        "NEEDS_ANALYSIS": {
+          "precision": 0.8871473354231975,
+          "recall": 0.9433333333333334,
+          "f1-score": 0.9143780290791599,
+          "support": 300.0
+        },
+        "OBJECTION_HANDLING": {
+          "precision": 0.42857142857142855,
+          "recall": 0.3,
+          "f1-score": 0.35294117647058826,
+          "support": 10.0
+        },
+        "OPENING": {
+          "precision": 0.9971014492753624,
+          "recall": 0.9942196531791907,
+          "f1-score": 0.9956584659913169,
+          "support": 346.0
+        },
+        "OVERWHELMED_CONFUSION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 6.0
+        },
+        "PASSIVE_AGREEMENT": {
+          "precision": 0.16216216216216217,
+          "recall": 0.15,
+          "f1-score": 0.15584415584415584,
+          "support": 40.0
+        },
+        "PRODUCT_PITCH": {
+          "precision": 0.794392523364486,
+          "recall": 0.5704697986577181,
+          "f1-score": 0.6640625,
+          "support": 149.0
+        },
+        "RUSHING_THE_CALL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "SOFT_REJECTION": {
+          "precision": 0.19444444444444445,
+          "recall": 0.4666666666666667,
+          "f1-score": 0.27450980392156865,
+          "support": 15.0
+        },
+        "STALLING_FOR_TIME": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "SUCCESSFUL_SALE": {
+          "precision": 0.375,
+          "recall": 0.6428571428571429,
+          "f1-score": 0.47368421052631576,
+          "support": 28.0
+        },
+        "SUDDEN_HANG_UP": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 3.0
+        },
+        "SUSPICIOUS_PROBING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "THREATENING_COMPLAINT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "WARM_LEAD": {
+          "precision": 0.15,
+          "recall": 0.28125,
+          "f1-score": 0.1956521739130435,
+          "support": 32.0
+        },
+        "micro avg": {
+          "precision": 0.7015037593984963,
+          "recall": 0.7635024549918167,
+          "f1-score": 0.7311912225705329,
+          "support": 1222.0
+        },
+        "macro avg": {
+          "precision": 0.20937315739598342,
+          "recall": 0.2356129867680492,
+          "f1-score": 0.21472446040671753,
+          "support": 1222.0
+        },
+        "weighted avg": {
+          "precision": 0.7318943088944285,
+          "recall": 0.7635024549918167,
+          "f1-score": 0.7395681199581965,
+          "support": 1222.0
+        },
+        "samples avg": {
+          "precision": 0.7022094140249758,
+          "recall": 0.7649375600384246,
+          "f1-score": 0.7242326517542655,
+          "support": 1222.0
+        }
+      }
+    }
+  ]
+}

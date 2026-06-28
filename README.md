@@ -15,7 +15,7 @@ The platform ingests operational data from MongoDB through Debezium CDC, streams
 ## Architecture
 
 ```text
-master_data/*.json
+master_data/raw/*.json
   -> split_to_entities.py
   -> master_data/output/*.csv
   -> project/init/load_data.py
@@ -58,9 +58,26 @@ Why "Hybrid":
 kltn-project/
 |-- README.md
 |-- hướng dẫn.md
-|-- project_kltn_hybrid_lakehouse.md
+|-- docs/
+|   |-- drafts/
+|   |   |-- project_kltn_hybrid_lakehouse.md
+|   |   |-- PROJECT_REPORT_MEMORY.md
+|   |   `-- REPORT_REVISION_DRAFT.md
+|   `-- reports/
+|       `-- Report KLTN - *.docx
+|-- notebooks/
+|   `-- generate_data.ipynb
+|-- scripts/
+|   `-- reporting/
+|       |-- write_report_docx.py
+|       |-- write_bow_report_docx.py
+|       `-- merge_bow_into_main_report.py
+|-- outputs/
+|   |-- rendered_reports/
+|   `-- review/
 |-- master_data/
-|   |-- transcript_batch*.json
+|   |-- raw/
+|   |   `-- transcript_batch*.json
 |   |-- split_to_entities.py
 |   `-- output/
 |       |-- customers.csv
@@ -74,6 +91,8 @@ kltn-project/
 |   `-- models/
 |       |-- bow_model.pkl
 |       `-- label_classes.json
+|-- tools/
+|   `-- *.py
 `-- project/
     |-- docker-compose.yml
     |-- airflow/

@@ -1,0 +1,62 @@
+{
+  "config": {
+    "dataset_dir": "D:\\Đồ án tốt nghiệp\\92k-real-world-call-center-scripts-english",
+    "output_csv": "D:\\Đồ án tốt nghiệp\\research_callcenteren_baseline\\output\\callcenteren_15k_candidate.csv",
+    "zip_names": [
+      "insurance_outbound.zip",
+      "auto_insurance_customer_service_inbound.zip",
+      "(reupload)PII_redacted_auto_insurance_script.zip",
+      "customer_service_general_inbound.zip",
+      "automotive_and_healthcare_insurance_inbound.zip",
+      "automotive_inbound.zip",
+      "(re-uploaded)PII_Redacted_Transcripts_aixblock-automotive-stereo-inbound-104h.zip",
+      "home_ervice_inbound&telecom _outbound.zip",
+      "home_service_inbound.zip",
+      "medical_equipment_outbound.zip",
+      "medicare_inbound.zip"
+    ],
+    "target_size": 15000,
+    "min_confidence": 0.85,
+    "min_duration": 30.0,
+    "max_duration": 900.0,
+    "min_chars": 150,
+    "max_chars": 8000,
+    "min_words": 40,
+    "seed": 42
+  },
+  "raw_rows": 95939,
+  "unique_rows": 90432,
+  "candidate_rows": 74226,
+  "selected_output": {
+    "rows": 15000,
+    "by_source_zip": {
+      "automotive_inbound.zip": 1828,
+      "automotive_and_healthcare_insurance_inbound.zip": 922,
+      "insurance_outbound.zip": 1780,
+      "medicare_inbound.zip": 4384,
+      "home_ervice_inbound&telecom _outbound.zip": 1708,
+      "auto_insurance_customer_service_inbound.zip": 1262,
+      "medical_equipment_outbound.zip": 483,
+      "home_service_inbound.zip": 2140,
+      "customer_service_general_inbound.zip": 493
+    },
+    "by_domain": {
+      "automotive": 1828,
+      "insurance": 3964,
+      "medicare": 4384,
+      "home_service_telecom": 3848,
+      "medical_equipment": 483,
+      "customer_service": 493
+    },
+    "by_direction": {
+      "inbound": 11029,
+      "outbound": 3971
+    },
+    "avg_duration": 349.5284,
+    "median_duration": 316.0,
+    "avg_confidence": 0.9128,
+    "avg_chars": 3746.2027,
+    "median_chars": 3455.5,
+    "avg_words": 639.8362
+  }
+}

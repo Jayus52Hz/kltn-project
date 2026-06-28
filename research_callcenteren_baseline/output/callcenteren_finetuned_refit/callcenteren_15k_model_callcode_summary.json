@@ -1,0 +1,131 @@
+{
+  "rows": 15000,
+  "rows_with_existing_pseudo_label": 2340,
+  "avg_model_call_code_confidence": 0.8703,
+  "domain_distribution": {
+    "medicare": 4384,
+    "insurance": 3964,
+    "home_service_telecom": 3848,
+    "automotive": 1828,
+    "customer_service": 493,
+    "medical_equipment": 483
+  },
+  "direction_distribution": {
+    "inbound": 11029,
+    "outbound": 3971
+  },
+  "top_model_call_codes": [
+    [
+      "OPENING",
+      14971
+    ],
+    [
+      "NEEDS_ANALYSIS",
+      14115
+    ],
+    [
+      "FEE_DISCUSSION",
+      6695
+    ],
+    [
+      "PRODUCT_PITCH",
+      4793
+    ],
+    [
+      "CURIOUS_EXPLORATION",
+      3382
+    ],
+    [
+      "ACTIVE_LISTENING",
+      3234
+    ],
+    [
+      "PASSIVE_AGREEMENT",
+      2075
+    ],
+    [
+      "SUCCESSFUL_SALE",
+      1837
+    ],
+    [
+      "WARM_LEAD",
+      1166
+    ],
+    [
+      "OBJECTION_HANDLING",
+      819
+    ],
+    [
+      "SOFT_REJECTION",
+      735
+    ],
+    [
+      "FOLLOW_UP_EMAIL_REQUESTED",
+      281
+    ],
+    [
+      "ENTHUSIASTIC_AGREEMENT",
+      195
+    ],
+    [
+      "MISUNDERSTANDING",
+      176
+    ],
+    [
+      "OVERWHELMED_CONFUSION",
+      173
+    ],
+    [
+      "DEFENSIVE_POSTURE",
+      147
+    ],
+    [
+      "CLOSING_NEGOTIATION",
+      115
+    ],
+    [
+      "COMPETITOR_COMPARISON",
+      115
+    ],
+    [
+      "SUSPICIOUS_PROBING",
+      106
+    ],
+    [
+      "STALLING_FOR_TIME",
+      75
+    ],
+    [
+      "SUDDEN_HANG_UP",
+      61
+    ],
+    [
+      "HARD_REJECTION",
+      51
+    ],
+    [
+      "ANGRY_OUTBURST",
+      44
+    ],
+    [
+      "RUSHING_THE_CALL",
+      19
+    ],
+    [
+      "DEMANDING_MANAGER",
+      7
+    ],
+    [
+      "APATHETIC_RESPONSE",
+      3
+    ],
+    [
+      "THREATENING_COMPLAINT",
+      3
+    ],
+    [
+      "INDECISIVE_FLIPPING",
+      1
+    ]
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "rows": 100,
+  "rows_with_existing_pseudo_label": 85,
+  "avg_model_call_code_confidence": 0.6898,
+  "domain_distribution": {
+    "insurance": 27,
+    "home_service_telecom": 26,
+    "medicare": 23,
+    "automotive": 16,
+    "customer_service": 5,
+    "medical_equipment": 3
+  },
+  "direction_distribution": {
+    "inbound": 77,
+    "outbound": 23
+  },
+  "top_model_call_codes": [
+    [
+      "OPENING",
+      100
+    ],
+    [
+      "NEEDS_ANALYSIS",
+      100
+    ],
+    [
+      "FEE_DISCUSSION",
+      47
+    ],
+    [
+      "PRODUCT_PITCH",
+      40
+    ],
+    [
+      "CURIOUS_EXPLORATION",
+      33
+    ],
+    [
+      "ACTIVE_LISTENING",
+      22
+    ],
+    [
+      "PASSIVE_AGREEMENT",
+      17
+    ],
+    [
+      "OBJECTION_HANDLING",
+      16
+    ],
+    [
+      "SUCCESSFUL_SALE",
+      5
+    ],
+    [
+      "SOFT_REJECTION",
+      4
+    ],
+    [
+      "MISUNDERSTANDING",
+      3
+    ],
+    [
+      "DEFENSIVE_POSTURE",
+      1
+    ]
+  ]
+}

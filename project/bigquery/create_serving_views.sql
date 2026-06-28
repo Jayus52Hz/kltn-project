@@ -1,4 +1,7 @@
-CREATE OR REPLACE VIEW `project-ef0c6db5-0765-4391-845.kltn0710.vw_telesales_performance` AS
+DROP VIEW IF EXISTS `project-ef0c6db5-0765-4391-845.kltn0710.vw_telesales_performance`;
+
+CREATE VIEW `project-ef0c6db5-0765-4391-845.kltn0710.vw_telesales_performance`
+OPTIONS(expiration_timestamp=TIMESTAMP '2026-08-20 00:00:00 UTC') AS
 SELECT
   f.call_id,
   f.customer_id,
@@ -49,3 +52,93 @@ LEFT JOIN `project-ef0c6db5-0765-4391-845.kltn0710.dim_customer` AS c
   USING (customer_id)
 LEFT JOIN `project-ef0c6db5-0765-4391-845.kltn0710.dim_offer` AS o
   USING (offer_id);
+
+DROP VIEW IF EXISTS `project-ef0c6db5-0765-4391-845.kltn0710.vw_callcenteren_labeled`;
+
+CREATE VIEW `project-ef0c6db5-0765-4391-845.kltn0710.vw_callcenteren_labeled`
+OPTIONS(expiration_timestamp=TIMESTAMP '2026-08-20 00:00:00 UTC') AS
+SELECT
+  dataset_name,
+  text_hash,
+  source_zip,
+  source_domain,
+  call_direction,
+  audio_duration,
+  asr_confidence,
+  word_count,
+  char_count,
+  pii_token_count,
+  pii_types,
+  model_call_code,
+  model_call_code_confidence,
+  model_name,
+  has_existing_pseudo_label,
+  pseudo_call_code_existing,
+  pseudo_label_confidence_existing,
+  should_use_for_training,
+  call_code_source,
+  label_confidence,
+  call_code
+FROM `project-ef0c6db5-0765-4391-845.kltn0710.callcenteren_labeled`;
+
+DROP VIEW IF EXISTS `project-ef0c6db5-0765-4391-845.kltn0710.vw_callcenteren_performance`;
+
+CREATE VIEW `project-ef0c6db5-0765-4391-845.kltn0710.vw_callcenteren_performance`
+OPTIONS(expiration_timestamp=TIMESTAMP '2026-08-20 00:00:00 UTC') AS
+SELECT
+  f.callcenter_call_id,
+  f.source_key,
+  f.model_key,
+  s.source_zip,
+  s.source_domain,
+  s.call_direction,
+  m.model_name,
+  f.audio_duration,
+  f.asr_confidence,
+  f.word_count,
+  f.char_count,
+  f.pii_token_count,
+  f.pii_types,
+  f.model_call_code,
+  f.model_call_code_confidence,
+  f.has_existing_pseudo_label,
+  f.pseudo_call_code_existing,
+  f.pseudo_label_confidence_existing,
+  f.should_use_for_training,
+  f.call_code_source,
+  f.label_confidence,
+  f.call_code
+FROM `project-ef0c6db5-0765-4391-845.kltn0710.fact_callcenter_calls` AS f
+LEFT JOIN `project-ef0c6db5-0765-4391-845.kltn0710.dim_callcenter_source` AS s
+  USING (source_key)
+LEFT JOIN `project-ef0c6db5-0765-4391-845.kltn0710.dim_callcenter_model` AS m
+  USING (model_key);
+
+DROP VIEW IF EXISTS `project-ef0c6db5-0765-4391-845.kltn0710.vw_callcenteren_call_codes`;
+
+CREATE VIEW `project-ef0c6db5-0765-4391-845.kltn0710.vw_callcenteren_call_codes`
+OPTIONS(expiration_timestamp=TIMESTAMP '2026-08-20 00:00:00 UTC') AS
+SELECT
+  b.callcenter_call_id,
+  b.call_code_key,
+  c.call_code,
+  s.source_zip,
+  s.source_domain,
+  s.call_direction,
+  m.model_name,
+  f.audio_duration,
+  f.asr_confidence,
+  f.word_count,
+  f.char_count,
+  f.pii_token_count,
+  f.should_use_for_training,
+  b.label_confidence
+FROM `project-ef0c6db5-0765-4391-845.kltn0710.bridge_callcenter_call_code` AS b
+LEFT JOIN `project-ef0c6db5-0765-4391-845.kltn0710.fact_callcenter_calls` AS f
+  ON b.callcenter_call_id = f.callcenter_call_id
+LEFT JOIN `project-ef0c6db5-0765-4391-845.kltn0710.dim_callcenter_source` AS s
+  ON b.source_key = s.source_key
+LEFT JOIN `project-ef0c6db5-0765-4391-845.kltn0710.dim_callcenter_model` AS m
+  ON b.model_key = m.model_key
+LEFT JOIN `project-ef0c6db5-0765-4391-845.kltn0710.dim_call_code` AS c
+  ON b.call_code_key = c.call_code_key;
