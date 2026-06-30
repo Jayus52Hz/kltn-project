@@ -203,6 +203,20 @@ def gold_task(task_id: str, gold_entity: str) -> SparkSubmitOperator:
     )
 
 
+def outcome_script_task() -> SparkSubmitOperator:
+    return spark_task(
+        task_id="customer_outcome_scripts",
+        application=f"{WORK_DIR}/outcome_script_job.py",
+        packages=ICEBERG_PACKAGES,
+        env_vars={
+            **BASE_ENV,
+            "OUTCOME_SCRIPT_VERSION": "v1",
+        },
+        name="customer_outcome_scripts",
+        execution_timeout=timedelta(hours=1),
+    )
+
+
 def callcenteren_stage_task(stage: str) -> SparkSubmitOperator:
     return spark_task(
         task_id=stage,
@@ -250,11 +264,12 @@ with DAG(
             dim_offer = gold_task("dim_offer", "dim_offer")
             dim_date = gold_task("dim_date", "dim_date")
             fact_telesales_calls = gold_task("fact_telesales_calls", "fact_telesales_calls")
+            customer_outcome_scripts = outcome_script_task()
 
         primary_tasks["cust"]["silver"] >> dim_customer
         primary_tasks["offer"]["silver"] >> dim_offer
         primary_tasks["call_logs"]["silver"] >> dim_date
-        dim_customer >> dim_offer >> dim_date >> fact_telesales_calls
+        dim_customer >> dim_offer >> dim_date >> fact_telesales_calls >> customer_outcome_scripts
         primary_tasks["cust"]["group"] >> primary_tasks["offer"]["group"]
         primary_tasks["offer"]["group"] >> primary_tasks["call_logs"]["group"]
         primary_tasks["call_logs"]["group"] >> primary_gold
@@ -282,4 +297,4 @@ with DAG(
 
     wait_for_debezium >> primary_telesales
     primary_telesales >> callcenteren_external
-    [fact_telesales_calls, callcenteren_gold] >> bq_sync_gold
+    [customer_outcome_scripts, callcenteren_gold] >> bq_sync_gold

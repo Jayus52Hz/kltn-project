@@ -3,7 +3,8 @@ bq_sync_job.py
 ==============
 Sync Gold Iceberg tables to Google BigQuery for Looker Studio / Superset.
 
-Input:  lakehouse.gold.{dim_customer, dim_offer, dim_date, fact_telesales_calls}
+Input:  lakehouse.gold.{dim_customer, dim_offer, dim_date, fact_telesales_calls,
+        customer_outcome_scripts}
         plus optional CallCenterEN serving/comparison/analytics tables
 Output: BigQuery {BQ_PROJECT_ID}.{BQ_DATASET}.{same table names}
 """
@@ -149,6 +150,10 @@ tables = {
     "fact_telesales_calls": (
         "lakehouse.gold.fact_telesales_calls",
         gold_table("fact_telesales_calls"),
+    ),
+    "customer_outcome_scripts": (
+        "lakehouse.gold.customer_outcome_scripts",
+        gold_table("customer_outcome_scripts"),
     ),
 }
 

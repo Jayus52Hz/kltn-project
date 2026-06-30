@@ -53,6 +53,53 @@
 - Với đường dẫn workspace có dấu (`D:\Đồ án tốt nghiệp`), nếu LibreOffice/headless lỗi đường dẫn thì copy tạm DOCX sang thư mục ASCII trong `%TEMP%` để render.
 ## Version notes
 
+### v20 - Compact conclusion restructuring
+
+- Output file: `docs/reports/Report KLTN - 22133056 - Nguyen Quoc Thinh - 30-06 - v20 conclusion compact.docx`.
+- Based on v19 file: `docs/reports/Report KLTN - 22133056 - Nguyen Quoc Thinh - 28-06 - v19.docx`.
+- User request: bỏ Chương 5 riêng và đưa nội dung đánh giá, hạn chế, hướng phát triển vào `PHẦN KẾT LUẬN`; phần kết luận viết gọn, chủ yếu theo dạng đầu mục để dễ đọc và theo dõi.
+- Main report changes:
+  - Removed the standalone `Chương 5: ĐÁNH GIÁ TỔNG HỢP, HẠN CHẾ VÀ HƯỚNG PHÁT TRIỂN`.
+  - Rebuilt one compact `PHẦN KẾT LUẬN` with five groups: tổng kết kết quả thực hiện, đóng góp chính, hạn chế, hướng phát triển, kết luận chung.
+  - Replaced long prose from old Chapter 5 and old conclusion with concise academic bullet-style entries.
+  - Updated the static table of contents to remove `Chương 5` and add compact conclusion entries.
+  - Removed stale front-list entries `Hình 5.1` and `Bảng 5.1` because the compact conclusion no longer contains those figure/table artifacts.
+- Verification file: `outputs/review/review_output/v20_conclusion_compact_verification.md`.
+- QA result:
+  - DOCX opens with python-docx.
+  - Paragraph count: 978; table count: 74.
+  - Exactly one body `PHẦN KẾT LUẬN` heading detected.
+  - `TÀI LIỆU THAM KHẢO` and `PHỤ LỤC` remain present after the conclusion.
+  - No stale `Chương 5`, `Bảng 5.1`, `Hình 5.1`, or `0.x` heading detected.
+  - Visual render QA could not be completed because `soffice`/LibreOffice is not available in the current Windows environment.
+
+### v21 - Outcome strategy script generation
+
+- Output file: `docs/reports/Report KLTN - 22133056 - Nguyen Quoc Thinh - 30-06 - v21 outcome scripts.docx`.
+- Based on v20 file: `docs/reports/Report KLTN - 22133056 - Nguyen Quoc Thinh - 30-06 - v20 conclusion compact.docx`.
+- User request: đọc báo cáo v20 và bổ sung phần mới vừa làm về sinh kịch bản theo `outcome_strategy` cho khách hàng.
+- Main report changes:
+  - Added section `3.5.4. Sinh kịch bản telesales theo outcome_strategy`.
+  - Added section `4.6.5. Kiểm thử sinh kịch bản theo outcome_strategy ngày 30/06/2026`.
+  - Added `Bảng 4.9. Kết quả kiểm thử sinh kịch bản theo outcome_strategy ngày 30/06/2026`.
+  - Updated `DANH MỤC BẢNG` with `Bảng 4.9`.
+  - Updated compact conclusion bullets for result, contribution, limitation, and future work.
+  - Updated Appendix D with `outcome_script_job.py`, `outcome_script_rules.py`, and `create_serving_views.sql`.
+- Verified implementation evidence:
+  - Spark `outcome_script_job.py` merged `lakehouse.gold.customer_outcome_scripts` with 23,447 rows.
+  - BigQuery synced `customer_outcome_scripts` with 23,447 rows.
+  - `vw_customer_outcome_scripts` returned 23,447 rows.
+  - Outcome distribution: CALLBACK 5,248; DO_NOT_CALL 4,503; HARD_REJECTION 2,268; IN_PROGRESS 5,137; SALE 3,933; SOFT_REJECTION 2,358.
+  - DO_NOT_CALL sample script does not continue product pitching and uses `ADD_TO_DO_NOT_CALL_LIST`.
+- Verification file: `outputs/review/review_output/v21_outcome_scripts_verification.md`.
+- QA result:
+  - DOCX opens with python-docx.
+  - Paragraph count: 992; table count: 75; heading count: 190.
+  - Required markers present: `3.5.4`, `4.6.5`, `Bảng 4.9`, `customer_outcome_scripts`, and `vw_customer_outcome_scripts`.
+  - `Bảng 4.9` has 7 rows and 3 columns.
+  - No stale `Chương 5` or `0.x` heading detected.
+  - Visual render QA could not be completed because `soffice`/LibreOffice is not available in the current Windows environment.
+
 ### v0 - Baseline before Codex review edits
 
 - Source file used for review: `docs/reports/Report KLTN - 22133056 - Nguyen Quoc Thinh - revised callcenteren full integrated.docx`.
